@@ -112,7 +112,18 @@
     $("select").click(function(){
       $("pre").prepend("<b>nada</b>");
   });
-    }); 
+    });
+
+    $(function() {
+
+        $('#select-tipo').on('change', onSelectActivo);
+      });
+
+      function onSelectActivo(){
+        var tipo_select = $(this).val();
+        alert(tipo_select);
+      }
+     
   </script>
 </body>
 </html>

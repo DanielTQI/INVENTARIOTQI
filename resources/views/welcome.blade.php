@@ -79,7 +79,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Inventario de activos
+                    INVENTARIO DE ACTIVOS
                     <br>
                     <img width="15%" height="15%" src="{{url('images/Logo.png')}}">
                     

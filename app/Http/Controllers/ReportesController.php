@@ -23,9 +23,7 @@ class ReportesController extends Controller
         
         $equipos = Reporte::join('equipos', 'reportes.equipo_id', '=', 'equipos.id')->get();
         $accesorios = Reporte::join('accesorios', 'reportes.accesorio_id', '=', 'accesorios.id')->get();
-        $telefonos = Reporte::join('telefonos', 'reportes.telefono_id', '=', 'telefonos.id')->get(); 
-
-        $equipos->prepend(['aca'=>'equipo']);     
+        $telefonos = Reporte::join('telefonos', 'reportes.telefono_id', '=', 'telefonos.id')->get();     
 
         Debugbar::info($equipos);
 
@@ -55,7 +53,14 @@ class ReportesController extends Controller
      */
     public function create()
     {
-        //
+        $user= User::pluck('name', 'id');
+        $equipos = Equipo::pluck('serial_equipo', 'id');
+        $accesorios = Accesorio::pluck('serial_accesorio', 'id');
+        $telefonos = Telefono::pluck('serial_telefono', 'id');
+
+        $user->prepend(' ');
+
+        return view('reportes.crear', compact('user','equipos','accesorios','telefonos'));
     }
 
     /**
