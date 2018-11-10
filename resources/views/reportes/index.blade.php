@@ -1,11 +1,13 @@
 @extends('layouts.app')
 	@section('content')
-			<div class="container ml-12">
+			<div class="container">
+                <div class="row">
 				<center>
 				<a href="{{url('/reportes/create')}}" class="btn btn-primary float-right mb-3 mr-4 ">Crear reporte</a>
-                 <div class="card container-fuid ml-12">
+                
+                 <div class="card col-md-12 ">
                   <h5 class="card-header">Equipos</h5>
-                   <div class="card-body ">
+                   <div class="card-body">
         				<table class="table table-sm float-left mr-10 table table-sm float-left mr-10 table-striped table-bordered dt-responsive nowrap" id="tablee">
                             <thead class="thead-dark" >
                                 <tr>
@@ -51,11 +53,6 @@
                         </div>
                        </div>
         			 </center>
-        			</div>
-
-           
-    
-    
-  
-	
+        			</div> 
+    </div>
 	@endsection	

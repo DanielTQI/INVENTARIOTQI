@@ -1,10 +1,12 @@
 @extends('layouts.app')
 	@section('content')
-			<div class="container ml-12">
+			<div class="container">
+                <div class="row">
 				<center>
-				<a href="{{url('/accesorios/create')}}" class="btn btn-primary float-right mb-3 mr-4 ">Registrar Accesorios</a>
-				<table class="table table-sm float-left mr-10 table-striped table-bordered dt-responsive nowrap" id="tablee">
-                    <thead class="thead-dark" >
+				  <a href="{{url('/accesorios/create')}}" class="btn btn-primary float-right mb-3 mr-4 ">Registrar Accesorios</a>
+                   <div class="col-md-12">
+				    <table class="table table-sm mr-10 table-striped dt-responsive nowrap w-25" id="tablee">
+                      <thead class="thead-dark" >
                         <tr>
                             <th>Usuario</th>
                             <th>F_entrega</th>
@@ -20,7 +22,7 @@
                             <th></th>
 
                         </tr>
-                    </thead>
+                      </thead>
                     <tbody>
                         @foreach($accesorios as $accesorio)
                             <tr>
@@ -41,13 +43,12 @@
 									{!! Form::submit('Eliminar ', ['class' => 'btn btn-danger mb-2']) !!}
     							{!! Form::close()!!}   </center></td>                          
                                 </center>
-                                {{-- <td><a href="/equipos/{{$equipo->id}}" class="btn btn-primary">Ver mas...</a></td>
-                                <td><a href="/equipos/{{$equipo->id}}" class="btn btn-danger">Eliminar</a></td> --}}
                             </tr>
                         @endforeach
                     </tbody>
-                </table>
+                  </table>
+                 </div>
 				</center>
 			</div>
-	
+           </div> 
 	@endsection	

@@ -14,17 +14,12 @@
 										 		<p class="help-block text-danger">{{ $errors->first('user_id') }}</p>	
 								</div>
 												<br>
-								<select class="form-control" id="select-tipo" onchange="cambia()">
-									<option value="0">Seleccione
-									<option value="1">Juegos
-									<option value="2">Hardware
-									<option value="3">Software
-									<option value="4">Marcas
-								</select>
-			
-								<select class="form-control" id="select.activo" name="opt">
-									<option value="-">-
-								</select>
+								<div class="form-group">
+									{!! Form::label('tipo_a', 'Seleccione el tipo de activo *') !!}
+												<br>
+									{!! Form::select('usuario_id', $user, null, ['class' => 'form-control']) !!}
+										<p class="help-block text-danger">{{ $errors->first('usuario_id') }}</p>
+								</div>
 												<br>
 								<div class="form-group">
 									{!! Form::label('tipor', 'Tipo de reporte *') !!}
@@ -62,18 +57,9 @@
 
 		{!! Form::close() !!}
 
-		<script type="text/javascript">
-			$(function() {
-
-				$('#select-tipo').on('change', onSelectActivo);
-			});
-
-			function onSelectActivo(){
-				var tipo_select = $(this).val();
-				alert(tipo_select);
-			}
-
+		{{-- <script type="text/javascript">
 			
 			
-		</script>
+			
+		</script> --}}
 @endsection
