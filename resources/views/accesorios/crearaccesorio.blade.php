@@ -11,7 +11,6 @@
 
 						<div class="form-group">
 							{!! Form::label('Asignado', 'Asignado *') !!}
-							<br>
 							{!! Form::select('usuario_id', $user, null, ['class' => 'form-control']) !!}
 								<p class="help-block text-danger">{{ $errors->first('usuario_id') }}</p>
 						</div>

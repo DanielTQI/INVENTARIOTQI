@@ -21,9 +21,12 @@ class ReportesController extends Controller
     public function index()
     {
         
-        $equipos = Reporte::join('equipos', 'reportes.equipo_id', '=', 'equipos.id')->get();
-        $accesorios = Reporte::join('accesorios', 'reportes.accesorio_id', '=', 'accesorios.id')->get();
-        $telefonos = Reporte::join('telefonos', 'reportes.telefono_id', '=', 'telefonos.id')->get();     
+        $equipos = Reporte::leftjoin('equipos', 'reportes.equipo_id', '=', 'equipos.id')
+            ->leftjoin('accesorios', 'reportes.accesorio_id', '=', 'accesorios.id')
+            ->leftjoin('telefonos', 'reportes.telefono_id', '=', 'telefonos.id')
+            ->select(DB::raw('if(equipos.id is null, if(accesorios.id is null,"telefono","accesorio"),"equipo") as tipo, reportes.'))
+            ->get();
+           
 
         Debugbar::info($equipos);
 
@@ -43,7 +46,7 @@ class ReportesController extends Controller
         //     ->where('reportes.tipo_reporte', '=' ,'SOFTWARE')
         //     ->first();
 
-         return view('reportes.index', compact('todo','equipos'));
+         return view('reportes.index', compact('equipos'));
     }
 
     /**

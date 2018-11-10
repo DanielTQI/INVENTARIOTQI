@@ -33,7 +33,7 @@ class AccesoriosController extends Controller
     public function create()
     {
         $user = User::pluck('name', 'id');
-        $user->prepend(" ");
+        $user->prepend(" "," ");
         return view('accesorios.crearaccesorio', compact('user'));
     }
 
@@ -129,7 +129,7 @@ class AccesoriosController extends Controller
     {
         $accesorio= Accesorio::find($id);
         $user = User::pluck('name', 'id');
-        $user->prepend(" ");
+        $user->prepend(" "," ");
 
         return view('accesorios.editar' , compact('accesorio', 'user'));
     }

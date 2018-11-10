@@ -3,14 +3,13 @@
 		<center>
 		<h1 class="title m-b-md">CREAR EQUIPOS</h1>
 			{!! Form::open(['route'=>'equipos.store',  'method'=>'POST', 'files' =>true]) !!}
-				<div class="lg-3  form-group mt-5">
+				
 					<center>
 						
 						<div class="container ml-8 border shadow-sm rounded w-50 shadow-lg p-3 mb-5 bg-white rounded ">
 								<div class="form-group">
-											{!! Form::label('Asignado', 'Asignado *', ['class' => 'text-left']) !!}
-												<br>
-											{!! Form::select('user_id', $user, null, ['class' => 'form-control border border-primary']) !!}
+									{!! Form::label('Asignado', 'Asignado *', ['class' => 'text-left ']) !!}
+									{!! Form::select('user_id', $user, null, ['class' => 'form-control border border-primary']) !!}
 										 		<p class="help-block text-danger">{{ $errors->first('user_id') }}</p>	
 								</div>
 												<br>
