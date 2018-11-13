@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Equipo;
 use App\User;
-use Carbon\Carbon;
-use Illuminate\Validation\Rule;
 use Validator;
+use App\Equipo;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class EquiposController extends Controller
 {
@@ -18,9 +18,12 @@ class EquiposController extends Controller
      */
     public function index()
     {
-        $equipos= Equipo::all();
+        $user=auth()->user();
 
-    
+        $equipos=Equipo::where('usuario_id', $user->id)->get();
+
+        
+        // $equipos= Equipo::all();
         return view('equipos.index', compact('equipos'));
 
     }
@@ -33,7 +36,7 @@ class EquiposController extends Controller
     public function create()
     {
         $user = User::pluck('name', 'id');
-        $user->prepend("");
+        $user->prepend(" ", " ");
 
         return view('equipos.crearequipo', compact('user'));
     }
@@ -148,7 +151,7 @@ class EquiposController extends Controller
     {
         $equipo= Equipo::find($id);
         $user = User::pluck('name', 'id');
-        $user->prepend("");
+        $user->prepend(" ", " ");
         return view('equipos.editarequipo', compact('equipo','user'));
     }
 

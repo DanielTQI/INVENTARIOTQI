@@ -201,4 +201,14 @@
 			</div>		
 
 		{!! Form::close() !!}
+
+		<script>
+		  $( function() {
+		    $( "#datepickerfe" ).datepicker();
+		  } );
+
+		  $( function() {
+		    $( "#datepickerfm" ).datepicker();
+		  } );
+        </script>
 @endsection

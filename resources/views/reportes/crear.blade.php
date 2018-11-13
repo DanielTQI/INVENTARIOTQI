@@ -10,7 +10,10 @@
 								<div class="form-group">
 											{!! Form::label('Asignado', 'Asignado *', ['class' => 'text-left']) !!}
 												<br>
-											{!! Form::select('user_id', $user,null, ['class' => 'form-control border border-primary']) !!}
+											{{-- {!! Form::select('user_id', $user->name,null, ['class' => 'form-control border border-primary']) !!} --}}
+											<select class="form-control">
+													<option value="{{$user['id']}}">{{$user['name']}}</option>
+											</select>
 										 		<p class="help-block text-danger">{{ $errors->first('user_id') }}</p>	
 								</div>
 												<br>
@@ -57,9 +60,5 @@
 
 		{!! Form::close() !!}
 
-		{{-- <script type="text/javascript">
-			
-			
-			
-		</script> --}}
+		
 @endsection

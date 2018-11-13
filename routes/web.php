@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('/equipos', 'EquiposController');
+Route::resource('/equipos', 'EquiposController')->middleware('auth');;
 Route::resource('/accesorios', 'AccesoriosController');
 Route::resource('/telefonos', 'TelefonosController');
 Route::resource('/reportes', 'ReportesController');

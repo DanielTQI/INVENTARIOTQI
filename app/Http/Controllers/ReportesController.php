@@ -21,32 +21,20 @@ class ReportesController extends Controller
     public function index()
     {
         
-        $equipos = Reporte::leftjoin('equipos', 'reportes.equipo_id', '=', 'equipos.id')
-            ->leftjoin('accesorios', 'reportes.accesorio_id', '=', 'accesorios.id')
-            ->leftjoin('telefonos', 'reportes.telefono_id', '=', 'telefonos.id')
-            ->select(DB::raw('if(equipos.id is null, if(accesorios.id is null,"telefono","accesorio"),"equipo") as tipo, reportes.'))
-            ->get();
+     $equipos = Reporte::leftjoin('equipos', 'reportes.equipo_id', '=', 'equipos.id')
+                ->leftjoin('accesorios', 'reportes.accesorio_id', '=', 'accesorios.id')
+                ->leftjoin('telefonos', 'reportes.telefono_id', '=', 'telefonos.id')
+                ->leftjoin('users', 'reportes.usuario_id', '=', 'users.id')
+                ->select(DB::raw('if(equipos.id is null, if(accesorios.id is null,"telefono","accesorio"),"equipo") as tipo, 
+                                 users.name, reportes.tipo_reporte, reportes.descripcion_usuario, reportes.fecha_reporte, 
+                                 reportes.atendido, reportes.descripcion_soporte, reportes.id '))
+                ->orderby('users.name')
+                ->get();
            
 
         Debugbar::info($equipos);
 
-
-        $todo =[$equipos , $accesorios, $telefonos];
-
-        // return $todo;
-
-        // $c = Customer::leftJoin('orders', function($join) {
-        //     $join->on('customers.id', '=', 'orders.customer_id');
-        //     })
-        //     ->whereNull('orders.customer_id')
-        //     ->first();
-
-         // $reportes = Reporte::all();
-        // $reportes = Equipo::leftjoin('reportes' ,'equipos.id', '=', 'reportes.equipo_id')
-        //     ->where('reportes.tipo_reporte', '=' ,'SOFTWARE')
-        //     ->first();
-
-         return view('reportes.index', compact('equipos'));
+        return view('reportes.index', compact('equipos'));
     }
 
     /**
@@ -54,16 +42,17 @@ class ReportesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        $user= User::pluck('name', 'id');
-        $equipos = Equipo::pluck('serial_equipo', 'id');
-        $accesorios = Accesorio::pluck('serial_accesorio', 'id');
-        $telefonos = Telefono::pluck('serial_telefono', 'id');
+        $user = auth()->user();
+        // $user= pluck('name', 'id')
+        // $user->prepend(' ',' ');
 
-        $user->prepend(' ');
+        $equipos = Equipo::where('id', $request->id)->get();
 
-        return view('reportes.crear', compact('user','equipos','accesorios','telefonos'));
+        // return $user;
+
+        return view('reportes.crear', compact('user'));
     }
 
     /**

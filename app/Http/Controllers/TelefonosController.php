@@ -20,9 +20,12 @@ class TelefonosController extends Controller
      */
     public function index()
     {
+        $user=auth()->user();
+
         $telefonos= Telefono::all();
-    
-        return view('telefonos.index', compact('telefonos'));
+        
+        return $user;
+        // return view('telefonos.index', compact('telefonos'));
     }
 
     /**

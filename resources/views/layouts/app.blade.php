@@ -45,11 +45,11 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}">Ingresar</a>
                             </li>
                             <li class="nav-item">
                                 @if (Route::has('register'))
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}">Registrarse</a>
                                 @endif
                             </li>
                         @else
@@ -86,20 +86,13 @@
 
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
+  <script src="{{url('js/app.js')}}"></script>
   <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
     
     {{-- 
      --}}
-  <script>
-  $( function() {
-    $( "#datepickerfe" ).datepicker();
-  } );
-
-  $( function() {
-    $( "#datepickerfm" ).datepicker();
-  } );
+  <script type="text/javascript">
 
   $(document).ready(function() {
     $('#tablee').DataTable({
@@ -108,22 +101,15 @@
       }
     });
 } );
-  $(document).ready(function() {
-    $("select").click(function(){
-      $("pre").prepend("<b>nada</b>");
-  });
-    });
-
-    $(function() {
-
-        $('#select-tipo').on('change', onSelectActivo);
-      });
-
-      function onSelectActivo(){
-        var tipo_select = $(this).val();
-        alert(tipo_select);
-      }
      
+      $( function() {
+        $( "#datepickerfe" ).datepicker();
+      } );
+
+      $( function() {
+        $( "#datepickerfm" ).datepicker();
+      } );
+        
   </script>
 </body>
 </html>
