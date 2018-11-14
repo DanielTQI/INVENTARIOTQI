@@ -50,7 +50,7 @@
                   </tbody>
                  </table>
              </div>
-			</center>
+		i</center>
 		</div>
 	   </div>
 	@endsection	

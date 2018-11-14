@@ -25,7 +25,7 @@
                         @foreach($telefonos as $telefono)
                             <tr>
                             	<center>
-                                <td><center>{{ $telefono->user->name }}</center></td>
+                                <td><center>{{ $telefono->name}}</center></td>
                                 <td><center>{{ $telefono->fecha_entrega }}</center></td>
                                 <td><center>{{ $telefono->fecha_mantenimiento }}</center></td>
                                 <td><center>{{ $telefono->estado_mantenimiento }}</center></td>

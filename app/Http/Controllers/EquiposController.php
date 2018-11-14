@@ -22,8 +22,6 @@ class EquiposController extends Controller
 
         $equipos=Equipo::where('usuario_id', $user->id)->get();
 
-        
-        // $equipos= Equipo::all();
         return view('equipos.index', compact('equipos'));
 
     }

@@ -20,7 +20,9 @@ class AccesoriosController extends Controller
      */
     public function index()
     {
-        $accesorios= Accesorio::all();
+        $user=auth()->user();
+
+        $accesorios=Accesorio::where('usuario_id', $user->id)->get();
     
         return view('accesorios.index', compact('accesorios'));
     }
@@ -168,12 +170,12 @@ class AccesoriosController extends Controller
             'url' => 'Este campo debe ser una url',
         ]);
 
-        if ($validator->fails()) {
-            return redirect()
-               ->back()
-               ->withErrors($validator)
-               ->withInput();
-         }
+            if ($validator->fails()) {
+                return redirect()
+                   ->back()
+                   ->withErrors($validator)
+                   ->withInput();
+             }
 
         $accesorio=Accesorio::find($id);
         $accesorio->usuario_id=$request->input('usuario_id');

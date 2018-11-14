@@ -2,13 +2,15 @@
 	@section('content')
 	<div class="container">
 		<center>
+      
 		<a href="/accesorios/{{$accesorio->id}}/edit" class="btn btn-primary float-left">Editar.</a>
-
+    <a href="{{ route ('reportes.create',['tipo'=>'accesorio','id'=>$accesorio->id])}}" class="btn btn-success float-left ml-5">Reportar</a>
 		{!! Form::open([ 'route' => ['accesorios.destroy', $accesorio->id ], 'method' => 'DELETE' ]) !!}
 
-			{!! Form::submit('Eliminar ', ['class' => 'btn btn-danger mb-2 float-right']) !!}
+			{!! Form::submit('Eliminar ', ['class' => 'btn btn-danger ml-5 mb-2 float-left']) !!}
 
-    	{!! Form::close()!!}
+    {!! Form::close()!!}
+
 	</center>
 
 	<table class="table">
