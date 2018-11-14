@@ -43,14 +43,13 @@
 									{!! Form::submit('Eliminar ', ['class' => 'btn btn-danger mb-2']) !!}
     							{!! Form::close()!!}   </center></td>                          
                                 </center>
-                                {{-- <td><a href="/equipos/{{$equipo->id}}" class="btn btn-primary">Ver mas...</a></td>
-                                <td><a href="/equipos/{{$equipo->id}}" class="btn btn-danger">Eliminar</a></td> --}}
+                                
                             </tr>
                     @endforeach
                   </tbody>
                  </table>
              </div>
-		i</center>
+		</center>
 		</div>
 	   </div>
 	@endsection	

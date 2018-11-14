@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Equipo;
 use App\User;
-use App\Accesorio;
-use App\Telefono;
-use Carbon\Carbon;
-use Illuminate\Validation\Rule;
 use Validator;
+use App\Equipo;
+use App\Telefono;
+use App\Accesorio;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+
 
 class TelefonosController extends Controller
 {
@@ -26,7 +27,7 @@ class TelefonosController extends Controller
         ->where('usuario_id', $user->id)
         ->get();
     
-        return view('telefonos.index', compact('telefonos'));
+        return view('admin.telefonos.index', compact('telefonos'));
     }
 
     /**
@@ -37,9 +38,9 @@ class TelefonosController extends Controller
     public function create()
     {
         $user = User::pluck('name', 'id');
-        $user->prepend(" ");
+        $user->prepend(" ", " ");
 
-        return view('telefonos.creartelefono', compact('user'));
+        return view('admin.telefonos.creartelefono', compact('user'));
     }
 
     /**
@@ -60,7 +61,6 @@ class TelefonosController extends Controller
             'referencia_telefono' => 'required|max:100',
             'tipo_so' => 'required|max:100',
             'version_so' => 'required|max:100',
-            'tipo_de_so' => 'required',
             'serial_telefono' => 'required',
             'imei_1' => 'required|max:100',
             'imei_2' => 'max:100',
@@ -116,7 +116,7 @@ class TelefonosController extends Controller
 
         $telefono->save();
         
-        return redirect()->route('telefonos.index');
+        return redirect()->route('admin.telefonos.index');
     }
 
     /**
@@ -128,7 +128,7 @@ class TelefonosController extends Controller
     public function show($id)
     {
         $telefono= Telefono::find($id);
-        return view('telefonos.vermas' , compact('telefono'));
+        return view('admin.telefonos.vermas' , compact('telefono'));
     }
 
     /**
@@ -143,7 +143,7 @@ class TelefonosController extends Controller
         $user = User::pluck('name', 'id');
         $user->prepend("");
 
-        return view('telefonos.editar' , compact('telefono', 'user'));
+        return view('admin.telefonos.editar' , compact('telefono', 'user'));
     }
 
     /**
@@ -221,7 +221,7 @@ class TelefonosController extends Controller
 
         $telefono->save();
         
-        return redirect()->route('telefonos.index');
+        return redirect()->route('admin.telefonos.index');
     }
 
     /**
@@ -235,6 +235,6 @@ class TelefonosController extends Controller
         $telefono = Telefono::find($id);
         $telefono->delete();
 
-        return redirect()->route('telefonos.index');
+        return redirect()->route('admin.telefonos.index');
     }
 }

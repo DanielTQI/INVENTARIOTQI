@@ -42,7 +42,7 @@ class ReportesController extends Controller
 
         Debugbar::info($equipos);
 
-        return view('reportes.index', compact('equipos'));
+        return view('admin.reportes.index', compact('equipos'));
     }
 
     /**
@@ -62,7 +62,7 @@ class ReportesController extends Controller
                     Debugbar::info($tipo);
                     $titulo='equipo';
 
-                    return view('reportes.crear', compact('user','titulo','tipo','request'));
+                    return view('admin.reportes.crear', compact('user','titulo','tipo','request'));
 
             }elseif ($request->tipo=='accesorio') {
 
@@ -72,7 +72,7 @@ class ReportesController extends Controller
                     Debugbar::info($tipo);
                     $titulo='accesorio';
 
-                    return view('reportes.crear', compact('user','titulo','tipo','request'));    
+                    return view('admin.reportes.crear', compact('user','titulo','tipo','request'));    
 
            }elseif ($request->tipo=='telefono') {
 
@@ -82,7 +82,7 @@ class ReportesController extends Controller
                     Debugbar::info($tipo);
                     $titulo='telefono';
                     
-                    return view('reportes.crear', compact('user','titulo','tipo','request'));
+                    return view('admin.reportes.crear', compact('user','titulo','tipo','request'));
            }  
 
     }
@@ -130,8 +130,6 @@ class ReportesController extends Controller
 
             $reporte->save();
 
-            return redirect()->route('reportes.index');
-
         }else if ($request->tipo=='accesorio') {
             $reporte = new Reporte;
 
@@ -144,7 +142,6 @@ class ReportesController extends Controller
 
             $reporte->save();
 
-            return redirect()->route('reportes.index');
 
         }else if ($request->tipo=='telefono') {
             $reporte = new Reporte;
@@ -158,8 +155,9 @@ class ReportesController extends Controller
 
             $reporte->save();
 
-            return redirect()->route('reportes.index');
         }
+
+        return redirect('/reportes');
     }    
 
     /**

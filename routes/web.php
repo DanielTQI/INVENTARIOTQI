@@ -13,16 +13,16 @@
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->middleware('auth');
 
-Route::resource('/equipos', 'EquiposController')->middleware('auth');;
-Route::resource('/accesorios', 'AccesoriosController');
-Route::resource('/telefonos', 'TelefonosController');
-Route::resource('/reportes', 'ReportesController');
+Route::resource('/equipos', 'EquiposController')->middleware('auth');
+Route::resource('/accesorios', 'AccesoriosController')->middleware('auth');
+Route::resource('/telefonos', 'TelefonosController')->middleware('auth');
+Route::resource('/reportes', 'ReportesController')->middleware('auth');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 
 
 
