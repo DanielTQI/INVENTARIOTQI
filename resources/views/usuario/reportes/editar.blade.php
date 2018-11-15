@@ -1,7 +1,7 @@
 @extends('layouts.app')
    @section('content')
-   	<center><h1 class="form-group">Reportar {{$titulo}}</h1></center>
-		{!! Form::open(['route'=>'reportes.store', 'name'=>'form1' , 'method'=>'POST', 'files' =>true]) !!}
+   	<center><h1 class="form-group"> Editar Reporte de {{$reporte->tipo}} </h1></center>
+		{!! Form::model($reporte, ['route' => ['reportes.update', $reporte] , 'method' => 'PUT' ]) !!}
 
 				<div class="lg-3  form-group mt-5">
 					<center>
@@ -11,9 +11,7 @@
 												<br>
 											{{-- {!! Form::select('user_id', $user->name,null, ['class' => 'form-control border border-primary']) !!} --}}
 											<select name="usuario_id" class="form-control">
-												@foreach($users as $us)
-													<option value="{{$us['id']}}">{{$us['name']}}</option>
-												@endforeach	
+													<option value="{{$user['id']}}">{{$user['name']}}</option>
 											</select>
 										 		<p class="help-block text-danger">{{ $errors->first('usuario_id') }}</p>	
 								</div>
@@ -26,25 +24,25 @@
 										 	'HARDWARD' => 'HARDWARD',
 										 	'SOFTWARE' => 'SOFTWARE',
 										 	'OTRO' => 'OTRO', 
-										 	], null,['class' => 'form-control border-primary'])}}
+										 	], $reporte->tipo_reporte,['class' => 'form-control '])}}
 										 		<p class="help-block text-danger">{{ $errors->first('tipo_reporte') }}</p>	
 								</div> 
 												<br>				
 								<div class="form-group">
 									{!! Form::label('desc', 'Descripcion del reporte *') !!}
 												<br>
-									{!! Form::text('descripcion_usuario', null, ['class' => 'form-control shadow-sm p-3  bg-white rounded w-5 border-primary h-50']) !!}
+									{!! Form::text('descripcion_usuario', $reporte->descripcion_usuario, ['class' => 'form-control shadow-sm p-3  bg-white rounded w-5 h-50']) !!}
 												<p class="help-block text-danger ">{{ $errors->first('descripcion_usuario') }}</p>
 								</div> 	
 												<br>
 								<div class="form-group">
 									{!! Form::label('fecha reporte', 'Fecha donde inicío la causa del reporte *') !!}
 									<br>
-									<input name="fecha_reporte" type="text" id="datepickerfe" class="form-control shadow-sm p-3 bg-white rounded w-75 border-primary">
+									<input name="fecha_reporte" type="text" id="datepickerfe" value="{{$reporte->fecha_reporte}}" class="form-control shadow-sm p-3 bg-white rounded w-75 ">
 										<p class="help-block text-danger">{{ $errors->first('fecha_reporte') }}</p>
 							    </div>	
-							    <input type="hidden" name="tipo" value="{{$titulo}}">
-							    <input type="hidden" name="idactivo" value="{{$request->id}}">	
+							    <input type="hidden" name="tipo" value="{{$reporte->tipo}}">
+							    {{-- <input type="hidden" name="idactivo" value="{{$reporte->id}}">	 --}}
 						</div>
 					{!! Form::submit('Crear ', ['class' => 'btn btn-success mt-0']) !!}
 				</center>	

@@ -3,8 +3,7 @@
 			<div class="container">
                 <div class="row">
 				    <center>
-				        <a href="{{url('/reportes/create')}}" class="btn btn-primary float-right mb-3 mr-4 ">Crear reporte</a>
-                				<table class="table table-sm float-left mr-10 table table-sm float-left mr-10 table-striped table-bordered dt-responsive nowrap" id="tablee">
+                			<table class="table table-sm float-left mr-10 table table-sm float-left mr-10 table-striped table-bordered dt-responsive nowrap" id="tablee">
                                     <thead class="thead-dark" >
                                         <tr>
                                             <th>Usuario</th>
@@ -31,11 +30,12 @@
                                                     <td><center>{{ $equipo->atendido }}</center></td>
                                                     <td><center>{{ $equipo->descripcion_soporte }}</center></td>
                                                     <td><center>{{ $equipo->fecha_soporte }}</center></td>
-                                                    <td><center><a href="/telefonos/{{$equipo->id}}" class="btn btn-success">Atender</a></center></td>
+                                                    <td><center><a href="/reportes/{{$equipo->id}}/edit" class="btn btn-success">Editar</a></center></td>
                                                     
                                                     <td><center>{!! Form::open([ 'route' => ['reportes.destroy', $equipo->id ], 'method' => 'DELETE' ]) !!}
                     									{!! Form::submit('Eliminar ', ['class' => 'btn btn-danger mb-2']) !!}
-                        							{!! Form::close()!!}   </center></td>                          
+                        							{!! Form::close()!!}   </center></td>
+                                                    <input type="hidden" name="">                          
                                                     </center>
                                                 </tr>
                                             @endforeach

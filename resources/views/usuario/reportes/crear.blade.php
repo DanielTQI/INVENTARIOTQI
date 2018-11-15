@@ -11,9 +11,7 @@
 												<br>
 											{{-- {!! Form::select('user_id', $user->name,null, ['class' => 'form-control border border-primary']) !!} --}}
 											<select name="usuario_id" class="form-control">
-												@foreach($users as $us)
-													<option value="{{$us['id']}}">{{$us['name']}}</option>
-												@endforeach	
+													<option value="{{$user['id']}}">{{$user['name']}}</option>
 											</select>
 										 		<p class="help-block text-danger">{{ $errors->first('usuario_id') }}</p>	
 								</div>
