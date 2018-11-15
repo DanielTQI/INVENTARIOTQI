@@ -90,6 +90,8 @@
                     <a href="{{url('/equipos')}}" class="btn btn-primary">Equipos</a>
                     <a href="{{url('/accesorios')}}" class="btn btn-primary">Accesorios</a>
                     <a href="{{url('/telefonos')}}" class="btn btn-primary">Telefonos</a>
+                    <a href="{{url('/reportes')}}" class="btn btn-primary">Reportes</a>
+
                 </div>
             </div>
         </div>

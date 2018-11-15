@@ -289,14 +289,7 @@ class TelefonosController extends Controller
 
         $consu=Telefono::where('id', $id)->first();
 
-    if ($user->id==$consu->usuario_id) {
-
-                $telefono = Telefono::find($id);
-                $telefono->delete();
-
-                return redirect()->route('telefonos.index');
-
-    }else if ($user->permisos='escritura') {
+    if ($user->permisos='escritura') {
 
                 $telefono = Telefono::find($id);
                 $telefono->delete();
@@ -304,7 +297,7 @@ class TelefonosController extends Controller
                 return redirect()->route('telefonos.index');
 
     }else{
-        
+
         return redirect()->route('telefonos.index');
     } 
     

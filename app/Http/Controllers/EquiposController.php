@@ -153,6 +153,8 @@ class EquiposController extends Controller
             $equipo->save();
             
             return redirect()->route('equipos.index');
+     }else{
+            return redirect()->route('equipos.index');
      }
     }
 
@@ -318,8 +320,7 @@ class EquiposController extends Controller
             $equipo = Equipo::find($id);
             $equipo-> delete();
 
-            $equipos=Equipo::all();
-            return view('admin.equipos.index', compact('equipos'));
+            return redirect()->route('equipos.index');
         }
     }
 }

@@ -388,10 +388,10 @@ class ReportesController extends Controller
 
                 return redirect()->route('reportes.index');
 
-    }else{
+        }else{
         
                 return redirect()->route('reportes.index');
-    }
+        }
 
   }
 }
