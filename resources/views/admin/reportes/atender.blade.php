@@ -82,10 +82,9 @@
 					{!! Form::submit('Realizar ', ['class' => 'btn btn-success mt-0']) !!}
 				</center>	
 			</div>		
-		{!! Form::close() !!} 
-
-		</center>
-	</div>
+		 {!! Form::close() !!} 
+	  </center>
+   </div>
 
 		
 @endsection

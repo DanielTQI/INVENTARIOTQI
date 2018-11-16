@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use Mail;
 use App\User;
 use Validator;
 use App\Equipo;
@@ -157,6 +157,7 @@ class ReportesController extends Controller
      */
     public function store(Request $request){
 
+                $tipo=$request->tipo;
 
                 $validator = Validator::make($request->all(),[
                     'usuario_id' => 'required|max:100',
@@ -192,6 +193,19 @@ class ReportesController extends Controller
                     $reporte->atendido='NO';
 
                     $reporte->save();
+
+                    $data =  array(
+                        'report' => $tipo , 
+                           );
+
+                            Mail::send('emails.report', $data, function($message){
+                                
+                                $message->to('daniel.lopez@tqi.co', 'Ticket Laravel')->subject('Reporte de ACTIVOS');
+                         });
+
+
+                    return redirect()->route('reportes.index');
+
 
                 }else if ($request->tipo=='accesorio') {
                     $reporte = new Reporte;
