@@ -20,6 +20,7 @@
                             <th>Tipo_so</th>
                             <th></th>
                             <th></th>
+                            <th></th>
 
                         </tr>
                     </thead>
@@ -38,6 +39,7 @@
                                 <td><center>{{ $equipo->serial_equipo }}</center></td>
                                 <td><center>{{ $equipo->tipo_so }}</center></td>
                                 <td><center><a href="/equipos/{{$equipo->id}}" class="btn btn-primary">Ver más...</a></center></td>
+                                <td><center><a href="{{ route ('admin.reportes.historial',['tipo'=>'equipo','id'=>$equipo->id])}}" class="btn btn-warning">Historial</a></center></td>
                                 
                                 <td><center>{!! Form::open([ 'route' => ['equipos.destroy', $equipo->id ], 'method' => 'DELETE' ]) !!}
 									{!! Form::submit('Eliminar ', ['class' => 'btn btn-danger mb-2']) !!}

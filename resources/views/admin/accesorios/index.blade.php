@@ -20,6 +20,8 @@
                             <th>Incluido</th>
                             <th></th>
                             <th></th>
+                            <th></th>
+                            
 
                         </tr>
                       </thead>
@@ -38,6 +40,8 @@
                                 <td><center>{{ $accesorio->serial_accesorio }}</center></td>
                                 <td><center>{{ $accesorio->incluido }}</center></td>
                                 <td><center><a href="/accesorios/{{$accesorio->id}}" class="btn btn-primary">Ver más...</a></center></td>
+                                <td><center><a href="{{ route ('admin.reportes.historial',['tipo'=>'accesorio','id'=>$accesorio->id])}}" class="btn btn-warning">Historial</a></center></td>
+
                                 
                                 <td><center>{!! Form::open([ 'route' => ['accesorios.destroy', $accesorio->id ], 'method' => 'DELETE' ]) !!}
 									{!! Form::submit('Eliminar ', ['class' => 'btn btn-danger mb-2']) !!}

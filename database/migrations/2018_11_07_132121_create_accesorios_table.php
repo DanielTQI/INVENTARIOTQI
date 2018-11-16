@@ -26,11 +26,13 @@ class CreateAccesoriosTable extends Migration
             $table->string('marca_accesorio');
             $table->string('referencia_accesorio');
             $table->string('serial_accesorio');
-            $table->string('fccid_accesorio');
-            $table->string('icid_accesorio');
+            $table->string('fccid_accesorio')->nullable();
+            $table->string('icid_accesorio')->nullable();
             $table->string('incluido');
             $table->string('proveedor');
             $table->integer('precio');
+            $table->timestamps('deleted_at')->nullable();
+            
             //php artisan migrate --path=app/database/migrations/2018_11_07_132121_create_accesorios_table.php
 
             $table->timestamps();

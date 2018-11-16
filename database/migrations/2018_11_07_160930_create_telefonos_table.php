@@ -28,11 +28,13 @@ class CreateTelefonosTable extends Migration
             $table->string('version_so');
             $table->string('serial_telefono');
             $table->integer('imei_1');
-            $table->integer('imei_2');
+            $table->integer('imei_2')->nullable();
             $table->string('mac_telefono');
             $table->string('incluido');
             $table->string('proveedor');
             $table->integer('precio');
+            $table->timestamps('deleted_at')->nullable();
+
             $table->timestamps();
         });
     }

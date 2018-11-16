@@ -16,6 +16,7 @@ class CreateReportesTable extends Migration
         Schema::create('reportes', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('usuario_id')->unsigned();
+            $table->integer('usuario_soporte')->unsigned();
             $table->integer('equipo_id')->unsigned();
             $table->integer('accesorio_id')->unsigned();
             $table->integer('telefono_id')->unsigned();

@@ -17,6 +17,8 @@
                                             <th>Fecha soporte</th>
                                             <th></th>
                                             <th></th>
+                                            
+
                                         </tr>
                                     </thead>
                                         <tbody>
@@ -31,8 +33,9 @@
                                                     <td><center>{{ $equipo->atendido }}</center></td>
                                                     <td><center>{{ $equipo->descripcion_soporte }}</center></td>
                                                     <td><center>{{ $equipo->fecha_soporte }}</center></td>
-                                                    <td><center><a href="/telefonos/{{$equipo->id}}" class="btn btn-success">Atender</a></center></td>
+                                                    <td><center><a href="/reportes/{{$equipo->id}}" class="btn btn-success">Atender</a></center></td>
                                                     
+
                                                     <td><center>{!! Form::open([ 'route' => ['reportes.destroy', $equipo->id ], 'method' => 'DELETE' ]) !!}
                     									{!! Form::submit('Eliminar ', ['class' => 'btn btn-danger mb-2']) !!}
                         							{!! Form::close()!!}   </center></td>                          

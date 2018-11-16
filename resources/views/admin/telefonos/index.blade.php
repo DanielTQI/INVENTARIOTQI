@@ -18,6 +18,8 @@
                             <th>Tipo SO</th>
                             <th></th>
                             <th></th>
+                            <th></th>
+                            
 
                         </tr>
                     </thead>
@@ -36,6 +38,8 @@
                                 <td><center>{{ $telefono->serial_telefono }}</center></td>
                                 <td><center>{{ $telefono->tipo_so }}</center></td>
                                 <td><center><a href="/telefonos/{{$telefono->id}}" class="btn btn-primary">Ver más...</a></center></td>
+                                <td><center><a href="{{ route ('admin.reportes.historial',['tipo'=>'accesorio','id'=>$telefono->id])}}" class="btn btn-warning">Historial</a></center></td>
+
                                 
                                 <td><center>{!! Form::open([ 'route' => ['telefonos.destroy', $telefono->id ], 'method' => 'DELETE' ]) !!}
 									{!! Form::submit('Eliminar ', ['class' => 'btn btn-danger mb-2']) !!}

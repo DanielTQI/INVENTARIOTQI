@@ -36,7 +36,7 @@ class ReportesController extends Controller
                             ->leftjoin('users', 'reportes.usuario_id', '=', 'users.id')
                             ->select(DB::raw('if(equipos.id is null, if(accesorios.id is null,"telefono","accesorio"),"equipo") as tipo, 
                                              users.name, reportes.tipo_reporte, reportes.descripcion_usuario, reportes.fecha_reporte, 
-                                             reportes.atendido, reportes.descripcion_soporte, reportes.id '))
+                                             reportes.atendido, reportes.descripcion_soporte, reportes.id,reportes.fecha_soporte '))
                             ->get();
                        
 
@@ -51,7 +51,7 @@ class ReportesController extends Controller
                             ->leftjoin('users', 'reportes.usuario_id', '=', 'users.id')
                             ->select(DB::raw('if(equipos.id is null, if(accesorios.id is null,"telefono","accesorio"),"equipo") as tipo, 
                                              users.name, reportes.tipo_reporte, reportes.descripcion_usuario, reportes.fecha_reporte, 
-                                             reportes.atendido, reportes.descripcion_soporte, reportes.id '))
+                                             reportes.atendido, reportes.descripcion_soporte, reportes.id,reportes.fecha_soporte '))
                             ->where('reportes.usuario_id', $user->id)
                             ->orderby('users.name')
                             ->get();
@@ -231,7 +231,31 @@ class ReportesController extends Controller
      */
     public function show($id)
     {
-        //
+        $user=auth()->user();
+
+        if ($user->permisos=='lectura') {
+
+            return redirect()->route('reportes.index');
+        
+        }else if ($user->permisos=='escritura') {
+
+             $usersup = User::where('permisos', '=' ,'escritura')->pluck('name', 'id');
+             $usersup->prepend(' ', ' ');
+
+
+             $reporte = Reporte::leftjoin('equipos', 'reportes.equipo_id', '=', 'equipos.id')
+                            ->leftjoin('accesorios', 'reportes.accesorio_id', '=', 'accesorios.id')
+                            ->leftjoin('telefonos', 'reportes.telefono_id', '=', 'telefonos.id')
+                            ->leftjoin('users', 'reportes.usuario_id', '=', 'users.id')
+                            ->select(DB::raw('if(equipos.id is null, if(accesorios.id is null,"telefono","accesorio"),"equipo") as tipo, 
+                                             users.name, reportes.tipo_reporte, reportes.descripcion_usuario, reportes.fecha_reporte, 
+                                             reportes.atendido, reportes.descripcion_soporte, reportes.id '))
+                            ->where('reportes.id', $id)
+                            ->first();
+
+            return view('admin.reportes.atender' , compact('reporte', 'usersup'));
+
+        }       
     }
 
     /**
@@ -394,4 +418,116 @@ class ReportesController extends Controller
         }
 
   }
+
+
+  //esta funcion se encarga del soporte
+
+  public function supporte($id, Request $request){
+
+     $user=auth()->user();
+
+        if ($user->permisos=='escritura') {
+
+             $validator = Validator::make($request->all(),[
+                'usuario_soporte' => 'required|max:100',
+                'atendidoo' => 'required|max:100',
+                'descripcion_soporte' => 'required|max:100',
+                'fecha_soporte' => 'required|max:100',
+            ],[
+                'required' => 'Este campo es requerido',
+                'email' => 'Este campo debe tener formato de correo electrónico',
+                'unique' => 'Este correo debe ser único',
+                'max' => 'Este campo no debe superar :max caracteres',
+                'min' => 'Este campo no debe ser menor de :min caracteres',
+                'numeric' => 'Este campo debe ser numerico',
+                'string' => 'Este campo debe ser solo texto',
+                'url' => 'Este campo debe ser una url',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()
+                   ->withErrors($validator)
+                   ->withInput();
+             }
+
+                $reporte =  Reporte::find($id);
+
+                $reporte->usuario_soporte=$request->input('usuario_suporte');
+                $reporte->atendido=$request->input('atendidoo');
+                $reporte->descripcion_soporte=$request->input('descripcion_soporte');
+                $reporte->fecha_soporte=Carbon::parse($request->input('fecha_soporte'));
+
+                $reporte->save();
+
+        }else{
+            return redirect()->route('reportes.index');
+        }
+            return redirect()->route('reportes.index');
+  }
+
+
+    public function historialactivo($id,$tipo){
+
+        $user=auth()->user();
+
+        if ($user->permisos=='escritura') {
+            Debugbar::info($tipo);
+
+            if ($tipo=='equipo') {
+
+                 $reportes = Reporte::leftjoin('equipos', 'reportes.equipo_id', '=', 'equipos.id')
+                                ->leftjoin('accesorios', 'reportes.accesorio_id', '=', 'accesorios.id')
+                                ->leftjoin('telefonos', 'reportes.telefono_id', '=', 'telefonos.id')
+                                ->leftjoin('users', 'reportes.usuario_id', '=', 'users.id')
+                                ->select(DB::raw('if(equipos.id is null, if(accesorios.id is null,"telefono","accesorio"),"equipo") as tipo, 
+                                                 users.name, reportes.tipo_reporte, reportes.descripcion_usuario, reportes.fecha_reporte, 
+                                                 reportes.atendido, reportes.descripcion_soporte, reportes.id,reportes.fecha_soporte '))
+
+                                ->where('reportes.equipo_id','=',$id)
+                                ->get();
+                           
+                        Debugbar::info($reportes);
+                        return view('admin.reportes.historial', compact('reportes', 'tipo'));
+
+             }elseif ($tipo=='accesorio') {
+
+                 $reportes = Reporte::leftjoin('equipos', 'reportes.equipo_id', '=', 'equipos.id')
+                                ->leftjoin('accesorios', 'reportes.accesorio_id', '=', 'accesorios.id')
+                                ->leftjoin('telefonos', 'reportes.telefono_id', '=', 'telefonos.id')
+                                ->leftjoin('users', 'reportes.usuario_id', '=', 'users.id')
+                                ->select(DB::raw('if(equipos.id is null, if(accesorios.id is null,"telefono","accesorio"),"equipo") as tipo, 
+                                                 users.name, reportes.tipo_reporte, reportes.descripcion_usuario, reportes.fecha_reporte, 
+                                                 reportes.atendido, reportes.descripcion_soporte, reportes.id,reportes.fecha_soporte '))
+
+                                ->where('reportes.accesorio_id','=',$id)
+                                ->get();
+                           
+                        Debugbar::info($reportes);
+                        return view('admin.reportes.historial', compact('reportes', 'tipo'));
+
+             }elseif ($tipo=='telefono') {
+
+                 $reportes = Reporte::leftjoin('equipos', 'reportes.equipo_id', '=', 'equipos.id')
+                                ->leftjoin('accesorios', 'reportes.accesorio_id', '=', 'accesorios.id')
+                                ->leftjoin('telefonos', 'reportes.telefono_id', '=', 'telefonos.id')
+                                ->leftjoin('users', 'reportes.usuario_id', '=', 'users.id')
+                                ->select(DB::raw('if(equipos.id is null, if(accesorios.id is null,"telefono","accesorio"),"equipo") as tipo, 
+                                                 users.name, reportes.tipo_reporte, reportes.descripcion_usuario, reportes.fecha_reporte, 
+                                                 reportes.atendido, reportes.descripcion_soporte, reportes.id,reportes.fecha_soporte '))
+
+                                ->where('reportes.accesorio_id','=',$id)
+                                ->get();
+                           
+                        Debugbar::info($reportes);
+                        return view('admin.reportes.historial', compact('reportes', 'tipo'));
+             }
+                    
+        }else{
+
+            return redirect()->route('reportes.index');
+        }
+
+            return redirect()->back();
+     }
+
 }
