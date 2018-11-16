@@ -3,7 +3,8 @@
 	<div class="container">
 	 
    <center>
-    <a href="{{ route ('reportes.create',['tipo'=>'equipo','id'=>$equipo->id])}}" class="btn btn-success float-left  mb-2">Reportar</a>
+     <h2 class="text">Equipo</h2>
+    <a href="{{ route ('reportes.create',['tipo'=>'equipo','id'=>$equipo->id])}}" class="btn btn-danger float-left  mb-2">Reportar</a>
 	</center>
 
 	<table class="table">

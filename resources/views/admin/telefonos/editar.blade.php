@@ -1,6 +1,6 @@
 @extends('layouts.app')
 	@section('content')
-	
+	<center><h2 class="text-title">Editar Telefono</h2></center>
 		{!! Form::model($telefono, ['route' => ['telefonos.update', $telefono] , 'method' => 'PUT' ]) !!}
 
 			<div class="lg-3  mt-5 form-group">

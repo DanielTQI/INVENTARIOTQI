@@ -2,7 +2,7 @@
 	
 	@section('content')
 	<center>
-		<h1 class="">CREAR Accesorios</h1>
+		<h2 class="text-center">Crear Accesorios</h2>
 
 			{!! Form::open(['route'=>'accesorios.store',  'method'=>'POST', 'files' =>true]) !!}
 				<div class="lg-3  form-group mt-5">

@@ -2,14 +2,10 @@
 	@section('content')
 	<div class="container">
 		<center>
+    <h2 class="text-center">Equipo</h2>
 
 		<a href="/equipos/{{$equipo->id}}/edit" class="btn btn-primary float-left">Editar.</a>
     <a href="{{ route ('reportes.create',['tipo'=>'equipo','id'=>$equipo->id])}}" class="btn btn-success float-left ml-5">Reportar</a>
-    {{-- {!! Form::open([ 'route' => ['reportes.create', $equipo->id ], 'method' => 'GET' ]) !!}
-
-      {!! Form::submit('Reportar ', ['class' => 'float-left ml-5']) !!}
-
-      {!! Form::close()!!} --}}
 
 		{!! Form::open([ 'route' => ['equipos.destroy', $equipo->id ], 'method' => 'DELETE' ]) !!}
 

@@ -3,6 +3,8 @@
 			<div class="container">
                 <div class="row">
 				<center>
+                <h2 class="text">Mis equipos</h2>
+
                     <div class="col-md-12">
 				<table class="table table-sm float-left mr-10 table-striped table-bordered dt-responsive nowrap" id="tablee">
                     <thead class="thead-dark" >

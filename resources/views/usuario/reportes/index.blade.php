@@ -3,6 +3,7 @@
 			<div class="container">
                 <div class="row">
 				    <center>
+                         <h2 class="text">Mis Reportes</h2>                       
                 			<table class="table table-sm float-left mr-10 table table-sm float-left mr-10 table-striped table-bordered dt-responsive nowrap" id="tablee">
                                     <thead class="thead-dark" >
                                         <tr>

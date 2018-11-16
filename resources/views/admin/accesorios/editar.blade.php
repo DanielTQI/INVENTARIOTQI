@@ -1,6 +1,7 @@
 @extends('layouts.app')
 	@section('content')
 
+		<h2 class="text-center">Editar Accesorio</h2>
 		{!! Form::model($accesorio, ['route' => ['accesorios.update', $accesorio] , 'method' => 'PUT' ]) !!}
 
 			<div class="lg-3  mt-5 form-group">

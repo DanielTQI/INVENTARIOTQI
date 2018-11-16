@@ -2,7 +2,7 @@
 	
 	@section('content')
 	<center>
-		<h1 class="title">CREAR TELEFONO</h1>
+		<h1 class="text-title">CREAR TELEFONO</h1>
 
 			{!! Form::open(['route'=>'telefonos.store',  'method'=>'POST', 'files' =>true]) !!}
 				<div class="lg-3  form-group mt-5">

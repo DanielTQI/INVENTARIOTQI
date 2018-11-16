@@ -1,8 +1,9 @@
 @extends('layouts.app')
 	@section('content')
 			<div class="container ml-12">
-				<center>
-				<table class="table table-sm float-left mr-10 table table-sm float-left mr-10 table-striped table-bordered dt-responsive nowrap" id="tablee">
+			  <center>
+                <h2 class="text">Mis Telefonos</h2>
+				 <table class="table table-sm float-left mr-10 table table-sm float-left mr-10 table-striped table-bordered dt-responsive nowrap" id="tablee">
                     <thead class="thead-dark" >
                         <tr>
                             <th>Usuario</th>

@@ -2,10 +2,11 @@
 	@section('content')
 			<div class="container ml-12">
 				<center>
-				<a href="{{url('/telefonos/create')}}" class="btn btn-primary float-right mb-3 mr-4 ">Registrar Telefonos</a>
-				<table class="table table-sm float-left mr-10 table table-sm float-left mr-10 table-striped table-bordered dt-responsive nowrap" id="tablee">
-                    <thead class="thead-dark" >
-                        <tr>
+                  <h2 class="text">Telefonos Registrados</h2>
+				    <a href="{{url('/telefonos/create')}}" class="btn btn-primary float-right mb-3 mr-4 ">Registrar Telefonos</a>
+				      <table class="table table-sm float-left mr-10 table table-sm float-left mr-10 table-striped table-bordered dt-responsive nowrap" id="tablee">
+                        <thead class="thead-dark" >
+                            <tr>
                             <th>Usuario</th>
                             <th>F_entrega</th>
                             <th>F_mantenimiento</th>
@@ -19,8 +20,6 @@
                             <th></th>
                             <th></th>
                             <th></th>
-                            
-
                         </tr>
                     </thead>
                     <tbody>

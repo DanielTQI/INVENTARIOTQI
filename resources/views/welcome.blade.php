@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
         <title>Laravel</title>
 
@@ -46,7 +47,7 @@
             }
 
             .title {
-                font-size: 84px;
+                font-size: 54px;
             }
 
             .links > a {
@@ -76,7 +77,7 @@
                     @endauth
                 </div>
             @endif
-
+            
             <div class="content">
                 <div class="title m-b-md">
                     INVENTARIO DE ACTIVOS
@@ -87,10 +88,10 @@
                 </div>
 
                 <div class="links ">
-                    <a href="{{url('/equipos')}}" class="btn btn-primary">Equipos</a>
-                    <a href="{{url('/accesorios')}}" class="btn btn-primary">Accesorios</a>
-                    <a href="{{url('/telefonos')}}" class="btn btn-primary">Telefonos</a>
-                    <a href="{{url('/reportes')}}" class="btn btn-primary">Reportes</a>
+                    <a href="{{url('/equipos')}}"><button class="btn btn-primary">Equipos</button> </a>
+                    <a href="{{url('/accesorios')}}"><button class="btn btn-primary">Accesorios</button></a>
+                    <a href="{{url('/telefonos')}}"><button class="btn btn-primary">Telefonos</button></a>
+                    <a href="{{url('/reportes')}}"><button class="btn btn-primary">Reportes</button></a>
 
                 </div>
             </div>

@@ -2,6 +2,8 @@
 	@section('content')
 	<div class="container">
 	<center>
+
+    <h2 class="text">Accesorio</h2>
     <a href="{{ route ('reportes.create',['tipo'=>'accesorio','id'=>$accesorio->id])}}" class="btn btn-danger float-left  mb-2">Reportar</a>
 	</center>
 

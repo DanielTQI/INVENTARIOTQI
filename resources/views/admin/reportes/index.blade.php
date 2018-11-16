@@ -3,7 +3,8 @@
 			<div class="container">
                 <div class="row">
 				    <center>
-				        <a href="{{url('/reportes/create')}}" class="btn btn-primary float-right mb-3 mr-4 ">Crear reporte</a>
+                        <h2 class="text-center">Reportes registrados</h2>
+				            <a href="{{url('/reportes/create')}}" class="btn btn-primary float-right mb-3 mr-4 ">Crear reporte</a>
                 				<table class="table table-sm float-left mr-10 table table-sm float-left mr-10 table-striped table-bordered dt-responsive nowrap" id="tablee">
                                     <thead class="thead-dark" >
                                         <tr>

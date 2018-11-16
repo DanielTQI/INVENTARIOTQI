@@ -2,7 +2,8 @@
 	@section('content')
 	<div class="container">
 		<center>
-      <a href="{{ route ('reportes.create',['tipo'=>'telefono','id'=>$telefono->id])}}" class="btn btn-danger float-left  mb-2">Reportar</a>
+      <h2 class="text">Telefono</h2>
+        <a href="{{ route ('reportes.create',['tipo'=>'telefono','id'=>$telefono->id])}}" class="btn btn-danger float-left  mb-2">Reportar</a>
 
                   </center>
                   	<table class="table">

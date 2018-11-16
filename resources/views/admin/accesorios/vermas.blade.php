@@ -1,8 +1,8 @@
 @extends('layouts.app')
 	@section('content')
 	<div class="container">
+    <h2 class="text-center">Accesorio</h2>
 		<center>
-      
 		<a href="/accesorios/{{$accesorio->id}}/edit" class="btn btn-primary float-left">Editar.</a>
     <a href="{{ route ('reportes.create',['tipo'=>'accesorio','id'=>$accesorio->id])}}" class="btn btn-success float-left ml-5">Reportar</a>
 		{!! Form::open([ 'route' => ['accesorios.destroy', $accesorio->id ], 'method' => 'DELETE' ]) !!}

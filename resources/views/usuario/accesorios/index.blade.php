@@ -3,6 +3,7 @@
 			<div class="container">
                 <div class="row">
 				<center>
+                 <h2 class="text">Mis accesorios</h2>
                    <div class="col-md-12">
 				    <table class="table table-sm mr-10 table-striped dt-responsive nowrap w-25" id="tablee">
                       <thead class="thead-dark" >

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 	@section('content')
 		<center>
-		<h1 class="title m-b-md">CREAR EQUIPOS</h1>
+		<h2 class="text-center">CREAR EQUIPOS</h2>
 			{!! Form::open(['route'=>'equipos.store',  'method'=>'POST', 'files' =>true]) !!}
 				
 					<center>
