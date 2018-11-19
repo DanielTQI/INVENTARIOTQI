@@ -100,6 +100,45 @@ class ActivosController extends Controller
                        ->withInput();
                     }
 
+                     $activo = new Activo();
+                        $activo->usuario_id=$request->input('user_id');
+                        $activo->categoria_id=$request->input('categoria');
+                        $activo->fecha_entrega=Carbon::parse($request->input('fecha_entrega'));
+                        $activo->fecha_mantenimiento=Carbon::parse($request->input('fecha_mantenimiento'));
+                        $mantenimiento = Carbon::parse($request->input('fecha_mantenimiento'));
+                        $hoy = Carbon::parse(now()->toDateString());
+                        $diasDiferencia = $hoy->diffInDays($mantenimiento);
+
+                            if ($diasDiferencia>60) {
+                                $activo->estado_mantenimiento='pendiente';
+                            }else{
+                                $activo->estado_mantenimiento='bien';
+                            }
+
+                        $activo->propiedad=$request->input('propiedad');
+                        $activo->tipo_de_equipo=$request->input('tipo_de_equipo');
+                        $activo->marca_equipo=$request->input('marca');
+                        $activo->referencia_equipo=$request->input('referencia');
+                        $activo->serial_equipo=$request->input('serial');
+                        $activo->mtm_equipo=$request->input('mtm');
+                        $activo->tipo_so=$request->input('tipo_de_soc');
+                        $activo->licencia=$request->input('tipo_de_lic');
+                        $activo->vso_equipo=$request->input('vso');
+                        $activo->nid_sistema_operativo=$request->input('nid');
+                        $activo->tipo_office=$request->input('office');
+                        $activo->nombre_equipo=$request->input('nombre');
+                        $activo->workgroup_equipo=$request->input('workgroup_equipo');
+                        $activo->cuenta_admin_equipo=$request->input('cuenta_admin');
+                        $activo->lan_mac=$request->input('lan_mac');
+                        $activo->wifi_mac=$request->input('wifi_mac');
+                        $activo->pass_admin=$request->input('contraseña');
+                        $activo->proveedor=$request->input('proveedor');
+                        $activo->precio=$request->input('precio');
+
+                        $activo->save();
+                        
+                        return redirect()->route('activos.create');
+
              }else if($request->categoria==2) {
                 $validator = Validator::make($request->all(),[
                     'user_id' => 'required',
