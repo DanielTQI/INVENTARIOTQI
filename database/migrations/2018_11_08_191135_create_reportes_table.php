@@ -28,9 +28,9 @@ class CreateReportesTable extends Migration
             $table->string('descripcion_usuario');
             $table->date('fecha_reporte');
             $table->string('atendido');
-            $table->string('descripcion_soporte');
-            $table->date('fecha_soporte');
-            $table->timestamps();
+            $table->string('descripcion_soporte')->nullable();
+            $table->date('fecha_soporte')->nullable();
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 

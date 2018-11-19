@@ -77,16 +77,14 @@
         </nav>
 
         <main class="py-4">
-            <div class="col-12">
             @yield('content')
-            </div>
         </main>
     </div>
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script src="{{url('js/app.js')}}"></script>
+  {{-- <script src="{{url('js/app.js')}}"></script> --}}
   <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
     
@@ -109,6 +107,62 @@
       $( function() {
         $( "#datepickerfm" ).datepicker();
       } );
+
+      $(document).ready(function(){
+
+          $('#general').hide();
+          $('#comput').hide();
+          $('#accesori').hide();
+          $('#telef').hide();
+          $('#comptel').hide();
+
+        $("#cat").click(function(){
+          var valor= $("#cat").val();
+
+            if (valor=='0') {
+
+                $('#general').hide();
+                $('#comput').hide();
+                $('#accesori').hide();
+                $('#telef').hide();
+                $('#comptel').hide();
+
+            }else if (valor=='1') {
+
+                $('#general').show();
+                $('#comput').show();
+                $('#comptel').show();
+                $('#accesori').hide();
+                $('#telef').hide();
+
+            }else if (valor=='2') {
+
+                $('#accesori').show();
+                $('#general').show();
+                $('#comput').hide();
+                $('#telef').hide();
+                $('#comptel').hide();
+
+            }else if (valor=='3') {
+
+                $('#accesori').hide();
+                $('#general').show();
+                $('#comput').hide();
+                $('#telef').show();
+                $('#comptel').show();
+
+            }else if (valor=='4') {
+
+                $('#general').hide();
+                $('#comput').hide();
+                $('#accesori').hide();
+                $('#telef').hide();
+                $('#comptel').hide();
+
+            }
+
+          });
+      });
         
   </script>
 </body>

@@ -1,0 +1,55 @@
+//---------------------------------------
+        //Computador
+        $('#tipoctitle').hide();
+        $('#tipocselect').hide();
+        $('#mtmtitle').hide();
+        $('#mtm').hide();
+        $('#tiposoctitle').hide();
+        $('#tiposoc').hide();
+        $('#lictitle').hide();
+        $('#lic').hide();
+        $('#idwtitle').hide();
+        $('#idw').hide();
+        $('#workgtitle').hide();
+        $('#workg').hide();
+        $('#tipoofftitle').hide();
+        $('#tipooff').hide();
+        $('#lmactitle').hide();
+        $('#lmac').hide();
+        $('#passtitle').hide();
+        $('#pass').hide();
+//---------------------------------------
+        //Accesorio
+        $('#tipoacctitle').hide();
+        $('#tipoacce').hide();
+        $('#fccidtitle').hide();
+        $('#fccid').hide();
+        $('#icidtitle').hide();
+        $('#icid').hide();
+        $('#incluidotitle').hide();
+        $('#incluido').hide();
+//---------------------------------------
+        //Telefono
+        $('#tipoteltitle').hide();
+        $('#tipotel').hide();
+        $('#tiposottitle').hide();
+        $('#tiposot').hide();
+        $('#imei1title').hide();
+        $('#imei1').hide();
+        $('#imei2title').hide();
+        $('#imei2').hide();
+//---------------------------------------
+        //General        
+        $('#nombretitle').hide();
+        $('#nombre').hide();
+        $('#vsotitle').hide();
+        $('#vso').hide();
+        $('#cadmintitle').hide();
+        $('#cadmin').hide();
+        $('#wmactitle').hide();
+        $('#wmac').hide();
+        $('#provtitle').hide();
+        $('#prov').hide();
+        $('#prectitle').hide();
+        $('#prec').hide();
+        $('#btn').hide();

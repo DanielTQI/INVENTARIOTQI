@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEquiposTable extends Migration
+class CreateActivosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateEquiposTable extends Migration
      */
     public function up()
     {
-        Schema::create('equipos', function (Blueprint $table) {
+        Schema::create('activos', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('usuario_id')->unsigned();
             $table->foreign('usuario_id')->references('id')->on('users');
@@ -27,20 +27,24 @@ class CreateEquiposTable extends Migration
             $table->string('serial_equipo');
             $table->string('mtm_equipo')->nullable();
             $table->string('tipo_so');
-            $table->string('licencia');
+            $table->string('licencia')->nullable();
             $table->string('vso_equipo');
             $table->string('nid_sistema_operativo')->nullable();
-            $table->string('tipo_office');
+            $table->string('fccid_equipo')->nullable();
+            $table->string('icid_equipo')->nullable();
+            $table->string('incluido')->nullable();
+            $table->string('tipo_office')->nullable();
             $table->string('nombre_equipo');
             $table->string('workgroup_equipo')->nullable();
-            $table->string('cuenta_admin_equipo');
+            $table->string('cuenta_admin_equipo')->nullable();
             $table->string('lan_mac')->nullable();
             $table->string('wifi_mac');
+            $table->integer('imei_1')->nullable();
+            $table->integer('imei_2')->nullable();
             $table->string('pass_admin')->nullable();
             $table->string('proveedor');
             $table->integer('precio');
             $table->timestamp('deleted_at')->nullable();
-
             $table->timestamps();
         });
     }
@@ -52,6 +56,6 @@ class CreateEquiposTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('equipos');
+        Schema::dropIfExists('activos');
     }
 }
