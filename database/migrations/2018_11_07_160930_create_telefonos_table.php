@@ -33,7 +33,7 @@ class CreateTelefonosTable extends Migration
             $table->string('incluido');
             $table->string('proveedor');
             $table->integer('precio');
-            $table->timestamps('deleted_at')->nullable();
+            $table->timestamp('deleted_at')->nullable();
 
             $table->timestamps();
         });
