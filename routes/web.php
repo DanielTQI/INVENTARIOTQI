@@ -28,16 +28,7 @@ Route::get('/reportes/historial/{id}/{tipo}', 'ReportesController@historialactiv
 	->name('admin.reportes.historial')
 	->middleware('auth');
 
-Route::get('sendemail', function(){
-	$data = array(
-		'name' => 'Ticket Laravel',
-	 );
-	Mail::send('emails.welcome', $data, function($message){
-		$message->to('daniel.lopez@tqi.co', 'Ticket Laravel');
 
-	 });
-	return 'se envio';
-   });
 
 Route::resource('/reportes', 'ReportesController')->middleware('auth');
 
