@@ -193,18 +193,17 @@
 												     <p class="help-block text-danger ">{{ $errors->first('wifi_mac') }}</p>
 								</div>
 								<div class="form-group">
-										<label class="form-label" id="cadmintitle">Cuenta de admin *</label>
+										<label class="form-label" id="cadmintitle">Cuenta de admin, si no es personal *</label>
 										{!! Form::text('cuenta_admin', null, ['class' => 'form-control','id'=>'cadmin','placeholder' => 'Escriba la cuenta del admin.']) !!}
 												     <p class="help-block text-danger ">{{ $errors->first('cuenta_admin') }}</p>
 								</div>
 								<div class="form-group">
-										<label class="form-label" id="passtitle">Contraseña del activo, si es personal no la escriba *</label>
+										<label class="form-label" id="passtitle">Contraseña del activo, si no es personal *</label>
 										{!! Form::text('contraseña', null, ['class' => 'form-control','id'=>'pass','placeholder' => 'Escriba la contraseña.']) !!}
 												     <p class="help-block text-danger ">{{ $errors->first('contraseña') }}</p>
 								</div>
 							</div>	
 							<div id="general">
-								
 								<div class="form-group">
 										<label class="form-label" id="provtitle">Proveedor del activo *</label>
 										{!! Form::text('proveedor', null, ['class' => 'form-control','id'=>'prov','placeholder' => 'Proveedor del activo.']) !!}
