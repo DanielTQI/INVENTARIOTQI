@@ -4,27 +4,17 @@
 		<center>
     <h2 class="text-center mb-4">{{$activo->nombre}}</h2>
 
-    		<a href="/activos/{{$activo->id}}/edit" class="btn btn-primary float-left  ">Editar</a>
-        <a href="/activos" class="btn btn-info float-left ml-2  ">Ver todos los activos</a>
-        <a href="/activos/create" class="btn btn-success float-left ml-2  ">Registrar activo</a>
+        <a href="/activos" class="btn btn-primary float-left ml-2">Ver todos mis activos</a>
 
         <a href="{{ route ('reportes.create',['tipo'=>'equipo','id'=>$activo->id])}}" class="btn btn-warning float-left ml-2 ">Reportar</a>
 
     		{!! Form::open([ 'route' => ['activos.destroy', $activo->id ], 'method' => 'DELETE' ]) !!}
-
     			{!! Form::submit('Eliminar ', ['class' => 'btn btn-danger mb-2 float-left ml-2 ']) !!}
-
         {!! Form::close()!!}
 	</center>
 
 	<table class="table ">
     <tbody >
-        <tr>
-          <th>Usuario</th>
-            <td>{{$activo->name}}</td>
-            
-        </tr>
-        <tr>
           <th>Categoria</th>
             <td>{{$activo->nombre}}</td>
             
@@ -121,21 +111,6 @@
             <td>{{$activo->wifi_mac}}</td>
             
         </tr>
-        </tr><tr>
-          <th>Pass admin</th>
-            <td>{{$activo->pass_admin}}</td>
-            
-        </tr>
-        </tr><tr>
-          <th>Proveedor</th>
-            <td>{{$activo->proveedor}}</td>
-            
-        </tr>
-        </tr><tr>
-          <th>Precio</th>
-            <td>{{$activo->precio}}</td>
-            
-          </tr>
       </tbody>
     </table>
   </div>

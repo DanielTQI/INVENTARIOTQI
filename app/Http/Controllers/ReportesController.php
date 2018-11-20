@@ -68,84 +68,21 @@ class ReportesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
         $user = auth()->user();
 
+        
+        $users=User::pluck('name','id');
+        $users->prepend(' ',' ');
+
+
         if ($user->permisos=='escritura') {
 
-            if ($request->tipo=='equipo') {
+            return view('admin.reportes.crear', compact('users'));
 
-                    $tipo = Equipo::where('id', $request->id)
-                               ->get();
-
-                    $users=User::all();                      
-
-                    Debugbar::info($tipo);
-                    $titulo='equipo';
-
-                    return view('admin.reportes.crear', compact('users','titulo','tipo','request'));
-
-            }elseif ($request->tipo=='accesorio') {
-
-                    $tipo = Accesorio::where('id', $request->id)
-                                  ->get();
-
-                    $users=User::all();
-                                  
-                    Debugbar::info($tipo);
-                    $titulo='accesorio';
-
-                    return view('admin.reportes.crear', compact('users','titulo','tipo','request'));    
-
-           }elseif ($request->tipo=='telefono') {
-
-                    $tipo = Telefono::where('id', $request->id)
-                                  ->get();
-
-                    $users=User::all();
-
-                    Debugbar::info($tipo);
-                    $titulo='telefono';
-                    
-                    return view('admin.reportes.crear', compact('users','titulo','tipo','request'));
-             }  
-
-           }elseif ($user->permisos=='lectura') {
-
-                 if ($request->tipo=='equipo') {
-
-                    $tipo = Equipo::where('id', $request->id)
-                               ->get();
-
-                    Debugbar::info($tipo);
-                    $titulo='equipo';
-
-                    return view('usuario.reportes.crear', compact('user','titulo','tipo','request'));
-
-            }elseif ($request->tipo=='accesorio') {
-
-                    $tipo = Accesorio::where('id', $request->id)
-                                  ->get();
-
-                    Debugbar::info($tipo);
-                    $titulo='accesorio';
-
-                    return view('usuario.reportes.crear', compact('user','titulo','tipo','request'));    
-
-           }elseif ($request->tipo=='telefono') {
-
-                    $tipo = Telefono::where('id', $request->id)
-                                  ->get();
-
-                    Debugbar::info($tipo);
-                    $titulo='telefono';
-                    
-                    return view('usuario.reportes.crear', compact('user','titulo','tipo','request'));
-            }       
-          }   
         }
-            
+    }     
 
     
 

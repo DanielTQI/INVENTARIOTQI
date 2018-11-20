@@ -9,7 +9,7 @@
 				
 					{!! Form::open(['route'=>'activos.store',  'method'=>'POST', 'files' =>true]) !!}
 								<div class="form-group">
-										{!! Form::label('Asignado', 'Asignado *', null, ['class' => 'form-label']) !!}
+										{!! Form::label('Asignado', 'Asignado *', null, ['class' => 'form-control']) !!}
 										{!! Form::select('user_id', $user, null, ['class' => 'form-control']) !!}
 											<p class="help-block text-danger">{{ $errors->first('user_id') }}</p>
 								</div>
@@ -219,7 +219,6 @@
 												     <p class="help-block text-danger ">{{ $errors->first('precio') }}</p>
 								</div>
 										{!! Form::submit('Registrar ', ['class' => 'btn btn-success form-control mb-3', 'id' => 'btn']) !!}
-								
 							</div>
 						{!! Form::close() !!}
 					</div>

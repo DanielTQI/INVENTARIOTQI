@@ -87,7 +87,7 @@
 
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  {{-- <script src="{{url('js/app.js')}}"></script> --}}
+  <script src="{{url('js/app.js')}}"></script>
   <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
   <!-- Remember to include jQuery :) -->
@@ -124,7 +124,7 @@
           $('#accesori').hide();
           $('#telef').hide();
           $('#comptel').hide();
-          $("butd").attr('disabled',true);
+          $('#butd').attr('disabled',true);
           // $('#butd').prop('disabled',true);
 
         $("#cat").click(function(){

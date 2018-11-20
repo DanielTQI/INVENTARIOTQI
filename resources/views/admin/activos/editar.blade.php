@@ -5,8 +5,7 @@
 				<div class="float-right mt-4">
 				  <a href="{{url('/activos')}}"><button class="btn btn-primary">Todos los activos</button></a>
 				 </div> 
-				<h2 class="mb-3 mt-3">Editar activo.</h2>
-				
+				<h2 class="mb-3 mt-3">Editar {{$nameca}}</h2>
 					{!! Form::model($activo, ['route' => ['activos.update', $activo] , 'method' => 'PUT' ]) !!}
 								<div class="form-group">
 										{!! Form::label('Asignado', 'Asignado *', null, ['class' => 'form-label']) !!}
@@ -49,8 +48,8 @@
 											 		<p class="help-block text-danger">{{ $errors->first('serial') }}</p>	
 								</div> 
 								<div class="form-group">
-										{!! Form::label('categoria', 'Categoria *', null, ['class' => 'form-control']) !!}
-										{{  Form::select('categoria', $cate, $activo->categoria_id,['class' => 'form-control', 'id' => 'cat']) }}
+										{!! Form::label('categ', 'Categoria *', null, ['class' => 'form-control']) !!}
+										{{  Form::select('categoria', $cate, $activo->categoria_id, ['class' => 'form-control', 'id' => 'cat']) }}
 											 		<p class="help-block text-danger">{{ $errors->first('categoria') }}</p>	
 								</div>
 							<div id="comput">
@@ -123,17 +122,17 @@
 							<div id="accesori">
 								<div class="form-group">
 										<label  class="form-label" id="tipoacctitle">Tipo de accesorio *</label>
-										{!! Form::text('tipo_accesorio', null, ['class' => 'form-control','id' =>'tipoacce','placeholder' => 'Escriba el tipo de accesorio.']) !!}
+										{!! Form::text('tipo_accesorio', $activo->tipo_de_equipo, ['class' => 'form-control','id' =>'tipoacce','placeholder' => 'Escriba el tipo de accesorio.']) !!}
 												     <p class="help-block text-danger ">{{ $errors->first('tipo_accesorio') }}</p>
 								</div> 
 								<div class="form-group">
 										<label class="form-label" id="fccidtitle">FCCID del accesorio</label>
-										{!! Form::text('fccid', null, ['class' => 'form-control','id' => 'fccid','placeholder' => 'FCCID, si tiene.']) !!}
+										{!! Form::text('fccid', $activo->fccid_equipo, ['class' => 'form-control','id' => 'fccid','placeholder' => 'FCCID, si tiene.']) !!}
 												     <p class="help-block text-danger ">{{ $errors->first('fccid') }}</p>
 								</div>
 								<div class="form-group">
 										<label class="form-label" id="icidtitle">ICID del accesorio</label>
-										{!! Form::text('icid', null, ['class' => 'form-control','id' => 'icid','placeholder' => 'ICID, si tiene.']) !!}
+										{!! Form::text('icid', $activo->icid_equipo, ['class' => 'form-control','id' => 'icid','placeholder' => 'ICID, si tiene.']) !!}
 												     <p class="help-block text-danger ">{{ $errors->first('icid') }}</p>
 								</div>
 								<div class="form-group">
@@ -143,7 +142,7 @@
 											 	'Indefinido' => 'Indefinido',
 											 	'Si' => 'Si', 
 											 	'No' => 'No',
-											 	], null,['class' => 'form-control','id' => 'incluido']) !!}
+											 	], $activo->incluido,['class' => 'form-control','id' => 'incluido']) !!}
 											 		<p class="help-block text-danger">{{ $errors->first('incluido') }}</p>
 								</div>  	 
 							</div>
@@ -155,7 +154,7 @@
 											 	'Movil' => 'Movil',
 											 	'Fijo' => 'Fijo',
 											 	'Otro' => 'Otro', 
-											 	], null,['class' => 'form-control','id' => 'tipotel']) !!}
+											 	], $activo->tipo_de_equipo,['class' => 'form-control','id' => 'tipotel']) !!}
 											 		<p class="help-block text-danger">{{ $errors->first('tipo_de_telefono') }}</p>
 								</div>
 								<div class="form-group">
@@ -166,17 +165,17 @@
 											 	'IOS' => 'IOS', 
 											 	'Windows' => 'Windows',
 											 	'Otro' => 'Otro', 
-											 	], null,['class' => 'form-control','id' => 'tiposot']) !!}
+											 	], $activo->tipo_so,['class' => 'form-control','id' => 'tiposot']) !!}
 											 		<p class="help-block text-danger">{{ $errors->first('tipo_de_sot') }}</p>
 								</div>
 								<div class="form-group">
 										<label class="form-label" id="imei1title">IMEI 1 del celular *</label>
-										{!! Form::number('imei_1', null, ['class' => 'form-control','id'=>'imei1','placeholder' => 'IMEI 1.']) !!}
+										{!! Form::number('imei_1', $activo->imei_1, ['class' => 'form-control','id'=>'imei1','placeholder' => 'IMEI 1.']) !!}
 												     <p class="help-block text-danger ">{{ $errors->first('imei_1') }}</p>
 								</div>
 								<div class="form-group">
 										<label class="form-label" id="imei2title">IMEI 2 del celular</label>
-										{!! Form::number('imei_2', null, ['class' => 'form-control','id'=>'imei2','placeholder' => 'IMEI 2, si tiene.']) !!}
+										{!! Form::number('imei_2', $activo->imei_2, ['class' => 'form-control','id'=>'imei2','placeholder' => 'IMEI 2, si tiene.']) !!}
 												     <p class="help-block text-danger ">{{ $errors->first('imei_2') }}</p>
 								</div>
 							</div>
@@ -218,7 +217,7 @@
 										{!! Form::number('precio', $activo->precio, ['class' => 'form-control','id'=>'prec','placeholder' => 'Escriba el precio del activo.']) !!}
 												     <p class="help-block text-danger ">{{ $errors->first('precio') }}</p>
 								</div>
-										{!! Form::submit('Registrar ', ['class' => 'btn btn-success form-control mb-3', 'id' => 'btn']) !!}
+										{!! Form::submit('Editar ', ['class' => 'btn btn-success form-control mb-3', 'id' => 'btn']) !!}
 								
 							</div>
 						{!! Form::close() !!}
