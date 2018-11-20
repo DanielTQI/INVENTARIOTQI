@@ -2,7 +2,11 @@
 	@section('content')
 		<div class="row">
 			<div class="container border ">
+				<div class="float-right mt-4">
+				  <a href="{{url('/activos')}}"><button class="btn btn-primary">Todos los activos</button></a>
+				 </div> 
 				<h2 class="mb-3 mt-3">Registrar activo.</h2>
+				
 					{!! Form::open(['route'=>'activos.store',  'method'=>'POST', 'files' =>true]) !!}
 								<div class="form-group">
 										{!! Form::label('Asignado', 'Asignado *', null, ['class' => 'form-label']) !!}
@@ -100,7 +104,7 @@
 										{!! Form::select('office',
 											 [	''=>'',
 											 	'Indefinido' => 'Indefinido',
-											 	'Suscripcion office.com' => 'Suscripcion office.com', 
+											 	'Suscripcion_office.com' => 'Suscripcion office.com', 
 											 	'Personal' => 'Personal',
 											 	], null,['class' => 'form-control','id' => 'tipooff']) !!}
 											 		<p class="help-block text-danger">{{ $errors->first('office') }}</p>
@@ -167,12 +171,12 @@
 								</div>
 								<div class="form-group">
 										<label class="form-label" id="imei1title">IMEI 1 del celular *</label>
-										{!! Form::text('imei_1', null, ['class' => 'form-control','id'=>'imei1','placeholder' => 'IMEI 1.']) !!}
+										{!! Form::number('imei_1', null, ['class' => 'form-control','id'=>'imei1','placeholder' => 'IMEI 1.']) !!}
 												     <p class="help-block text-danger ">{{ $errors->first('imei_1') }}</p>
 								</div>
 								<div class="form-group">
 										<label class="form-label" id="imei2title">IMEI 2 del celular</label>
-										{!! Form::text('imei_2', null, ['class' => 'form-control','id'=>'imei2','placeholder' => 'IMEI 2, si tiene.']) !!}
+										{!! Form::number('imei_2', null, ['class' => 'form-control','id'=>'imei2','placeholder' => 'IMEI 2, si tiene.']) !!}
 												     <p class="help-block text-danger ">{{ $errors->first('imei_2') }}</p>
 								</div>
 							</div>

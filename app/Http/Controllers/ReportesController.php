@@ -157,7 +157,7 @@ class ReportesController extends Controller
      */
     public function store(Request $request){
 
-                $tipo=$request->tipo;
+                $user= User::where('permisos','=','escritura')->pluck('email');
 
                 $validator = Validator::make($request->all(),[
                     'usuario_id' => 'required|max:100',
@@ -195,12 +195,14 @@ class ReportesController extends Controller
                     $reporte->save();
 
                     $data =  array(
-                        'report' => $tipo , 
+                        'reporti' => 'Equipo' , 
                            );
 
                             Mail::send('emails.report', $data, function($message){
-                                
-                                $message->to('daniel.lopez@tqi.co', 'Ticket Laravel')->subject('Reporte de ACTIVOS');
+                             
+                                    $message->to('daniel.lopez@tqi.co', 'Ticket Laravel')
+                                    ->bcc(array('dflopez620@misena.edu.co','dflopez9920@hotmail.com'))
+                                    ->subject('Reporte de ACTIVOS');
                          });
 
 
@@ -219,6 +221,17 @@ class ReportesController extends Controller
 
                     $reporte->save();
 
+                    $data =  array(
+                        'reporti' => 'Accesorio' , 
+                           );
+
+                            Mail::send('emails.report', $data, function($message){
+
+                                $message->to($user, 'Ticket Laravel')->subject('Reporte de ACTIVOS');
+                         });
+
+
+                    return redirect()->route('reportes.index');
 
                 }else if ($request->tipo=='telefono') {
                     $reporte = new Reporte;

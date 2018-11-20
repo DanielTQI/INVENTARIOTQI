@@ -15,10 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 })->middleware('auth');
 
+Route::resource('/activos', 'ActivosController')->middleware('auth');
 Route::resource('/equipos', 'EquiposController')->middleware('auth');
 Route::resource('/accesorios', 'AccesoriosController')->middleware('auth');
 Route::resource('/telefonos', 'TelefonosController')->middleware('auth');
-Route::resource('/activos', 'ActivosController')->middleware('auth');
 
 
 Route::post('/reportes/soporte/{id}', 'ReportesController@supporte')
@@ -30,16 +30,7 @@ Route::get('/reportes/historial/{id}/{tipo}', 'ReportesController@historialactiv
 	->name('admin.reportes.historial')
 	->middleware('auth');
 
-Route::get('sendemail', function(){
-	$data = array(
-		'name' => 'Ticket Laravel',
-	 );
-	Mail::send('emails.welcome', $data, function($message){
-		$message->to('daniel.lopez@tqi.co', 'Ticket Laravel');
 
-	 });
-	return 'se envio';
-   });
 
 Route::resource('/reportes', 'ReportesController')->middleware('auth');
 
