@@ -29,8 +29,6 @@
                                         <th></th>
                                         <th></th>
                                         <th></th>
-
-
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -38,19 +36,15 @@
                                         <tr>
                                         	<center>
                                             <td><center>{{ $activo->name }}</center></td>
-                                            <td><center>{{ $activo->nombre }}</center></td>
-                                            <td><center>{{ $activo->fecha_entrega }}</center></td>
+                                            <td><center>{{ $activo->ncate }}</center></td>
+                                            <td><center>{{ $activo->estado_mantenimiento }}</center></td>
                                             <td><center>{{ $activo->propiedad }}</center></td>
                                             <td><center>{{ $activo->tipo_de_equipo }}</center></td>
                                             <td><center>{{ $activo->marca_equipo }}</center></td>
                                             <td><center>{{ $activo->referencia_equipo }}</center></td>
                                             <td><center>{{ $activo->serial_equipo }}</center></td>
                                             <td><center><a href="/activos/{{$activo->id}}"><button class="btn btn-primary btn-sm">Ver más...</button></a>
-                                            <td><center><a href="/activos/{{$activo->id}}"><button class="btn btn-success btn-sm">Editar</button></a>
-
-                                               {{--  @if($activo->id==1)
-                                                    <a href="/activos/{{$activo->id}}"><button class="btn btn-primary btn-sm" disabled>Ver más...</button></a>
-                                                @endif --}}
+                                            <td><center><a href="/activos/{{$activo->id}}/edit"><button class="btn btn-success btn-sm">Editar</button></a>
                                             </center></td>
                                             <td><center><a href="{{ route ('admin.reportes.historial',['tipo'=>'activo','id'=>$activo->id])}}" class="btn btn-warning btn-sm">Historial</a></center></td>
                                             <td><center>
