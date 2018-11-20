@@ -15,10 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 })->middleware('auth');
 
-Route::resource('/activos', 'ActivosController')->middleware('auth');
 Route::resource('/equipos', 'EquiposController')->middleware('auth');
 Route::resource('/accesorios', 'AccesoriosController')->middleware('auth');
 Route::resource('/telefonos', 'TelefonosController')->middleware('auth');
+Route::resource('/activos', 'ActivosController')->middleware('auth');
 
 
 Route::post('/reportes/soporte/{id}', 'ReportesController@supporte')

@@ -21,8 +21,6 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
-
 
 </head>
 <body>
@@ -83,17 +81,15 @@
         </main>
     </div>
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  {{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> --}}
 
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   {{-- <script src="{{url('js/app.js')}}"></script> --}}
   <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-  <!-- Remember to include jQuery :) -->
-
-  <!-- jQuery Modal -->
     
+    {{-- 
+     --}}
   <script type="text/javascript">
 
   $(document).ready(function() {
@@ -112,20 +108,13 @@
         $( "#datepickerfm" ).datepicker();
       } );
 
-      $(document).ready(function() {
-          setTimeout(function() {
-            $('#aviso').fadeOut(1500);
-          },3000);
-      });
-
       $(document).ready(function(){
+
           $('#general').hide();
           $('#comput').hide();
           $('#accesori').hide();
           $('#telef').hide();
           $('#comptel').hide();
-          $("butd").attr('disabled',true);
-          // $('#butd').prop('disabled',true);
 
         $("#cat").click(function(){
           var valor= $("#cat").val();
