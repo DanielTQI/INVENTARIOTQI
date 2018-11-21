@@ -10,7 +10,10 @@ use App\Reporte;
 use App\Accesorio;
 use App\Categoria;
 use Carbon\Carbon;
+// use QRCode;
+use QR_Code\QR_Code;    
 use Illuminate\Http\Request;
+// use QR_Code\Types\QR_Text;
 use Barryvdh\Debugbar\Facade as Debugbar;
 
 
@@ -23,7 +26,8 @@ class ActivosController extends Controller
      */
     public function index()
     {
-        
+        // return QrCode::generate('Transfórmame en un QrCode!');
+       return QR_Code::png('Hello World', public_path().'/images/ee.png');
        $user=auth()->user();
 
        if ($user->permisos=='escritura') {

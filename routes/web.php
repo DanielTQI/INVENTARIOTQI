@@ -31,6 +31,11 @@ Route::get('/reportes/historial/{id}/{tipo}', 'ReportesController@historialactiv
 	->name('admin.reportes.historial')
 	->middleware('auth');
 
+// Route::get('qr-code/examples/text', function () 
+// {
+//     return  QRCode::text('Laravel QR Code Generator!')->png();   
+// }); 
+
 
 
 Route::resource('/reportes', 'ReportesController')->middleware('auth');
