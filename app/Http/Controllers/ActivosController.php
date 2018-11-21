@@ -29,8 +29,10 @@ class ActivosController extends Controller
        if ($user->permisos=='escritura') {
 
             $activos=Activo::leftjoin('users', 'activos.usuario_id', '=' , 'users.id')
+                           ->leftjoin('reportes', 'reportes.activo_id', '=', 'activos.id')
                            ->leftjoin('categorias', 'activos.categoria_id', '=', 'categorias.id')
-                           ->select('users.name','categorias.nombre as ncate','activos.*')
+                           ->select('users.name','categorias.nombre as ncate','activos.*','reportes.id as repor')
+                           ->orderby('activos.created_at','DESC')
                            ->get();
 
              Debugbar::info($activos);
@@ -44,6 +46,7 @@ class ActivosController extends Controller
                            ->leftjoin('reportes', 'reportes.activo_id', '=', 'activos.id')
                            ->select('categorias.nombre as ncate','activos.*', 'reportes.id as repor')
                            ->where('activos.usuario_id','=',$user->id)
+                           ->orderby('activos.created_at','DESC')
                            ->get();
                            
              Debugbar::info($activos);
@@ -360,6 +363,7 @@ class ActivosController extends Controller
 
             $activo=Activo::leftjoin('users', 'activos.usuario_id', '=' , 'users.id')
                            ->leftjoin('categorias', 'activos.categoria_id', '=', 'categorias.id')
+                          ->select('users.name','categorias.nombre as ncate','activos.*')
                            ->where('activos.id', '=', $id)
                            ->first();
 
@@ -383,8 +387,10 @@ class ActivosController extends Controller
        }else if($user->permisos=='lectura'){
 
             $activo=Activo::leftjoin('categorias', 'activos.categoria_id', '=', 'categorias.id')
+                          ->select('categorias.nombre as ncate','activos.*')
                            ->where('activos.id', '=', $id)
                            ->first();
+                    
 
             if ($activo->categoria_id==1) {
                 

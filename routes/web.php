@@ -22,8 +22,9 @@ Route::resource('/telefonos', 'TelefonosController')->middleware('auth');
 
 
 Route::post('/reportes/soporte/{id}', 'ReportesController@supporte')
-	->name('admin.reportes.atender')
+	->name('admin.reportes.soporte')
 	->middleware('auth');
+
 Route::resource('/reportes', 'ReportesController')->middleware('auth');
 
 Route::get('/reportes/historial/{id}/{tipo}', 'ReportesController@historialactivo')

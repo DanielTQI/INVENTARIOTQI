@@ -85,10 +85,14 @@
                     <img width="15%" height="15%" src="{{url('images/Logo.png')}}">
                 </div>
                     <div class="links ">
-                        <a href="{{url('/equipos')}}"><button type="submit" class="btn btn-primary">Equipos</button> </a>
-                        <a href="{{url('/accesorios')}}"><button class="btn btn-primary">Accesorios</button></a>
+                        <a href="{{url('/activos')}}">
+                            <button type="submit" class="btn btn-success">
+                                <img height="140px" src="{{url('images/act.png')}}">
+                            </button>
+                        </a>
+                        {{-- <a href="{{url('/accesorios')}}"><button class="btn btn-primary">Accesorios</button></a>
                         <a href="{{url('/telefonos')}}"><button class="btn btn-primary">Telefonos</button></a>
-                        <a href="{{url('/reportes')}}"><button class="btn btn-primary">Reportes</button></a>
+                        <a href="{{url('/reportes')}}"><button class="btn btn-primary">Reportes</button></a> --}}
 
                     </div>
             </div>

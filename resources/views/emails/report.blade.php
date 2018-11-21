@@ -11,6 +11,8 @@
 	Por favor revisa el Aplicativo.
 
 </span>
+<br>
+<button style="background-color: blue;">Ir a solucionarlo</button>
 		
 
 </body>

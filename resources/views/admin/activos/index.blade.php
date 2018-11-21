@@ -13,6 +13,8 @@
                                 </div>
                             @endif
                 <a href="{{url('/activos/create')}}" class="btn btn-primary btn-sm float-right mr-2 mt-5">Registrar Activos</a>
+                <a href="{{url('/reportes')}}" class="btn btn-primary btn-sm float-right mr-2 mt-5">Reportes</a>
+
                   <h2 class="text-center mt-1">Activos registrados</h2>
             				<table class="table table-striped table-responsive table-sm table-dark" id="tablee">
                                 <thead class="bg-primary" >
@@ -45,14 +47,16 @@
                                             <td><center>{{ $activo->serial_equipo }}</center></td>
                                             <td><center><a href="/activos/{{$activo->id}}"><button class="btn btn-primary btn-sm">Ver más...</button></a></td>
                                             <td><center><a href="/activos/{{$activo->id}}/edit"><button class="btn btn-success btn-sm">Editar</button></a></td>
-                                            @if(isset($activo->repor))
-                                            <td><center><a href="{{ route ('admin.reportes.historial',['tipo'=>'activo','id'=>$activo->id])}}" class="btn btn-warning btn-sm">Historial</a></center></td>
-                                           @else 
-                                            <td><center><a class="btn btn-warning btn-sm disabled">Historial</a></center></td>
-                                           @endif    
+
+                                               @if(isset($activo->repor))
+                                                <td><center><a href="{{ route ('admin.reportes.historial',['tipo'=>'activo','id'=>$activo->id])}}" class="btn btn-warning btn-sm">Historial</a></center></td>
+                                               @else 
+                                                <td><center><a class="btn btn-warning btn-sm disabled">Historial</a></center></td>
+                                               @endif 
+                                                  
                                             <td><center>
                                                 {!! Form::open([ 'route' => ['activos.destroy', $activo->id ], 'method' => 'DELETE' ]) !!}
-            									{!! Form::submit('Eliminar ', ['class' => 'btn btn-danger mb-2 btn-sm']) !!}
+            									   {!! Form::submit('Eliminar ', ['class' => 'btn btn-danger mb-2 btn-sm']) !!}
                 							    {!! Form::close()!!}   </center></td>                          
                                             </center>
                                             

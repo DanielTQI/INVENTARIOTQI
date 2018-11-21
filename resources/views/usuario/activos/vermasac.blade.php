@@ -5,13 +5,13 @@
               <center>
                 <h2 class="text-center mb-4">{{$activo->nombre}}</h2>
                     <a href="/activos" class="btn btn-primary float-left ml-2 mb-2 ">Ver todos mis activos</a>
-                    <a href="{{ route ('reportes.create',['tipo'=>'equipo','id'=>$activo->id])}}" class="btn btn-danger float-left ml-2 mb-2">Reportar</a>
+                    <a href="{{ route ('reportes.create',['id'=>$activo->id])}}" class="btn btn-danger float-left ml-2 mb-2">Reportar</a>
               </center>
               <table class="table">
                   <tbody>
                       <tr>
                         <th>Categoria</th>
-                          <td>{{ $activo->nombre }}</td>
+                          <td>{{ $activo->ncate }}</td>
                           
                       </tr>
                       <tr>

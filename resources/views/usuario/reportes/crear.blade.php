@@ -27,7 +27,7 @@
 									<input name="fecha_reporte" type="text" id="datepickerfe" class="form-control shadow-sm p-3 bg-white rounded">
 										        <p class="help-block text-danger">{{ $errors->first('fecha_reporte') }}</p>
 							    </div>	
-							    <input type="hidden" name="idactivo" value="{{$info->id}}">
+							    <input type="hidden" name="idactivo" value="{{$info->ida}}">
 							    <input type="hidden" name="iduser" value="{{$info->us}}">	
 					{!! Form::submit('Crear reporte ', ['class' => 'btn btn-success form-control mb-3']) !!}		
 		{!! Form::close() !!}

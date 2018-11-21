@@ -1,42 +1,48 @@
 @extends('layouts.app')
-	@section('content')
-			<div class="container">
+    @section('content')
                 <div class="row">
-				    <center>
-                         <h2 class="text">Mis Reportes</h2>                       
-                			<table class="table table-sm float-left mr-10 table table-sm float-left mr-10 table-striped table-bordered dt-responsive nowrap" id="tablee">
-                                    <thead class="thead-dark" >
+            <div class="container">
+                    @if(session('status'))
+                                <div class="alert alert-success mt-2" id="aviso">
+                                    {{session('status')}}
+                                </div>
+                            @endif
+                            @if(session('statuselim'))
+                                <div class="alert alert-danger mt-2" id="aviso">
+                                    {{session('statuselim')}}
+                                </div>
+                            @endif
+                    <a href="{{url('/activos')}}" class="btn btn-primary btn-sm float-right mr-2 mt-5">Mis activos</a>
+                        <h2 class="text-center">Hola {{$users}}¡ estos son tus reportes registrados</h2>
+                                <table class="table table-striped table-responsive  table-dark" id="tablee">
+                                    <thead class="bg-primary" >
                                         <tr>
-                                            <th>Usuario</th>
-                                            <th>Tipo activo</th>
-                                            <th>Tipo de falla</th>
-                                            <th>Desc falla</th>
-                                            <th>Fecha del reporte</th>
-                                            <th>Atendido</th>
-                                            <th>Desc soporte</th>
-                                            <th>Fecha soporte</th>
+                                            <th><center>Categoria</th>
+                                            <th><center>Tipo de falla</th>
+                                            <th><center>Desc falla</th>
+                                            <th><center>Fecha del reporte</th>
+                                            <th><center>Atendido</th>
+                                            <th><center>Desc soporte</th>
+                                            <th><center>Fecha soporte</th>
                                             <th></th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                         <tbody>
-                                            @foreach($equipos as $equipo)
+                                            @foreach($reportes as $reporte)
                                                 <tr>
-                                                	<center>
-                                                    <td><center>{{ $equipo->name }}</center></td>
-                                                    <td><center>{{ $equipo->tipo }}</center></td>
-                                                    <td><center>{{ $equipo->tipo_reporte }}</center></td>
-                                                    <td><center>{{ $equipo->descripcion_usuario }}</center></td>
-                                                    <td><center>{{ $equipo->fecha_reporte }}</center></td>
-                                                    <td><center>{{ $equipo->atendido }}</center></td>
-                                                    <td><center>{{ $equipo->descripcion_soporte }}</center></td>
-                                                    <td><center>{{ $equipo->fecha_soporte }}</center></td>
-                                                    <td><center><a href="/reportes/{{$equipo->id}}/edit" class="btn btn-success">Editar</a></center></td>
-                                                    
-                                                    <td><center>{!! Form::open([ 'route' => ['reportes.destroy', $equipo->id ], 'method' => 'DELETE' ]) !!}
-                    									{!! Form::submit('Eliminar ', ['class' => 'btn btn-danger mb-2']) !!}
-                        							{!! Form::close()!!}   </center></td>
-                                                    <input type="hidden" name="">                          
+                                                    <center>
+                                                    <td><center>{{ $reporte->ncat }}</center></td>
+                                                    <td><center>{{ $reporte->tipo_reporte }}</center></td>
+                                                    <td><center>{{ $reporte->descripcion_usuario }}</center></td>
+                                                    <td><center>{{ $reporte->fecha_reporte }}</center></td>
+                                                    <td><center>{{ $reporte->atendido }}</center></td>
+                                                    <td><center>{{ $reporte->descripcion_soporte }}</center></td>
+                                                    <td><center>{{ $reporte->fecha_soporte }}</center></td>
+                                                    <td><center><a href="/reportes/{{$reporte->id}}/edit" class="btn btn-success btn-sm mt-2 ">Editar</a></center></td>
+                                                    <td><center>{!! Form::open([ 'route' => ['reportes.destroy', $reporte->id ], 'method' => 'DELETE' ]) !!}
+                                                        {!! Form::submit('Eliminar ', ['class' => 'btn btn-danger mb-2 btn-sm mt-2']) !!}
+                                                    {!! Form::close()!!}   </center></td>                          
                                                     </center>
                                                 </tr>
                                             @endforeach
@@ -44,7 +50,6 @@
                                 </table>
                             </div>
                        </div>
-        			</center>
-        		 </div> 
+                 </div> 
              </div>
-	@endsection	
+    @endsection 

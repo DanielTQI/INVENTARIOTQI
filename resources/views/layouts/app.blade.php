@@ -88,6 +88,7 @@
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script src="{{url('js/app.js')}}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
   <!-- Remember to include jQuery :) -->
@@ -103,7 +104,10 @@
       }
     });
   });
-     
+     $('#myModal').on('shown.bs.modal', function () {
+      $('#myInput').trigger('focus')
+    });
+
       $( function() {
         $( "#datepickerfe" ).datepicker();
       } );
@@ -111,6 +115,10 @@
       $( function() {
         $( "#datepickerfm" ).datepicker();
       } );
+
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      });
 
       $(document).ready(function() {
           setTimeout(function() {
