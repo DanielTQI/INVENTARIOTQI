@@ -45,7 +45,11 @@
                                             <td><center>{{ $activo->serial_equipo }}</center></td>
                                             <td><center><a href="/activos/{{$activo->id}}"><button class="btn btn-primary btn-sm">Ver más...</button></a></td>
                                             <td><center><a href="/activos/{{$activo->id}}/edit"><button class="btn btn-success btn-sm">Editar</button></a></td>
+                                            @if(isset($activo->repor))
                                             <td><center><a href="{{ route ('admin.reportes.historial',['tipo'=>'activo','id'=>$activo->id])}}" class="btn btn-warning btn-sm">Historial</a></center></td>
+                                           @else 
+                                            <td><center><a class="btn btn-warning btn-sm disabled">Historial</a></center></td>
+                                           @endif    
                                             <td><center>
                                                 {!! Form::open([ 'route' => ['activos.destroy', $activo->id ], 'method' => 'DELETE' ]) !!}
             									{!! Form::submit('Eliminar ', ['class' => 'btn btn-danger mb-2 btn-sm']) !!}

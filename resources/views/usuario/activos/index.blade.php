@@ -40,7 +40,7 @@
                                             <td><center>{{ $activo->referencia_equipo }}</center></td>
                                             <td><center>{{ $activo->serial_equipo }}</center></td>
                                             <td><center><a href="/activos/{{$activo->id}}"><button class="btn btn-primary btn-sm" >Ver más...</button></a></center></td>
-                                            <td><center><a href="/activos/{{$activo->id}}"><button class="btn btn-danger btn-sm">Reportar</button></a></center></td>
+                                            <td><center><a href="{{ route ('reportes.create',['id'=>$activo->id])}}"><button class="btn btn-danger btn-sm">Reportar</button></a></center></td>
                                            @if(isset($activo->repor))
                                             <td><center><a href="{{ route ('admin.reportes.historial',['tipo'=>'activo','id'=>$activo->id])}}" class="btn btn-warning btn-sm">Historial</a></center></td>
                                            @else 

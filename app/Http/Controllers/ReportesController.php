@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Mail;
 use App\User;
 use Validator;
+use App\Activo;
 use App\Equipo;
 use App\Reporte;
 use App\Telefono;
@@ -30,14 +31,10 @@ class ReportesController extends Controller
 
            if ($user->permisos=='escritura') {
 
-                 $equipos = Reporte::leftjoin('equipos', 'reportes.equipo_id', '=', 'equipos.id')
-                            ->leftjoin('accesorios', 'reportes.accesorio_id', '=', 'accesorios.id')
-                            ->leftjoin('telefonos', 'reportes.telefono_id', '=', 'telefonos.id')
-                            ->leftjoin('users', 'reportes.usuario_id', '=', 'users.id')
-                            ->select(DB::raw('if(equipos.id is null, if(accesorios.id is null,"telefono","accesorio"),"equipo") as tipo, 
-                                             users.name, reportes.tipo_reporte, reportes.descripcion_usuario, reportes.fecha_reporte, 
-                                             reportes.atendido, reportes.descripcion_soporte, reportes.id,reportes.fecha_soporte '))
-                            ->get();
+                 $activos=Reporte::leftjoin('activos', 'reportes.activo_id', '=', 'activos.id')
+                           ->select('activos.*', 'reportes.id as repor')
+                           ->where('activos.usuario_id','=',$user->id)
+                           ->get();
                        
 
                     Debugbar::info($equipos);
@@ -68,10 +65,13 @@ class ReportesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         $user = auth()->user();
 
+        $info=Activo::join('users', 'activos.usuario_id', '=', 'users.id')
+                                ->select('users.id as us','activos.*')
+                                ->first();
         
         $users=User::pluck('name','id');
         $users->prepend(' ',' ');
@@ -79,10 +79,13 @@ class ReportesController extends Controller
 
         if ($user->permisos=='escritura') {
 
-            return view('admin.reportes.crear', compact('users'));
+            return view('admin.reportes.crear', compact('users','info'));
 
-        }
-    }     
+        }else if($user->permisos=='lectura') {
+
+            return view('usuario.reportes.crear', compact('users','info'));
+        } 
+        }    
 
     
 
@@ -97,11 +100,9 @@ class ReportesController extends Controller
                 $user= User::where('permisos','=','escritura')->pluck('email');
 
                 $validator = Validator::make($request->all(),[
-                    'usuario_id' => 'required|max:100',
-                    'idactivo' =>'required|max:100',
                     'tipo_reporte' => 'required|max:100',
-                    'descripcion_usuario' => 'required|max:100',
-                    'fecha_reporte' => 'required|max:100',
+                    'descripcion_usuario' => 'required|max:191',
+                    'fecha_reporte' => 'required|max:100|date',
                 ],[
                     'required' => 'Este campo es requerido',
                     'email' => 'Este campo debe tener formato de correo electrónico',
@@ -111,6 +112,7 @@ class ReportesController extends Controller
                     'numeric' => 'Este campo debe ser numerico',
                     'string' => 'Este campo debe ser solo texto',
                     'url' => 'Este campo debe ser una url',
+                    'date' => 'Este campo solo admite fechas',
                 ]);
 
                 if ($validator->fails()) {
@@ -119,72 +121,34 @@ class ReportesController extends Controller
                        ->withInput();
                  }
 
-                if ($request->tipo=='equipo') {
+                
                     $reporte = new Reporte;
 
-                    $reporte->usuario_id=$request->input('usuario_id');
-                    $reporte->equipo_id=$request->input('idactivo');
+                    $reporte->usuario_id=$request->input('iduser');
+                    $reporte->activo_id=$request->input('idactivo');
                     $reporte->tipo_reporte=$request->input('tipo_reporte');
                     $reporte->descripcion_usuario=$request->input('descripcion_usuario');
                     $reporte->fecha_reporte=Carbon::parse($request->input('fecha_reporte'));
                     $reporte->atendido='NO';
 
-                    $reporte->save();
 
-                    $data =  array(
-                        'reporti' => 'Equipo' , 
-                           );
+                    // $data =  array(
+                    //     'reporti' => 'Equipo' , 
+                    //        );
 
-                            Mail::send('emails.report', $data, function($message){
+                    //         Mail::send('emails.report', $data, function($message){
                              
-                                    $message->to('daniel.lopez@tqi.co', 'Ticket Laravel')
-                                    ->bcc(array('dflopez620@misena.edu.co','dflopez9920@hotmail.com'))
-                                    ->subject('Reporte de ACTIVOS');
-                         });
+                    //                 $message->to('daniel.lopez@tqi.co', 'Ticket Laravel')
+                    //                 ->bcc(array('dflopez620@misena.edu.co','dflopez9920@hotmail.com'))
+                    //                 ->subject('Reporte de ACTIVOS');
+                    //      });
+
+
+                    $reporte->save();
 
 
                     return redirect()->route('reportes.index');
 
-
-                }else if ($request->tipo=='accesorio') {
-                    $reporte = new Reporte;
-
-                    $reporte->usuario_id=$request->input('usuario_id');
-                    $reporte->accesorio_id=$request->input('idactivo');
-                    $reporte->tipo_reporte=$request->input('tipo_reporte');
-                    $reporte->descripcion_usuario=$request->input('descripcion_usuario');
-                    $reporte->fecha_reporte=Carbon::parse($request->input('fecha_reporte'));
-                    $reporte->atendido='NO';
-
-                    $reporte->save();
-
-                    $data =  array(
-                        'reporti' => 'Accesorio' , 
-                           );
-
-                            Mail::send('emails.report', $data, function($message){
-
-                                $message->to($user, 'Ticket Laravel')->subject('Reporte de ACTIVOS');
-                         });
-
-
-                    return redirect()->route('reportes.index');
-
-                }else if ($request->tipo=='telefono') {
-                    $reporte = new Reporte;
-
-                    $reporte->usuario_id=$request->input('usuario_id');
-                    $reporte->telefono_id=$request->input('idactivo');
-                    $reporte->tipo_reporte=$request->input('tipo_reporte');
-                    $reporte->descripcion_usuario=$request->input('descripcion_usuario');
-                    $reporte->fecha_reporte=Carbon::parse($request->input('fecha_reporte'));
-                    $reporte->atendido='NO';
-
-                    $reporte->save();
-        }
-    
-
-        return redirect()->route('reportes.index');
     }    
 
     /**
