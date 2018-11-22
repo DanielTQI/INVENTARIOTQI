@@ -100,6 +100,10 @@ class ReportesController extends Controller
     public function store(Request $request){
 
                 $user= User::where('permisos','=','escritura')->pluck('email');
+                $userl = auth()->user();
+
+
+                if ($userl->permisos=='lectura') {
 
                 $validator = Validator::make($request->all(),[
                     'tipo_reporte' => 'required|max:100',
@@ -147,6 +151,59 @@ class ReportesController extends Controller
                     $reporte->save();
 
                     return redirect()->route('reportes.index')->with('status', 'Reporte realizado exitosamente');
+
+                }elseif ($userl->permisos=='escritura') {
+                    
+                    $validator = Validator::make($request->all(),[
+                        'user_id' => 'required|max:100',
+                        'tipo_reporte' => 'required|max:100',
+                        'descripcion_usuario' => 'required|max:191',
+                        'fecha_reporte' => 'required|max:100',
+                    ],[
+                        'required' => 'Este campo es requerido',
+                        'email' => 'Este campo debe tener formato de correo electrónico',
+                        'unique' => 'Este correo debe ser único',
+                        'max' => 'Este campo no debe superar :max caracteres',
+                        'min' => 'Este campo no debe ser menor de :min caracteres',
+                        'numeric' => 'Este campo debe ser numerico',
+                        'string' => 'Este campo debe ser solo texto',
+                        'url' => 'Este campo debe ser una url',
+                        'date' => 'Este campo solo admite fechas',
+                    ]);
+
+                    if ($validator->fails()) {
+                        return redirect()->back()
+                           ->withErrors($validator)
+                           ->withInput();
+                     }
+                    
+                        $reporte = new Reporte;
+
+                        $reporte->usuario_id=$request->input('iduser');
+                        $reporte->activo_id=$request->input('idactivo');
+                        $reporte->tipo_reporte=$request->input('tipo_reporte');
+                        $reporte->descripcion_usuario=$request->input('descripcion_usuario');
+                        $reporte->fecha_reporte=Carbon::parse($request->input('fecha_reporte'));
+                        $reporte->atendido='NO';
+
+
+                        $data =  array(
+                            'reporti' => 'Equipo' , 
+                               );
+
+                                Mail::send('emails.report', $data, function($message){
+                                 
+                                        $message->to('daniel.lopez@tqi.co', 'Ticket Laravel')
+                                        ->bcc(array('dflopez620@misena.edu.co','dflopez9920@hotmail.com'))
+                                        ->subject('Reporte de ACTIVOS');
+                             });
+
+                        $reporte->save();
+
+                        return redirect()->route('reportes.index')->with('status', 'Reporte realizado exitosamente');
+                }else{
+                        return redirect()->route('reportes.index');
+                }
     }    
 
     /**

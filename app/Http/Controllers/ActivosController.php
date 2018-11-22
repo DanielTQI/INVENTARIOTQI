@@ -11,7 +11,9 @@ use App\Accesorio;
 use App\Categoria;
 use Carbon\Carbon;
 // use QRCode;
-use QR_Code\QR_Code;    
+use QR_Code\QR_Code;
+use QR_Code\Types\QR_Url;
+
 use Illuminate\Http\Request;
 // use QR_Code\Types\QR_Text;
 use Barryvdh\Debugbar\Facade as Debugbar;
@@ -27,7 +29,8 @@ class ActivosController extends Controller
     public function index()
     {
         // return QrCode::generate('Transfórmame en un QrCode!');
-       return QR_Code::png('Hello World', public_path().'/images/ee.png');
+       // $url= QR_Code::png('My name is Daniel', public_path().'/images/llln.png');
+       // $url->setSize(4);
        $user=auth()->user();
 
        if ($user->permisos=='escritura') {
@@ -177,7 +180,14 @@ class ActivosController extends Controller
                         $activo->proveedor=$request->input('proveedor');
                         $activo->precio=$request->input('precio');
 
+                        $name = time().'.png';
+                        $activo->imgqr=$name;
+
                         $activo->save();
+
+                        $text = '127.0.0.1:8000/activos/'.$activo->id;
+                        $url= QR_Code::png($text, public_path().'/images/'.$name);
+
                         
                         return redirect()->route('activos.index')->with('status', 'Computador guardado correctamente');
 
@@ -257,8 +267,15 @@ class ActivosController extends Controller
                             $activo->proveedor=$request->input('proveedor');
                             $activo->precio=$request->input('precio');
 
-                            $activo->save();
+                            $name = time().'.png';
+                            $activo->imgqr=$name;
                             
+
+                            $activo->save();
+
+                            $text = '127.0.0.1:8000/activos/'.$activo->id;
+                            $url= QR_Code::png($text, public_path().'/images/'.$name);
+
                             return redirect()->route('activos.index')->with('status', 'Accesorio guardado correctamente');
 
              }else if($request->categoria==3) {
@@ -342,7 +359,13 @@ class ActivosController extends Controller
                             $activo->proveedor=$request->input('proveedor');
                             $activo->precio=$request->input('precio');
 
+                            $name = time().'.png';
+                            $activo->imgqr=$name;
+
                             $activo->save();
+
+                            $text = '127.0.0.1:8000/activos/'.$activo->id;
+                            $url= QR_Code::png($text, public_path().'/images/'.$name);
                             
                             return redirect()->route('activos.index')->with('status', 'Teléfono guardado correctamente');
                  }
@@ -376,6 +399,7 @@ class ActivosController extends Controller
                 return view('admin.activos.vermaspc', compact('activo'));
 
             }elseif ($activo->categoria_id==2) {
+                Debugbar::info($activo);
 
                 return view('admin.activos.vermasac', compact('activo'));
                 

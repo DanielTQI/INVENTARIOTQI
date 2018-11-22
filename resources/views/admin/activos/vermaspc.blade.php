@@ -2,13 +2,13 @@
 	@section('content')
 	<div class="container">
 		<center>
-    <h2 class="text-center mb-4">{{$activo->nombre}}</h2>
+    <h2 class="text-center mb-4">{{$activo->ncate}}</h2>
 
     		<a href="/activos/{{$activo->id}}/edit" class="btn btn-primary float-left  ">Editar</a>
         <a href="/activos" class="btn btn-info float-left ml-2  ">Ver todos los activos</a>
         <a href="/activos/create" class="btn btn-success float-left ml-2  ">Registrar activo</a>
 
-        <a href="{{ route ('reportes.create',['tipo'=>'equipo','id'=>$activo->id])}}" class="btn btn-warning float-left ml-2 ">Reportar</a>
+        <a href="{{ route ('reportes.create',['id'=>$activo->id])}}" class="btn btn-warning float-left ml-2 ">Reportar</a>
 
     		{!! Form::open([ 'route' => ['activos.destroy', $activo->id ], 'method' => 'DELETE' ]) !!}
 
@@ -26,7 +26,7 @@
         </tr>
         <tr>
           <th>Categoria</th>
-            <td>{{$activo->nombre}}</td>
+            <td>{{$activo->ncate}}</td>
             
         </tr>
         <tr>
@@ -138,5 +138,6 @@
           </tr>
       </tbody>
     </table>
+      <img  src="{{ asset('images/'.$activo->imgqr) }}">
   </div>
 @endsection

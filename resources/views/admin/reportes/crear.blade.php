@@ -6,6 +6,7 @@
 				  <a href="{{url('/activos')}}"><button class="btn btn-primary">Todos los activos</button></a>
 				 </div> 
 				<h2 class="mb-3 mt-3">Registrar reporte.</h2>
+					{!! Form::open(['route'=>'reportes.store',  'method'=>'POST', 'files' =>true]) !!}
 								 <div class="form-group">
 											{!! Form::label('Asignado', 'Asignado *', ['class' => 'text-left']) !!}
 											{!! Form::select('user_id', $users, null, ['class' => 'form-control']) !!}
@@ -32,7 +33,8 @@
 									<input name="fecha_reporte" type="text" id="datepickerfe" class="form-control shadow-sm p-3 bg-white rounded">
 										        <p class="help-block text-danger">{{ $errors->first('fecha_reporte') }}</p>
 							    </div>	
-							    {{-- <input type="hidden" name="idactivo" value="{{$request->id}}">	 --}}
+							    <input type="hidden" name="idactivo" value="{{$info->ida}}">
+							    <input type="hidden" name="iduser" value="{{$info->us}}">
 					{!! Form::submit('Crear ', ['class' => 'btn btn-success form-control mb-3']) !!}		
 		{!! Form::close() !!}
 	</div>	
