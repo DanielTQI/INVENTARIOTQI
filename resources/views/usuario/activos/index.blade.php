@@ -1,7 +1,7 @@
 @extends('layouts.app')
     @section('content')       
         <div class="row">
-            <div class="container border ">
+            <div class="container ">
                             @if(session('status'))
                                 <div class="alert alert-success mt-2" id="aviso">
                                     {{session('status')}}
@@ -14,8 +14,8 @@
                             @endif
                   <a href="{{url('/reportes')}}" class="btn btn-primary btn-sm float-right mr-2 mt-5">Mis reportes</a>
                   <h2 class="text-center mt-1">Hola {{$user->name}}¡ estos son tus activos asignados.</h2>
-            				<table class="table table-striped table-responsive table-sm table-dark" id="tablee">
-                                <thead class="bg-primary" >
+            				<table class="table table-striped table-responsive table-sm" id="tablee">
+                                <thead class="bg-primary text-white" >
                                     <tr>
                                         <th>Categoria</th>
                                         <th>Estado mantenimiento</th>

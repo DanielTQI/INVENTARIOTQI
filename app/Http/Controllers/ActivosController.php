@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\User;
 use Validator;
 use App\Activo;
@@ -10,12 +11,10 @@ use App\Reporte;
 use App\Accesorio;
 use App\Categoria;
 use Carbon\Carbon;
-// use QRCode;
 use QR_Code\QR_Code;
 use QR_Code\Types\QR_Url;
-
+use QR_Code\Types\QR_WiFi;
 use Illuminate\Http\Request;
-// use QR_Code\Types\QR_Text;
 use Barryvdh\Debugbar\Facade as Debugbar;
 
 
@@ -28,9 +27,8 @@ class ActivosController extends Controller
      */
     public function index()
     {
-        // return QrCode::generate('Transfórmame en un QrCode!');
-       // $url= QR_Code::png('My name is Daniel', public_path().'/images/llln.png');
-       // $url->setSize(4);
+        // return  QR_Code::png('https://es-la.facebook.com/',  public_path().'/images/facebook.png');
+
        $user=auth()->user();
 
        if ($user->permisos=='escritura') {
@@ -38,10 +36,10 @@ class ActivosController extends Controller
             $activos=Activo::leftjoin('users', 'activos.usuario_id', '=' , 'users.id')
                            ->leftjoin('reportes', 'reportes.activo_id', '=', 'activos.id')
                            ->leftjoin('categorias', 'activos.categoria_id', '=', 'categorias.id')
-                           ->select('users.name','categorias.nombre as ncate','activos.*','reportes.id as repor')
+                           ->select('users.name as nus','categorias.nombre as ncate','activos.*','reportes.id as repor')
+                           ->groupby('activos.id')
                            ->orderby('activos.created_at','DESC')
                            ->get();
-
              Debugbar::info($activos);
 
 
@@ -53,9 +51,9 @@ class ActivosController extends Controller
                            ->leftjoin('reportes', 'reportes.activo_id', '=', 'activos.id')
                            ->select('categorias.nombre as ncate','activos.*', 'reportes.id as repor')
                            ->where('activos.usuario_id','=',$user->id)
+                           ->groupby('activos.id')
                            ->orderby('activos.created_at','DESC')
                            ->get();
-                           
              Debugbar::info($activos);
 
 
@@ -88,6 +86,7 @@ class ActivosController extends Controller
             $cate = Categoria::pluck('nombre', 'id');
             $cate->prepend(" ","0");
             $user->prepend(" "," ");
+
             return view('admin.activos.crear', compact('user','cate'));
         }    
     }
@@ -107,8 +106,8 @@ class ActivosController extends Controller
 
                 $validator = Validator::make($request->all(),[
                     'user_id' => 'required',
-                    'fecha_entrega' =>'required',
-                    'fecha_mantenimiento' => 'required',
+                    'fecha_entrega' =>'required|date',
+                    'fecha_mantenimiento' => 'required|date',
                     'propiedad' => 'required',
                     'tipo_de_equipo' => 'required',
                     'marca' => 'required|max:100',
@@ -128,6 +127,7 @@ class ActivosController extends Controller
                     'wifi_mac'=>'required|max:100',
                     'cuenta_admin'=>'required|max:100',
                     'contraseña'=>'max:100',
+                    'fecha_compra'=>'required|max:100|date',
                     'proveedor'=>'required|max:100',
                     'precio'=>'required|max:100',
                     ],[
@@ -139,6 +139,7 @@ class ActivosController extends Controller
                     'numeric' => 'Este campo debe ser numerico',
                     'string' => 'Este campo debe ser solo texto',
                     'url' => 'Este campo debe ser una url',
+                    'date' => 'Este campo debe ser una fecha',
                 ]);
                      if ($validator->fails()) {
 
@@ -177,6 +178,7 @@ class ActivosController extends Controller
                         $activo->lan_mac=$request->input('lan_mac');
                         $activo->wifi_mac=$request->input('wifi_mac');
                         $activo->pass_admin=$request->input('contraseña');
+                        $activo->fecha_compra=$request->input('fecha_compra');
                         $activo->proveedor=$request->input('proveedor');
                         $activo->precio=$request->input('precio');
 
@@ -185,7 +187,7 @@ class ActivosController extends Controller
 
                         $activo->save();
 
-                        $text = '127.0.0.1:8000/activos/'.$activo->id;
+                        $text = 'https://127.0.0.1:8000/activos/'.$activo->id;
                         $url= QR_Code::png($text, public_path().'/images/'.$name);
 
                         
@@ -195,8 +197,8 @@ class ActivosController extends Controller
 
                     $validator = Validator::make($request->all(),[
                         'user_id' => 'required',
-                        'fecha_entrega' =>'required',
-                        'fecha_mantenimiento' => 'required',
+                        'fecha_entrega' =>'required|date',
+                        'fecha_mantenimiento' => 'required|date',
                         'propiedad' => 'required',
                         'marca' => 'required|max:100',
                         'referencia' => 'required|max:100',
@@ -221,6 +223,7 @@ class ActivosController extends Controller
                         'wifi_mac'=>'max:100',
                         'cuenta_admin'=>'max:100',
                         'contraseña'=>'max:100',
+                        'fecha_compra'=>'required|max:100|date',
                         'proveedor'=>'required|max:100',
                         'precio'=>'required|max:100',
                         ],[
@@ -232,6 +235,7 @@ class ActivosController extends Controller
                         'numeric' => 'Este campo debe ser numerico',
                         'string' => 'Este campo debe ser solo texto',
                         'url' => 'Este campo debe ser una url',
+                        'date' => 'Este campo debe ser una fecha',
                     ]);
                          if ($validator->fails()) {
 
@@ -273,7 +277,7 @@ class ActivosController extends Controller
 
                             $activo->save();
 
-                            $text = '127.0.0.1:8000/activos/'.$activo->id;
+                            $text = 'https://127.0.0.1:8000/activos/'.$activo->id;
                             $url= QR_Code::png($text, public_path().'/images/'.$name);
 
                             return redirect()->route('activos.index')->with('status', 'Accesorio guardado correctamente');
@@ -309,6 +313,7 @@ class ActivosController extends Controller
                         'wifi_mac'=>'max:100',
                         'cuenta_admin'=>'max:100',
                         'contraseña'=>'max:100',
+                        'fecha_compra'=>'required|max:100|date',
                         'proveedor'=>'required|max:100',
                         'precio'=>'required|max:100',
 
@@ -364,7 +369,7 @@ class ActivosController extends Controller
 
                             $activo->save();
 
-                            $text = '127.0.0.1:8000/activos/'.$activo->id;
+                            $text = 'https://127.0.0.1:8000/activos/'.$activo->id;
                             $url= QR_Code::png($text, public_path().'/images/'.$name);
                             
                             return redirect()->route('activos.index')->with('status', 'Teléfono guardado correctamente');
@@ -436,6 +441,8 @@ class ActivosController extends Controller
 
                 return redirect()->route('activos.index');
             }
+       }else{
+            return redirect()->route('activos.index');
        }
     }
 
@@ -497,8 +504,8 @@ class ActivosController extends Controller
 
                 $validator = Validator::make($request->all(),[
                     'user_id' => 'required',
-                    'fecha_entrega' =>'required',
-                    'fecha_mantenimiento' => 'required',
+                    'fecha_entrega' =>'required|max:10|date',
+                    'fecha_mantenimiento' => 'required|max:10|date',
                     'propiedad' => 'required',
                     'tipo_de_equipo' => 'required',
                     'marca' => 'required|max:100',
@@ -518,6 +525,7 @@ class ActivosController extends Controller
                     'wifi_mac'=>'required|max:100',
                     'cuenta_admin'=>'required|max:100',
                     'contraseña'=>'max:100',
+                    'fecha_compra' => 'required|max:10|date',
                     'proveedor'=>'required|max:100',
                     'precio'=>'required|max:100',
                     ],[
@@ -529,6 +537,7 @@ class ActivosController extends Controller
                     'numeric' => 'Este campo debe ser numerico',
                     'string' => 'Este campo debe ser solo texto',
                     'url' => 'Este campo debe ser una url',
+                    'date' => 'Este campo debe ser una fecha',
                 ]);
                      if ($validator->fails()) {
 
@@ -568,6 +577,7 @@ class ActivosController extends Controller
                         $activo->lan_mac=$request->input('lan_mac');
                         $activo->wifi_mac=$request->input('wifi_mac');
                         $activo->pass_admin=$request->input('contraseña');
+                        $activo->fecha_compra=$request->input('fecha_compra');
                         $activo->proveedor=$request->input('proveedor');
                         $activo->precio=$request->input('precio');
 
@@ -579,8 +589,8 @@ class ActivosController extends Controller
 
                     $validator = Validator::make($request->all(),[
                         'user_id' => 'required',
-                        'fecha_entrega' =>'required',
-                        'fecha_mantenimiento' => 'required',
+                        'fecha_entrega' =>'required|max:10|date',
+                        'fecha_mantenimiento' => 'required|max:10|date',
                         'propiedad' => 'required',
                         'marca' => 'required|max:100',
                         'referencia' => 'required|max:100',
@@ -605,6 +615,7 @@ class ActivosController extends Controller
                         'wifi_mac'=>'max:100',
                         'cuenta_admin'=>'max:100',
                         'contraseña'=>'max:100',
+                        'fecha_compra' => 'required|max:10|date',
                         'proveedor'=>'required|max:100',
                         'precio'=>'required|max:100',
                         ],[
@@ -616,6 +627,8 @@ class ActivosController extends Controller
                         'numeric' => 'Este campo debe ser numerico',
                         'string' => 'Este campo debe ser solo texto',
                         'url' => 'Este campo debe ser una url',
+                        'date' => 'Este campo debe ser una fecha',
+
                     ]);
                          if ($validator->fails()) {
 
@@ -648,6 +661,7 @@ class ActivosController extends Controller
                             $activo->mtm_equipo=$request->input('mtm');
                             $activo->nombre_equipo=$request->input('nombre');
                             $activo->wifi_mac=$request->input('wifi_mac');
+                            $activo->fecha_compra=$request->input('fecha_compra');
                             $activo->proveedor=$request->input('proveedor');
                             $activo->precio=$request->input('precio');
 
@@ -661,8 +675,8 @@ class ActivosController extends Controller
 
                  $validator = Validator::make($request->all(),[
                         'user_id' => 'required',
-                        'fecha_entrega' =>'required|date',
-                        'fecha_mantenimiento' => 'required|date',
+                        'fecha_entrega' =>'required|max:10|date',
+                        'fecha_mantenimiento' => 'required|max:10|date',
                         'propiedad' => 'required|string',
                         'marca' => 'required|max:100',
                         'referencia' => 'required|max:100',
@@ -688,6 +702,7 @@ class ActivosController extends Controller
                         'wifi_mac'=>'max:100',
                         'cuenta_admin'=>'max:100',
                         'contraseña'=>'max:100',
+                        'fecha_compra'=>'required|max:10|date',
                         'proveedor'=>'required|max:100',
                         'precio'=>'required|max:100',
 
@@ -735,6 +750,7 @@ class ActivosController extends Controller
                             $activo->tipo_so=$request->input('tipo_de_sot');
                             $activo->nombre_equipo=$request->input('nombre');
                             $activo->wifi_mac=$request->input('wifi_mac');
+                            $activo->fecha_compra=$request->input('fecha_compra');
                             $activo->proveedor=$request->input('proveedor');
                             $activo->precio=$request->input('precio');
 
@@ -763,13 +779,21 @@ class ActivosController extends Controller
         if ($user->permisos=='escritura') {
 
             $activo = Activo::find($id);
+
+            $file_path = public_path().'/images/'.$activo->imgqr;
+            \File::delete($file_path);
+
+            $reporte= Reporte::where('reportes.activo_id', '=', $id)
+                                    ->get()->each ;
+
+            $reporte->delete();                        
             $activo->delete();
 
             return redirect()->route('activos.index')->with('statuselim', 'Activo eliminado correctamente');
 
         }else{
         
-                return redirect()->route('activos.index');
+            return redirect()->route('activos.index');
         }
     }
 }

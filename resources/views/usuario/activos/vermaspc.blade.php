@@ -2,21 +2,18 @@
 	@section('content')
 	<div class="container">
 		<center>
-    <h2 class="text-center mb-4">{{$activo->nombre}}</h2>
+    <h2 class="text-center mb-4">{{$activo->ncate}}</h2>
 
-        <a href="/activos" class="btn btn-primary float-left ml-2">Ver todos mis activos</a>
+        <a href="/activos" class="btn btn-primary float-left ml-2 mb-2">Ver todos mis activos</a>
 
-        <a href="{{ route ('reportes.create',['tipo'=>'equipo','id'=>$activo->id])}}" class="btn btn-warning float-left ml-2 ">Reportar</a>
+        <a href="{{ route ('reportes.create',['tipo'=>'equipo','id'=>$activo->id])}}" class="btn btn-danger float-left ml-2 ">Reportar</a>
 
-    		{!! Form::open([ 'route' => ['activos.destroy', $activo->id ], 'method' => 'DELETE' ]) !!}
-    			{!! Form::submit('Eliminar ', ['class' => 'btn btn-danger mb-2 float-left ml-2 ']) !!}
-        {!! Form::close()!!}
 	</center>
 
 	<table class="table ">
     <tbody >
           <th>Categoria</th>
-            <td>{{$activo->nombre}}</td>
+            <td>{{$activo->ncate}}</td>
             
         </tr>
         <tr>

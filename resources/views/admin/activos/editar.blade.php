@@ -208,6 +208,11 @@
 							</div>	
 							<div id="general">
 								<div class="form-group">
+										{!! Form::label('fecha entrega', 'Fecha de compra *', null, ['class' => 'form-control']) !!}
+										{!! Form::text('fecha_compra',$activo->fecha_compra, ['class' => 'form-control','placeholder' => 'MM/DD/AAAA', 'id'=>'datepickerfecom']) !!}
+											 <p class="help-block text-danger">{{ $errors->first('fecha_compra') }}</p>
+								</div>
+								<div class="form-group">
 										<label class="form-label" id="provtitle">Proveedor del activo *</label>
 										{!! Form::text('proveedor', $activo->proveedor, ['class' => 'form-control','id'=>'prov','placeholder' => 'Proveedor del activo.']) !!}
 												     <p class="help-block text-danger ">{{ $errors->first('proveedor') }}</p>

@@ -1,13 +1,19 @@
 @extends('layouts.app')
     @section('content')
         <div class="row">
-            <div class="container border ">
+            <div class="container ">
               <center>
                 <h2 class="text-center mb-4">{{$activo->ncate}}</h2>
-                    <a href="/activos/{{$activo->id}}/edit" class="btn btn-primary float-left btn-sm">Editar</a>
-                    <a href="{{ route ('reportes.create',['tipo'=>'equipo','id'=>$activo->id])}}" class="btn btn-success float-left ml-5 btn-sm">Reportar</a>
+                    <a href="/activos/{{$activo->id}}/edit" class="btn btn-primary float-left  ">Editar</a>
+                    <a href="/activos" class="btn btn-info float-left ml-2 text-white ">Ver todos los activos</a>
+                    <a href="/activos/create" class="btn btn-success float-left ml-2  ">Registrar activo</a>
+
+                    <a href="{{ route ('reportes.create',['id'=>$activo->id])}}" class="btn btn-warning float-left ml-2 ">Reportar</a>
+
                     {!! Form::open([ 'route' => ['activos.destroy', $activo->id ], 'method' => 'DELETE' ]) !!}
-                      {!! Form::submit('Eliminar ', ['class' => 'btn btn-danger mb-2 float-left ml-5 btn-sm']) !!}
+
+                      {!! Form::submit('Eliminar ', ['class' => 'btn btn-danger mb-2 float-left ml-2 ']) !!}
+
                     {!! Form::close()!!}
               </center>
                   <table class="table">
@@ -97,14 +103,17 @@
 
                           </tr>
                           </tr><tr>
-                            <th>Precio</th>
-                              <td>{{$activo->precio}}</td> 
+                            <th>Precio COP</th>
+                              <td>${{number_format($activo->precio)}}</td> 
 
                            </tr>   
                       </tbody>
                 </table>
 
-      <img  src="{{ asset('images/'.$activo->imgqr) }}">
-                
+                    @if(isset($activo->imgqr))   
+                       <img  src="{{ asset('images/'.$activo->imgqr) }}">
+                    @else
+                       <label>No hay QR</label>
+                    @endif
           </div>
 	@endsection

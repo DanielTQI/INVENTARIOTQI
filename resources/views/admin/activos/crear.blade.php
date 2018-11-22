@@ -59,7 +59,7 @@
 										{!! Form::select('tipo_de_equipo',
 											 [	''=>'',
 											 	'Indefinido' => 'Indefinido',
-											 	'DeskTop_TodoEnUno' => 'DeskTop todo en uno',
+											 	'DeskTop_TodoEnUno' => 'DeskTop_TodoEnUno',
 											 	'LapTop' => 'LapTop',
 											 	'DeskTop' => 'DeskTop', 
 											 	'iPad' => 'iPad', 
@@ -103,9 +103,10 @@
 										<label class="form-label" id="tipoofftitle">Tipo de office *</label>
 										{!! Form::select('office',
 											 [	''=>'',
-											 	'Indefinido' => 'Indefinido',
-											 	'Suscripcion_office.com' => 'Suscripcion office.com', 
+											 	'OEM' => 'OEM',
+											 	'Suscripcion_office.com' => 'Suscripcion_office.com', 
 											 	'Personal' => 'Personal',
+											 	'Indefinido' => 'Indefinido',
 											 	], null,['class' => 'form-control','id' => 'tipooff']) !!}
 											 		<p class="help-block text-danger">{{ $errors->first('office') }}</p>
 								</div>  
@@ -208,6 +209,11 @@
 								</div>
 							</div>	
 							<div id="general">
+								<div class="form-group">
+										{!! Form::label('fecha entrega', 'Fecha de compra *', null, ['class' => 'form-control']) !!}
+										{!! Form::text('fecha_compra',null, ['class' => 'form-control','placeholder' => 'MM/DD/AAAA', 'id'=>'datepickerfecom']) !!}
+											 <p class="help-block text-danger">{{ $errors->first('fecha_compra') }}</p>
+								</div>
 								<div class="form-group">
 										<label class="form-label" id="provtitle">Proveedor del activo *</label>
 										{!! Form::text('proveedor', null, ['class' => 'form-control','id'=>'prov','placeholder' => 'Proveedor del activo.']) !!}

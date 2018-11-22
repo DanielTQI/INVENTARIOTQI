@@ -5,7 +5,7 @@
     <h2 class="text-center mb-4">{{$activo->ncate}}</h2>
 
     		<a href="/activos/{{$activo->id}}/edit" class="btn btn-primary float-left  ">Editar</a>
-        <a href="/activos" class="btn btn-info float-left ml-2  ">Ver todos los activos</a>
+        <a href="/activos" class="btn btn-info float-left ml-2 text-white ">Ver todos los activos</a>
         <a href="/activos/create" class="btn btn-success float-left ml-2  ">Registrar activo</a>
 
         <a href="{{ route ('reportes.create',['id'=>$activo->id])}}" class="btn btn-warning float-left ml-2 ">Reportar</a>
@@ -132,8 +132,8 @@
             
         </tr>
         </tr><tr>
-          <th>Precio</th>
-            <td>{{$activo->precio}}</td>
+          <th>Precio COP</th>
+            <td>$ {{number_format($activo->precio)}}</td>
             
           </tr>
       </tbody>

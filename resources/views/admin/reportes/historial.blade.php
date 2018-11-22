@@ -1,46 +1,57 @@
 @extends('layouts.app')
 	@section('content')
-			<div class="container">
-                <div class="row">
-				    <center>
-                        <h2 class="text-center">Historial del {{$tipo}}</h2>
-                			<table class="table table-sm float-left mr-10 table table-sm float-left mr-10 table-striped table-bordered dt-responsive nowrap" id="tablee">
-                                    <thead class="thead-dark" >
-                                        <tr>
-                                            <th>Usuario</th>
-                                            <th>Tipo activo</th>
-                                            <th>Tipo de falla</th>
-                                            <th>Desc falla</th>
-                                            <th>Fecha del reporte</th>
-                                            <th>Atendido</th>
-                                            <th>Desc soporte</th>
-                                            <th>Fecha soporte</th>
-                                            <th></th>
-                                            
-                                        </tr>
-                                    </thead>
-                                        <tbody>
-                                            @foreach($reportes as $reporte)
-                                                <tr>
-                                                	<center>
-                                                    <td><center>{{ $reporte->name }}</center></td>
-                                                    <td><center>{{ $reporte->tipo }}</center></td>
-                                                    <td><center>{{ $reporte->tipo_reporte }}</center></td>
-                                                    <td><center>{{ $reporte->descripcion_usuario }}</center></td>
-                                                    <td><center>{{ $reporte->fecha_reporte }}</center></td>
-                                                    <td><center>{{ $reporte->atendido }}</center></td>
-                                                    <td><center>{{ $reporte->descripcion_soporte }}</center></td>
-                                                    <td><center>{{ $reporte->fecha_soporte }}</center></td>
-                                                    <td><center><a href="/reportes/{{$reporte->id}}" class="btn btn-success">Atender</a></center></td>                         
-                                                    </center>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                </table>
-                            </div>
-                       </div>
-        			</center>
-        		 </div> 
-             </div>
+        <div class="container">
+          <div class="row">
+                  <h2 class="text-center mt-1 mb-5">Historial</h2>
+            <h1 class=" form-control bg-success text-white">Reportes atendidos</h1>
+             @foreach($histori as $histo)
+                @if($histo->atendido=='SI')
+                 <div class="card ml-5 mt-2 w-25 bg-success text-white">
+                        <h3 class="card-header">{{$histo->tipo}}</h3>
+                            <div class="card-body">
+                                <h4 class="card-title">{{$histo->descripcion_usuario}}</h4>
+                                <h5 class="card-title">Fecha del reporte: {{$histo->tipo_reporte}}</h5>
+                                <h5 class="card-title">Tipo de reporte: {{$histo->fecha_reporte}}</h5>
+                                <h5 class="card-title">El reporte {{$histo->atendido}} esta atendido</h5>
+
+                            <p class="card-text">Descripcion soporte: {{$histo->descripcion_soporte}}</p>
+                    </div>
+                </div>
+                @endif()
+            @endforeach 
+            <h1 class=" form-control mt-5 bg-primary text-white">Reportes en proceso</h1>
+             @foreach($histori as $histo)
+                @if($histo->atendido=='EN PROCESO')
+                 <div class="card ml-5 mt-2 w-25 bg-primary text-white">
+                        <h3 class="card-header">{{$histo->tipo}}</h3>
+                            <div class="card-body">
+                                <h4 class="card-title">{{$histo->descripcion_usuario}}</h4>
+                                <h5 class="card-title">Fecha del reporte: {{$histo->tipo_reporte}}</h5>
+                                <h5 class="card-title">Tipo de reporte: {{$histo->fecha_reporte}}</h5>
+                                <h5 class="card-title">El reporte esta en {{$histo->atendido}} </h5>
+
+                            <p class="card-text">Descripcion soporte: {{$histo->descripcion_soporte}}</p>
+                    </div>
+                </div>
+                @endif()
+            @endforeach 
+            <h1 class=" form-control mt-5 bg-danger text-white">Reportes no atendidos</h1>
+             @foreach($histori as $histo)
+                @if($histo->atendido=='NO')
+                 <div class="card ml-5 mt-2 w-25 bg-danger text-white">
+                        <h3 class="card-header">{{$histo->tipo}}</h3>
+                            <div class="card-body">
+                                <h4 class="card-title">{{$histo->descripcion_usuario}}</h4>
+                                <h5 class="card-title">Fecha del reporte: {{$histo->tipo_reporte}}</h5>
+                                <h5 class="card-title">Tipo de reporte: {{$histo->fecha_reporte}}</h5>
+                                <h5 class="card-title">El reporte {{$histo->atendido}} esta atendido</h5>
+
+                            <p class="card-text">Descripcion soporte: {{$histo->descripcion_soporte}}</p>
+                    </div>
+                </div>
+                @endif()
+            @endforeach 
+          </div>
+       </div>
 	@endsection	
     

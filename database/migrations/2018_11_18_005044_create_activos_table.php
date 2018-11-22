@@ -46,6 +46,7 @@ class CreateActivosTable extends Migration
             $table->string('pass_admin')->nullable();
             $table->string('proveedor');
             $table->integer('precio');
+            $table->string('imgqr')->nullable();
             $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });

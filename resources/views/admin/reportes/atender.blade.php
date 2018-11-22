@@ -7,7 +7,7 @@
 			    <tbody>
 			        <tr>
 			          <th>Usuario</th>
-			            <td>{{$reporte->name}}</td>
+			            <td>{{$reporte->nuser}}</td>
 			            
 			        </tr>
 			        <tr>
@@ -43,10 +43,8 @@
 			    </tbody>
    		</table>
 
-   		<!-- Button trigger modal -->
-
-   		{{-- <button class="btn btn-primary btn-block">Historial del activo</button> --}}
-   	<h3 class="text mt-3">Atender reporte de {{$reporte->ncat}}</h3>
+   		<a href="{{ route ('admin.reportes.historial',['id'=>$reporte->idactive])}}"> <button class="btn btn-primary btn-block">Historial del activo</button></a>
+   		<h3 class="text mt-3">Atender reporte de {{$reporte->ncat}}</h3>
 		{!! Form::model($reporte, ['route' => ['admin.reportes.soporte',  $reporte] , 'method' => 'POST' ]) !!}
 				<div class="lg-3  form-group mt-3">
 						 <div class="form-group">

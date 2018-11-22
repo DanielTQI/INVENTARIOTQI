@@ -19,10 +19,8 @@
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
-
+   
 
 </head>
 <body>
@@ -87,13 +85,12 @@
 
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script src="{{url('js/app.js')}}"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+  {{-- <script src="{{url('js/app.js')}}"></script> --}}
+  {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script> --}}
   <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-  <!-- Remember to include jQuery :) -->
-
-  <!-- jQuery Modal -->
+  
+  
     
   <script type="text/javascript">
 
@@ -104,9 +101,19 @@
       }
     });
   });
-     $('#myModal').on('shown.bs.modal', function () {
-      $('#myInput').trigger('focus')
-    });
+
+  $.datepicker.regional['es'] = {
+     closeText: 'Cerrar',
+     prevText: '< Ant',
+     nextText: 'Sig >',
+     currentText: 'Hoy',
+     monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+     monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+     dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+     dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+     dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+     };
+     $.datepicker.setDefaults($.datepicker.regional['es']);
 
       $( function() {
         $( "#datepickerfe" ).datepicker();
@@ -116,9 +123,13 @@
         $( "#datepickerfm" ).datepicker();
       } );
 
-      $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-      });
+      $( function() {
+         $( "#datepickerfecom" ).datepicker();
+
+       } );
+      // $(function () {
+      //   $('[data-toggle="tooltip"]').tooltip()
+      // });
 
       $(document).ready(function() {
           setTimeout(function() {

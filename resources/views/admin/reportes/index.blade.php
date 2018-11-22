@@ -14,6 +14,8 @@
                             @endif
 				    <center>
                         <h2 class="text-center">Hola {{$users}}¡ estos son los reportes registrados</h2>
+        <a href="/activos" class="btn btn-primary btn-sm float-right ">Ver todos los activos</a>
+
                 				<table class="table table-striped table-responsive table-sm table-dark" id="tablee">
                                     <thead class="bg-primary" >
                                         <tr>
@@ -25,7 +27,6 @@
                                             <th><center>Atendido</th>
                                             <th><center>Desc soporte</th>
                                             <th><center>Fecha soporte</th>
-                                            <th></th>
                                             <th></th>
                                             <th></th>
                                         </tr>
@@ -47,7 +48,6 @@
                                                         @else    
                                                             <td><center><a href="/reportes/{{$reporte->id}}" class="btn btn-success btn-sm">Atender</a></center></td>
                                                         @endif    
-                                                    <td><center><a href="/reportes/{{$reporte->id}}" class="btn btn-warning btn-sm">Historial</a></center></td>
                                                     <td><center>{!! Form::open([ 'route' => ['reportes.destroy', $reporte->id ], 'method' => 'DELETE' ]) !!}
                     									{!! Form::submit('Eliminar ', ['class' => 'btn btn-danger mb-2 btn-sm']) !!}
                         							{!! Form::close()!!}   </center></td>                          

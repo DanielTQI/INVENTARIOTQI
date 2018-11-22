@@ -34,7 +34,7 @@ class ReportesController extends Controller
                  $reportes=Reporte::leftjoin('activos', 'reportes.activo_id', '=', 'activos.id')
                                  ->leftjoin('categorias', 'activos.categoria_id', '=', 'categorias.id')
                                  ->leftjoin('users', 'reportes.usuario_id', '=', 'users.id')
-                                 ->select('reportes.*','users.name as nombreuser','categorias.nombre as ncat')
+                                 ->select('reportes.*','users.name as nombreuser','categorias.nombre as ncat','activos.id as activoid')
                                  ->orderby('reportes.created_at','DESC')
                                  ->get();
                       
@@ -68,26 +68,27 @@ class ReportesController extends Controller
      */
     public function create(Request $request)
     {
-        $user = auth()->user();
+                $user = auth()->user();
 
-        $info=Activo::leftjoin('users', 'activos.usuario_id', '=', 'users.id')
-                                ->select('users.id as us','activos.id as ida')
-                                ->where('activos.id', '=', $request->id)
-                                ->first();
-        
-        $users=User::pluck('name','id');
-        $users->prepend(' ',' ');
+                $info=Activo::leftjoin('users', 'activos.usuario_id', '=', 'users.id')
+                                        ->select('users.id as us','activos.id as ida')
+                                        ->where('activos.id', '=', $request->id)
+                                        ->first();
+                
+                $users=User::pluck('name','id');
+                $users->prepend(' ',' ');
 
 
-        if ($user->permisos=='escritura') {
+                if ($user->permisos=='escritura') {
 
-            return view('admin.reportes.crear', compact('users','info'));
+                    return view('admin.reportes.crear', compact('users','info'));
 
-        }else if($user->permisos=='lectura') {
+                }else if($user->permisos=='lectura') {
 
-            return view('usuario.reportes.crear', compact('users','info'));
-        } 
-        }    
+                    return view('usuario.reportes.crear', compact('users','info'));
+                } 
+            
+            }    
 
     
 
@@ -101,7 +102,6 @@ class ReportesController extends Controller
 
                 $user= User::where('permisos','=','escritura')->pluck('email');
                 $userl = auth()->user();
-
 
                 if ($userl->permisos=='lectura') {
 
@@ -128,7 +128,6 @@ class ReportesController extends Controller
                  }
                 
                     $reporte = new Reporte;
-
                     $reporte->usuario_id=$request->input('iduser');
                     $reporte->activo_id=$request->input('idactivo');
                     $reporte->tipo_reporte=$request->input('tipo_reporte');
@@ -142,7 +141,6 @@ class ReportesController extends Controller
                            );
 
                             Mail::send('emails.report', $data, function($message){
-                             
                                     $message->to('daniel.lopez@tqi.co', 'Ticket Laravel')
                                     ->bcc(array('dflopez620@misena.edu.co','dflopez9920@hotmail.com'))
                                     ->subject('Reporte de ACTIVOS');
@@ -179,13 +177,12 @@ class ReportesController extends Controller
                     
                         $reporte = new Reporte;
 
-                        $reporte->usuario_id=$request->input('iduser');
+                        $reporte->usuario_id=$request->input('user_id');
                         $reporte->activo_id=$request->input('idactivo');
                         $reporte->tipo_reporte=$request->input('tipo_reporte');
                         $reporte->descripcion_usuario=$request->input('descripcion_usuario');
                         $reporte->fecha_reporte=Carbon::parse($request->input('fecha_reporte'));
                         $reporte->atendido='NO';
-
 
                         $data =  array(
                             'reporti' => 'Equipo' , 
@@ -222,11 +219,10 @@ class ReportesController extends Controller
              $usersup = User::where('permisos', '=' ,'escritura')->pluck('name', 'id');
              $usersup->prepend(' ', ' ');
 
-
              $reporte = Reporte::leftjoin('activos', 'reportes.activo_id', '=', 'activos.id')
                                ->leftjoin('categorias', 'activos.categoria_id' ,'=','categorias.id')
                                ->leftjoin('users', 'reportes.usuario_id' ,'=','users.id')
-                               ->select('categorias.nombre as ncat','users.name', 'activos.*', 'reportes.*')
+                               ->select('categorias.nombre as ncat','users.name as nuser','activos.id as idactive' ,'activos.*', 'reportes.*')
                                ->where('reportes.id', '=', $id)  
                                ->first();
 
@@ -349,7 +345,7 @@ class ReportesController extends Controller
                 $reporte = Reporte::find($id);
                 $reporte->delete();
 
-                return redirect()->route('reportes.index')->with('status', 'Reporte eliminado exitosamente');
+                return redirect()->route('reportes.index')->with('statuselim', 'Reporte eliminado exitosamente');
 
         }else{
         
@@ -391,15 +387,31 @@ class ReportesController extends Controller
              }
 
                 $reporte =  Reporte::find($id);
-
+                $userh= User::where('id', '=', $reporte->usuario_id)->first();
+                
                 $reporte->usuario_soporte=$request->input('usuario_soportee');
                 $reporte->atendido=$request->input('atendidoo');
                 $reporte->descripcion_soporte=$request->input('descripcion_soportee');
                 $reporte->fecha_soporte=Carbon::parse($request->input('fecha_soportee'));
 
+                if ($request->atendidoo=='EN PROCESO') {
+                    $data =  array(
+                            'reporti' => 'Esta en proceso de solucion' , 
+                               );
+                }elseif ($request->atendidoo=='SI') {
+                   $data =  array(
+                            'reporti' => 'Se solucionó satisfactoriamente' , 
+                               );
+                }
+                                Mail::send('emails.respuesta', $data, function($message) use ($userh){
+                                 
+                                        $message->to($userh->email, $userh->name)
+                                        ->subject('Atencion de Reporte');
+                             });
+
                 $reporte->save();
 
-                return redirect()->route('reportes.index');
+                return redirect()->route('reportes.index')->with('status', 'Soporte ejecutado exitosamente');
         }else{
 
                 return redirect()->route('reportes.index');
@@ -408,68 +420,26 @@ class ReportesController extends Controller
     } 
 
 
-    public function historialactivo($id,$tipo){
+    public function historialactivo($id){
 
         $user=auth()->user();
 
         if ($user->permisos=='escritura') {
-            Debugbar::info($tipo);
-
-            if ($tipo=='equipo') {
-
-                 $reportes = Reporte::leftjoin('equipos', 'reportes.equipo_id', '=', 'equipos.id')
-                                ->leftjoin('accesorios', 'reportes.accesorio_id', '=', 'accesorios.id')
-                                ->leftjoin('telefonos', 'reportes.telefono_id', '=', 'telefonos.id')
-                                ->leftjoin('users', 'reportes.usuario_id', '=', 'users.id')
-                                ->select(DB::raw('if(equipos.id is null, if(accesorios.id is null,"telefono","accesorio"),"equipo") as tipo, 
-                                                 users.name, reportes.tipo_reporte, reportes.descripcion_usuario, reportes.fecha_reporte, 
-                                                 reportes.atendido, reportes.descripcion_soporte, reportes.id,reportes.fecha_soporte '))
-
-                                ->where('reportes.equipo_id','=',$id)
+           
+            $histori = Reporte::leftjoin('activos', 'reportes.activo_id','=','activos.id')
+                                ->select('reportes.*','activos.tipo_de_equipo as tipo')
+                                ->where('reportes.activo_id', '=', $id) 
+                                ->groupby('reportes.id')  
+                                ->orderby('reportes.created_at', 'DESC')
                                 ->get();
-                           
-                        Debugbar::info($reportes);
-                        return view('admin.reportes.historial', compact('reportes', 'tipo'));
 
-             }elseif ($tipo=='accesorio') {
-
-                 $reportes = Reporte::leftjoin('equipos', 'reportes.equipo_id', '=', 'equipos.id')
-                                ->leftjoin('accesorios', 'reportes.accesorio_id', '=', 'accesorios.id')
-                                ->leftjoin('telefonos', 'reportes.telefono_id', '=', 'telefonos.id')
-                                ->leftjoin('users', 'reportes.usuario_id', '=', 'users.id')
-                                ->select(DB::raw('if(equipos.id is null, if(accesorios.id is null,"telefono","accesorio"),"equipo") as tipo, 
-                                                 users.name, reportes.tipo_reporte, reportes.descripcion_usuario, reportes.fecha_reporte, 
-                                                 reportes.atendido, reportes.descripcion_soporte, reportes.id,reportes.fecha_soporte '))
-
-                                ->where('reportes.accesorio_id','=',$id)
-                                ->get();
-                           
-                        Debugbar::info($reportes);
-                        return view('admin.reportes.historial', compact('reportes', 'tipo'));
-
-             }elseif ($tipo=='telefono') {
-
-                 $reportes = Reporte::leftjoin('equipos', 'reportes.equipo_id', '=', 'equipos.id')
-                                ->leftjoin('accesorios', 'reportes.accesorio_id', '=', 'accesorios.id')
-                                ->leftjoin('telefonos', 'reportes.telefono_id', '=', 'telefonos.id')
-                                ->leftjoin('users', 'reportes.usuario_id', '=', 'users.id')
-                                ->select(DB::raw('if(equipos.id is null, if(accesorios.id is null,"telefono","accesorio"),"equipo") as tipo, 
-                                                 users.name, reportes.tipo_reporte, reportes.descripcion_usuario, reportes.fecha_reporte, 
-                                                 reportes.atendido, reportes.descripcion_soporte, reportes.id,reportes.fecha_soporte '))
-
-                                ->where('reportes.accesorio_id','=',$id)
-                                ->get();
-                           
-                        Debugbar::info($reportes);
-                        return view('admin.reportes.historial', compact('reportes', 'tipo'));
-             }
-                    
+                return view('admin.reportes.historial', compact('histori'));
         }else{
 
-            return redirect()->route('reportes.index');
+                return redirect()->route('reportes.index');
         }
 
-            return redirect()->back();
-     }
+                return redirect()->route('activos.index');
+        }
 
 }

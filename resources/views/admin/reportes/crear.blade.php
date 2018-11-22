@@ -11,7 +11,7 @@
 											{!! Form::label('Asignado', 'Asignado *', ['class' => 'text-left']) !!}
 											{!! Form::select('user_id', $users, null, ['class' => 'form-control']) !!}
 											</select>
-										 		<p class="help-block text-danger">{{ $errors->first('usuario_id') }}</p>	
+										 		<p class="help-block text-danger">{{ $errors->first('user_id') }}</p>	
 								</div>
 								<div class="form-group">
 									{!! Form::label('tipor', 'Tipo de reporte *', null, ['class'=>'form-control']) !!}
@@ -25,7 +25,7 @@
 								</div> 			
 								<div class="form-group">
 									{!! Form::label('desc', 'Descripcion del reporte *', null, ['class'=>'form-control']) !!}
-									{!! Form::text('descripcion_usuario', null, ['class' => 'form-control shadow-sm p-3  bg-white rounded w-5 h-50']) !!}
+									{!! Form::textarea('descripcion_usuario', null, ['class' => 'form-control shadow-sm p-3  bg-white rounded w-5 h-50']) !!}
 												<p class="help-block text-danger ">{{ $errors->first('descripcion_usuario') }}</p>
 								</div> 	
 								<div class="form-group">
@@ -34,8 +34,8 @@
 										        <p class="help-block text-danger">{{ $errors->first('fecha_reporte') }}</p>
 							    </div>	
 							    <input type="hidden" name="idactivo" value="{{$info->ida}}">
-							    <input type="hidden" name="iduser" value="{{$info->us}}">
-					{!! Form::submit('Crear ', ['class' => 'btn btn-success form-control mb-3']) !!}		
+							    {{-- <input type="hidden" name="iduser" value="{{$info->us}}"> --}}
+					{!! Form::submit('Crear Reporte ', ['class' => 'btn btn-success form-control mb-3']) !!}		
 		{!! Form::close() !!}
 	</div>	
 
