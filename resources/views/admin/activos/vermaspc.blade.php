@@ -20,7 +20,7 @@
 	<table class="table ">
     <tbody >
         <tr>
-          <th>Usuario</th>
+          <th>Asignado</th>
             <td>{{$activo->name}}</td>
             
         </tr>
@@ -49,25 +49,25 @@
             <td>{{$activo->propiedad}}</td>
             
         </tr><tr>
-          <th>Tipo de equipo</th>
+          <th>Tipo de computador</th>
             <td>{{$activo->tipo_de_equipo}}</td>
             
         </tr><tr>
-          <th>Marca de equipo</th>
+          <th>Marca del computador</th>
             <td>{{$activo->marca_equipo}}</td>
             
         </tr>
         <tr>
-          <th>Ref equipo</th>
+          <th>Referencia o modelo</th>
             <td>{{$activo->referencia_equipo}}</td>
             
         </tr><tr>
-          <th>Serial equipo</th>
+          <th>Serial S/N</th>
             <td>{{$activo->serial_equipo}}</td>
             
         </tr>
         </tr><tr>
-          <th>MTM equipo</th>
+          <th>MTM del computador</th>
             <td>{{$activo->mtm_equipo}}</td>
             
         </tr>

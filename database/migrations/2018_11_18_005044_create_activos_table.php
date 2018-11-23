@@ -44,6 +44,7 @@ class CreateActivosTable extends Migration
             $table->integer('imei_1')->nullable();
             $table->integer('imei_2')->nullable();
             $table->string('pass_admin')->nullable();
+            $table->date('fecha_compra')->nullable();
             $table->string('proveedor');
             $table->integer('precio');
             $table->string('imgqr')->nullable();
