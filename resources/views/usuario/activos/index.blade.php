@@ -17,17 +17,17 @@
             				<table class="table table-striped table-responsive table-sm" id="tablee">
                                 <thead class="bg-primary text-white" >
                                     <tr>
-                                        <th>Categoria</th>
+                                        <th>Categoría</th>
                                         <th>Estado mantenimiento</th>
                                         <th>Propiedad</th>
-                                        <th>Tipo activo</th>
-                                        <th>Marca activo</th>
-                                        <th>Referencia activo</th>
-                                        <th>Serial activo</th>
+                                        <th>Tipo</th>
+                                        <th>Marca</th>
+                                        <th>Referencia</th>
+                                        <th>Serial</th>
                                         <th></th>
                                         <th></th>
                                     </tr>
-                                </thead>
+                                  </thead>
                                 <tbody>
                                  @foreach($activos as $activo)
                                         <tr>
@@ -46,6 +46,6 @@
                                 @endforeach
                               </tbody>
                           </table>
-        		    </div>
+        		     </div>
         	    </div>
           @endsection	

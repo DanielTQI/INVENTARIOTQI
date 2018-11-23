@@ -311,7 +311,7 @@ class ActivosController extends Controller
                         'nombre'=>'max:100',
                         'vso'=>'required|max:100',
                         'wifi_mac'=>'max:100',
-                        'cuenta_admin'=>'max:100',
+                        'cuenta_admin'=>'max:100|required_if:propiedad,TQI',
                         'contraseña'=>'max:100',
                         'fecha_compra'=>'required|max:100|date',
                         'proveedor'=>'required|max:100',

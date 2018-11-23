@@ -86,19 +86,29 @@
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   {{-- <script src="{{url('js/app.js')}}"></script> --}}
-  {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script> --}}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PrintArea/2.4.1/jquery.PrintArea.js"></script>
+  
   <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
   
   
-    
+  @yield('js') 
   <script type="text/javascript">
+    
 
   $(document).ready(function() {
+
+    $("#printer").bind("click",function(){
+
+      $("#print").printArea();
+    });
+    
     $('#tablee').DataTable({
-        "language": {
+
+      "language": {
       "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
       }
+
     });
   });
 
@@ -113,86 +123,23 @@
      dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
      dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
      };
-     $.datepicker.setDefaults($.datepicker.regional['es']);
+  $.datepicker.setDefaults($.datepicker.regional['es']);
 
-      $( function() {
-        $( "#datepickerfe" ).datepicker();
-      } );
+  $( function() {
+    $( "#datepickerfe" ).datepicker();
+  } );
 
-      $( function() {
-        $( "#datepickerfm" ).datepicker();
-      } );
+  $( function() {
+    $( "#datepickerfm" ).datepicker();
+  } );
 
-      $( function() {
-         $( "#datepickerfecom" ).datepicker();
-
-       } );
+  $( function() {
+     $( "#datepickerfecom" ).datepicker();
+   } );
       // $(function () {
       //   $('[data-toggle="tooltip"]').tooltip()
       // });
 
-      $(document).ready(function() {
-          setTimeout(function() {
-            $('#aviso').fadeOut(1500);
-          },3000);
-      });
-
-      $(document).ready(function(){
-          $('#general').hide();
-          $('#comput').hide();
-          $('#accesori').hide();
-          $('#telef').hide();
-          $('#comptel').hide();
-          $('#butd').attr('disabled',true);
-          // $('#butd').prop('disabled',true);
-
-        $("#cat").click(function(){
-          var valor= $("#cat").val();
-
-            if (valor=='0') {
-
-                $('#general').hide();
-                $('#comput').hide();
-                $('#accesori').hide();
-                $('#telef').hide();
-                $('#comptel').hide();
-
-            }else if (valor=='1') {
-
-                $('#general').show();
-                $('#comput').show();
-                $('#comptel').show();
-                $('#accesori').hide();
-                $('#telef').hide();
-
-            }else if (valor=='2') {
-
-                $('#accesori').show();
-                $('#general').show();
-                $('#comput').hide();
-                $('#telef').hide();
-                $('#comptel').hide();
-
-            }else if (valor=='3') {
-
-                $('#accesori').hide();
-                $('#general').show();
-                $('#comput').hide();
-                $('#telef').show();
-                $('#comptel').show();
-
-            }else if (valor=='4') {
-
-                $('#general').hide();
-                $('#comput').hide();
-                $('#accesori').hide();
-                $('#telef').hide();
-                $('#comptel').hide();
-
-            }
-
-          });
-      });
         
   </script>
 </body>

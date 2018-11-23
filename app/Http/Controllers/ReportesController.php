@@ -76,8 +76,9 @@ class ReportesController extends Controller
                                         ->first();
                 
                 $users=User::pluck('name','id');
-                $users->prepend(' ',' ');
-
+                $us=User::leftjoin('activos', 'users.id','=','activos.usuario_id')
+                            ->where('activos.id', '=', $request->id)
+                            ->pluck('name','id')->first();
 
                 if ($user->permisos=='escritura') {
 
@@ -85,7 +86,7 @@ class ReportesController extends Controller
 
                 }else if($user->permisos=='lectura') {
 
-                    return view('usuario.reportes.crear', compact('users','info'));
+                    return view('usuario.reportes.crear', compact('users','info','us'));
                 } 
             
             }    
@@ -367,7 +368,7 @@ class ReportesController extends Controller
                 'usuario_soportee' => 'required|max:100',
                 'atendidoo' => 'required|max:100',
                 'descripcion_soportee' => 'required|max:100',
-                'fecha_soportee' => 'required|max:100|date',
+                'fecha_soportee' => 'required|max:10|date',
             ],[
                 'required' => 'Este campo es requerido',
                 'email' => 'Este campo debe tener formato de correo electrónico',

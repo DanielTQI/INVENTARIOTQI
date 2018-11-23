@@ -1,12 +1,11 @@
 @extends('layouts.app')
 	@section('content')
-		<div class="row">
-			<div class="container border ">
-				<div class="float-right mt-4">
-				  <a href="{{url('/activos')}}"><button class="btn btn-primary">Todos los activos</button></a>
-				 </div> 
-				<h2 class="mb-3 mt-3">Registrar activo.</h2>
-				
+		 <div class="row">
+		  <div class="container border ">
+		   <div class="float-right mt-4">
+		    <a href="{{url('/activos')}}"><button class="btn btn-primary">Todos los activos</button></a>
+		     </div> 
+		 		<h2 class="mb-3 mt-3">Registrar activo.</h2>
 					{!! Form::open(['route'=>'activos.store',  'method'=>'POST', 'files' =>true]) !!}
 								<div class="form-group">
 										{!! Form::label('Asignado', 'Asignado *', null, ['class' => 'form-control']) !!}
@@ -15,21 +14,21 @@
 								</div>
 								<div class="form-group">
 										{!! Form::label('fecha entrega', 'Fecha de entrega *', null, ['class' => 'form-control']) !!}
-										{!! Form::text('fecha_entrega',null, ['class' => 'form-control','placeholder' => 'MM/DD/AAAA', 'id'=>'datepickerfe']) !!}
+										{!! Form::text('fecha_entrega',null, ['class' => 'form-control','placeholder' => 'MM/DD/AAAA', 'id'=>'datepickerfe', 'autocomplete'=>'off']) !!}
 											 <p class="help-block text-danger">{{ $errors->first('fecha_entrega') }}</p>
 								</div>	
 								<div class="form-group">
 										{!! Form::label('fecha mantenimiento', 'Fecha de mantenimiento *', null, ['class' => 'form-control']) !!}
-										{!! Form::text('fecha_mantenimiento',null, ['class' => 'form-control','placeholder' => 'MM/DD/AAAA', 'id'=>'datepickerfm']) !!}
+										{!! Form::text('fecha_mantenimiento',null, ['class' => 'form-control','placeholder' => 'MM/DD/AAAA', 'id'=>'datepickerfm','autocomplete'=>'off']) !!}
 											   <p class="help-block text-danger">{{ $errors->first('fecha_mantenimiento') }}</p>
 								</div>
 								<div class="form-group">
 										{!! Form::label('Propiedad', 'Propiedad *', null, ['class' => 'form-control']) !!}
 										{{  Form::select('propiedad',
 											 [''=>'',
-											 	'INDEFINIDO' => 'Indefinido',
+											 	'Indefinido' => 'Indefinido',
 											 	'TQI' => 'TQI',
-											 	'PERSONAL' => 'Personal', 
+											 	'Rersonal' => 'Personal', 
 											 	], null,['class' => 'form-control', 'id' => 'prop']) }}
 											 		<p class="help-block text-danger">{{ $errors->first('propiedad') }}</p>	
 								</div>
@@ -95,7 +94,7 @@
 											 		<p class="help-block text-danger">{{ $errors->first('tipo_de_lic') }}</p>
 								</div>  
 								<div class="form-group">
-										<label class="form-label" id="idwtitle">Numero ID de suscripcion, si tiene Windows</label>
+										<label class="form-label" id="idwtitle">Numero ID de suscripción, si tiene Windows</label>
 										{!! Form::text('nid', null, ['class' => 'form-control','id' => 'idw','placeholder' => 'ID windows.']) !!}
 												     <p class="help-block text-danger ">{{ $errors->first('nid') }}</p>
 								</div>
@@ -150,17 +149,17 @@
 							</div>
 							<div id="telef">
 								<div class="form-group">
-										<label class="form-label" id="tipoteltitle">Tipo de telefono *</label>
+										<label class="form-label" id="tipoteltitle">Tipo de teléfono *</label>
 										{!! Form::select('tipo_de_telefono',
 											 [	''=>'',
-											 	'Movil' => 'Movil',
+											 	'Móvil' => 'Móvil',
 											 	'Fijo' => 'Fijo',
 											 	'Otro' => 'Otro', 
 											 	], null,['class' => 'form-control','id' => 'tipotel']) !!}
 											 		<p class="help-block text-danger">{{ $errors->first('tipo_de_telefono') }}</p>
 								</div>
 								<div class="form-group">
-										<label class="form-label" id="tiposottitle">Tipo del sistema operativo del telefono *</label>
+										<label class="form-label" id="tiposottitle">Tipo del sistema operativo del teléfono *</label>
 										{!! Form::select('tipo_de_sot',
 											 [	''=>'',
 											 	'Android' => 'Android',
@@ -188,8 +187,8 @@
 												     <p class="help-block text-danger ">{{ $errors->first('nombre') }}</p>
 								</div>	
 								<div class="form-group">
-									<label class="form-label" id="vsotitle">Version del sistema operativo *</label>
-										{!! Form::text('vso', null, ['class' => 'form-control','id' => 'vso','placeholder' => 'Escriba la version del SO.']) !!}
+									<label class="form-label" id="vsotitle">Versión del sistema operativo *</label>
+										{!! Form::text('vso', null, ['class' => 'form-control','id' => 'vso','placeholder' => 'Escriba la versión del SO.']) !!}
 												     <p class="help-block text-danger ">{{ $errors->first('vso') }}</p>
 								</div>
 								<div class="form-group">
@@ -211,17 +210,17 @@
 							<div id="general">
 								<div class="form-group">
 										{!! Form::label('fecha entrega', 'Fecha de compra *', null, ['class' => 'form-control']) !!}
-										{!! Form::text('fecha_compra',null, ['class' => 'form-control','placeholder' => 'MM/DD/AAAA', 'id'=>'datepickerfecom']) !!}
+										{!! Form::text('fecha_compra',null, ['class' => 'form-control','placeholder' => 'MM/DD/AAAA', 'id'=>'datepickerfecom','autocomplete'=>'off']) !!}
 											 <p class="help-block text-danger">{{ $errors->first('fecha_compra') }}</p>
 								</div>
 								<div class="form-group">
 										<label class="form-label" id="provtitle">Proveedor del activo *</label>
-										{!! Form::text('proveedor', null, ['class' => 'form-control','id'=>'prov','placeholder' => 'Proveedor del activo.']) !!}
+										{!! Form::text('proveedor', null, ['class' => 'form-control','id'=>'prov','placeholder' => 'Proveedor del activo.','required']) !!}
 												     <p class="help-block text-danger ">{{ $errors->first('proveedor') }}</p>
 								</div>
 								<div class="form-group">
 										<label class="form-label" id="prectitle">Precio del activo *</label>
-										{!! Form::number('precio', null, ['class' => 'form-control','id'=>'prec','placeholder' => 'Escriba el precio del activo.']) !!}
+										{!! Form::number('precio', null, ['class' => 'form-control','id'=>'prec','placeholder' => 'Escriba el precio del activo.','required']) !!}
 												     <p class="help-block text-danger ">{{ $errors->first('precio') }}</p>
 								</div>
 										{!! Form::submit('Registrar ', ['class' => 'btn btn-success form-control mb-3', 'id' => 'btn']) !!}
@@ -229,4 +228,87 @@
 						{!! Form::close() !!}
 					</div>
 				</div>	
-		@endsection						
+		@endsection	
+		@section('js')
+			<script type="text/javascript">	
+
+				 $.datepicker.regional['es'] = {
+				     closeText: 'Cerrar',
+				     prevText: '< Ant',
+				     nextText: 'Sig >',
+				     currentText: 'Hoy',
+				     monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+				     monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+				     dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+				     dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+				     dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+				     };
+				  $.datepicker.setDefaults($.datepicker.regional['es']);
+
+						
+			      $(document).ready(function() {
+			          setTimeout(function() {
+			            $('#aviso').fadeOut(1500);
+			          },3000);
+
+
+					  $( "#datepickerfe" ).datepicker();
+					  $( "#datepickerfecom" ).datepicker();
+					  $( "#datepickerfm" ).datepicker();
+
+			          $('#general').hide();
+			          $('#comput').hide();
+			          $('#accesori').hide();
+			          $('#telef').hide();
+			          $('#comptel').hide();
+			          $('#butd').attr('disabled',true);
+
+			        $("#cat").click(function(){
+			          var valor= $("#cat").val();
+
+			            if (valor=='0') {
+
+			                $('#general').hide();
+			                $('#comput').hide();
+			                $('#accesori').hide();
+			                $('#telef').hide();
+			                $('#comptel').hide();
+
+			            }else if (valor=='1') {
+
+			                $('#general').show();
+			                $('#comput').show();
+			                $('#comptel').show();
+			                $('#accesori').hide();
+			                $('#telef').hide();
+
+			            }else if (valor=='2') {
+
+			                $('#accesori').show();
+			                $('#general').show();
+			                $('#comput').hide();
+			                $('#telef').hide();
+			                $('#comptel').hide();
+
+			            }else if (valor=='3') {
+
+			                $('#accesori').hide();
+			                $('#general').show();
+			                $('#comput').hide();
+			                $('#telef').show();
+			                $('#comptel').show();
+
+			            }else if (valor=='4') {
+
+			                $('#general').hide();
+			                $('#comput').hide();
+			                $('#accesori').hide();
+			                $('#telef').hide();
+			                $('#comptel').hide();
+
+			            }
+
+			          });
+			      });
+		      </script>
+	@endsection					

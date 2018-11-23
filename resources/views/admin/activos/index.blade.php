@@ -20,13 +20,13 @@
                                 <thead class="bg-primary text-white" >
                                     <tr>
                                         <th>Usuario</th>
-                                        <th>Categoria</th>
+                                        <th>Categoría</th>
                                         <th>Estado mantenimiento</th>
                                         <th>Propiedad</th>
-                                        <th>Tipo activo</th>
-                                        <th>Marca activo</th>
-                                        <th>Referencia activo</th>
-                                        <th>Serial activo</th>
+                                        <th>Tipo</th>
+                                        <th>Marca</th>
+                                        <th>Referencia</th>
+                                        <th>Serial</th>
                                         <th></th>
                                         <th></th>
                                         <th></th>

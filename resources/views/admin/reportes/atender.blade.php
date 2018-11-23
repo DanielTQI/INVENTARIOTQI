@@ -73,7 +73,7 @@
 									<input name="fecha_soportee" type="text" id="datepickerfe" class="form-control shadow-sm p-3 bg-white rounded">
 										        <p class="help-block text-danger">{{ $errors->first('fecha_soportee') }}</p>
 							    </div>	
-					{!! Form::submit('Soporte ', ['class' => 'btn btn-success form-control mb-3']) !!}			
+					{!! Form::submit('Atender ', ['class' => 'btn btn-success form-control mb-3']) !!}			
 		 {!! Form::close() !!} 
 	  </center>
     </div>

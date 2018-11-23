@@ -26,9 +26,9 @@
 										{!! Form::label('Propiedad', 'Propiedad *', null, ['class' => 'form-control']) !!}
 										{{  Form::select('propiedad',
 											 [''=>'',
-											 	'INDEFINIDO' => 'Indefinido',
+											 	'Indefinido' => 'Indefinido',
 											 	'TQI' => 'TQI',
-											 	'PERSONAL' => 'Personal', 
+											 	'Personal' => 'Personal', 
 											 	], $activo->propiedad,['class' => 'form-control', 'id' => 'prop']) }}
 											 		<p class="help-block text-danger">{{ $errors->first('propiedad') }}</p>	
 								</div>
@@ -48,7 +48,7 @@
 											 		<p class="help-block text-danger">{{ $errors->first('serial') }}</p>	
 								</div> 
 								<div class="form-group">
-										{!! Form::label('categ', 'Categoria *', null, ['class' => 'form-control']) !!}
+										{!! Form::label('categ', 'Categoría *', null, ['class' => 'form-control']) !!}
 										{{  Form::select('categoria', $cate, $activo->categoria_id, ['class' => 'form-control', 'id' => 'cat']) }}
 											 		<p class="help-block text-danger">{{ $errors->first('categoria') }}</p>	
 								</div>
@@ -94,7 +94,7 @@
 											 		<p class="help-block text-danger">{{ $errors->first('tipo_de_lic') }}</p>
 								</div>  
 								<div class="form-group">
-										<label class="form-label" id="idwtitle">Numero ID de suscripcion, si tiene Windows</label>
+										<label class="form-label" id="idwtitle">Numero ID de suscripción, si tiene Windows</label>
 										{!! Form::text('nid', $activo->nid_sistema_operativo, ['class' => 'form-control','id' => 'idw','placeholder' => 'ID windows.']) !!}
 												     <p class="help-block text-danger ">{{ $errors->first('nid') }}</p>
 								</div>
@@ -148,17 +148,17 @@
 							</div>
 							<div id="telef">
 								<div class="form-group">
-										<label class="form-label" id="tipoteltitle">Tipo de telefono *</label>
+										<label class="form-label" id="tipoteltitle">Tipo de teléfono *</label>
 										{!! Form::select('tipo_de_telefono',
 											 [	''=>'',
-											 	'Movil' => 'Movil',
+											 	'Móvil' => 'Móvil',
 											 	'Fijo' => 'Fijo',
 											 	'Otro' => 'Otro', 
 											 	], $activo->tipo_de_equipo,['class' => 'form-control','id' => 'tipotel']) !!}
 											 		<p class="help-block text-danger">{{ $errors->first('tipo_de_telefono') }}</p>
 								</div>
 								<div class="form-group">
-										<label class="form-label" id="tiposottitle">Tipo del sistema operativo del telefono *</label>
+										<label class="form-label" id="tiposottitle">Tipo del sistema operativo del teléfono *</label>
 										{!! Form::select('tipo_de_sot',
 											 [	''=>'',
 											 	'Android' => 'Android',
@@ -186,7 +186,7 @@
 												     <p class="help-block text-danger ">{{ $errors->first('nombre') }}</p>
 								</div>	
 								<div class="form-group">
-									<label class="form-label" id="vsotitle">Version del sistema operativo *</label>
+									<label class="form-label" id="vsotitle">Versión del sistema operativo *</label>
 										{!! Form::text('vso', $activo->vso_equipo, ['class' => 'form-control','id' => 'vso','placeholder' => 'Escriba la version del SO.']) !!}
 												     <p class="help-block text-danger ">{{ $errors->first('vso') }}</p>
 								</div>
@@ -228,4 +228,87 @@
 						{!! Form::close() !!}
 					</div>
 				</div>	
-		@endsection						
+		@endsection
+
+		@section('js')
+			<script type="text/javascript">	
+
+				 $.datepicker.regional['es'] = {
+				     closeText: 'Cerrar',
+				     prevText: '< Ant',
+				     nextText: 'Sig >',
+				     currentText: 'Hoy',
+				     monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+				     monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+				     dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+				     dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+				     dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+				     };
+				  $.datepicker.setDefaults($.datepicker.regional['es']);
+
+						
+			      $(document).ready(function() {
+			          setTimeout(function() {
+			            $('#aviso').fadeOut(1500);
+			          },3000);
+
+
+					  $( "#datepickerfe" ).datepicker();
+					  $( "#datepickerfecom" ).datepicker();
+					  $( "#datepickerfm" ).datepicker();
+
+			          $('#general').hide();
+			          $('#comput').hide();
+			          $('#accesori').hide();
+			          $('#telef').hide();
+			          $('#comptel').hide();
+			          $('#butd').attr('disabled',true);
+
+			        $("#cat").click(function(){
+			          var valor= $("#cat").val();
+
+			            if (valor=='0') {
+
+			                $('#general').hide();
+			                $('#comput').hide();
+			                $('#accesori').hide();
+			                $('#telef').hide();
+			                $('#comptel').hide();
+
+			            }else if (valor=='1') {
+
+			                $('#general').show();
+			                $('#comput').show();
+			                $('#comptel').show();
+			                $('#accesori').hide();
+			                $('#telef').hide();
+
+			            }else if (valor=='2') {
+
+			                $('#accesori').show();
+			                $('#general').show();
+			                $('#comput').hide();
+			                $('#telef').hide();
+			                $('#comptel').hide();
+
+			            }else if (valor=='3') {
+
+			                $('#accesori').hide();
+			                $('#general').show();
+			                $('#comput').hide();
+			                $('#telef').show();
+			                $('#comptel').show();
+
+			            }else if (valor=='4') {
+
+			                $('#general').hide();
+			                $('#comput').hide();
+			                $('#accesori').hide();
+			                $('#telef').hide();
+			                $('#comptel').hide();
+			            }
+
+			          });
+			      });
+		      </script>
+	@endsection											

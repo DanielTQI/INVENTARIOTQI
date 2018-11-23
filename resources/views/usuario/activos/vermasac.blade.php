@@ -10,7 +10,7 @@
               <table class="table">
                   <tbody>
                       <tr>
-                        <th>Categoria</th>
+                        <th>Categoría</th>
                           <td>{{ $activo->ncate }}</td>
                           
                       </tr>
@@ -35,41 +35,46 @@
                           
                       </tr>
                       <tr>
-                        <th>Tipo de accesorio</th>
+                        <th>Tipo</th>
                           <td>{{$activo->tipo_de_equipo}}</td>
                           
                       </tr>
                       <tr>
-                        <th>Marca de accesorio</th>
+                        <th>Marca</th>
                           <td>{{$activo->marca_equipo}}</td>
                           
                       </tr>
                       <tr>
-                        <th>Ref accesorio</th>
+                        <th>Referencia</th>
                           <td>{{$activo->referencia_equipo}}</td>
                           
                       </tr>
                       <tr>
-                        <th>Serial accesorio</th>
+                        <th>Serial</th>
                           <td>{{$activo->serial_equipo}}</td>
                           
                       </tr>
-                      </tr>
-                        <th>FCC-ID accesorio</th>
+                      <tr>
+                        <th>FCC-ID</th>
                           <td>{{$activo->fccid_equipo}}</td>
                           
                       </tr>
-                      </tr>
-                        <th>IC-ID accesorio</th>
+                      <tr>
+                        <th>IC-ID</th>
                           <td>{{$activo->icid_equipo}}</td>
                           
                       </tr>
-                      </tr>
+                      <tr>
                         <th>Incluido</th>
                           <td>{{$activo->incluido}}</td>
                           
                       </tr>
                   </tbody>
               </table>
+                     <h5 class="text mt-3 ml-3">QRCode</h5>
+                  <div id="print" >
+                      <img src="{{ asset('images/'.$activo->imgqr) }}">
+                  </div>
+                      <button id="printer" class="btn btn-primary btn-sm ml-3">Imprimir</button>
           </div>
 	@endsection
