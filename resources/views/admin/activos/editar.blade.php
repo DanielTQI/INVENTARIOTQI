@@ -4,7 +4,7 @@
 			<div class="container border ">
 				<div class="float-right mt-4">
 				  <a href="{{url('/activos')}}"><button class="btn btn-primary">Todos los activos</button></a>
-				 </div> 
+				 </div>
 				<h2 class="mb-3 mt-3">Editar {{$nameca}}</h2>
 					{!! Form::model($activo, ['route' => ['activos.update', $activo] , 'method' => 'PUT' ]) !!}
 								<div class="form-group">
@@ -16,7 +16,7 @@
 										{!! Form::label('fecha entrega', 'Fecha de entrega *', null, ['class' => 'form-control']) !!}
 										{!! Form::text('fecha_entrega', $activo->fecha_entrega, ['class' => 'form-control','placeholder' => 'MM/DD/AAAA', 'id'=>'datepickerfe']) !!}
 											 <p class="help-block text-danger">{{ $errors->first('fecha_entrega') }}</p>
-								</div>	
+								</div>
 								<div class="form-group">
 										{!! Form::label('fecha mantenimiento', 'Fecha de mantenimiento *', null, ['class' => 'form-control']) !!}
 										{!! Form::text('fecha_mantenimiento', $activo->fecha_mantenimiento, ['class' => 'form-control','placeholder' => 'MM/DD/AAAA', 'id'=>'datepickerfm']) !!}
@@ -28,29 +28,29 @@
 											 [''=>'',
 											 	'Indefinido' => 'Indefinido',
 											 	'TQI' => 'TQI',
-											 	'Personal' => 'Personal', 
+											 	'Personal' => 'Personal',
 											 	], $activo->propiedad,['class' => 'form-control', 'id' => 'prop']) }}
-											 		<p class="help-block text-danger">{{ $errors->first('propiedad') }}</p>	
+											 		<p class="help-block text-danger">{{ $errors->first('propiedad') }}</p>
 								</div>
 								<div class="form-group">
 										{!! Form::label('marcaa', 'Marca *', null, ['class' => 'form-control']) !!}
 										{!! Form::text('marca', $activo->marca_equipo, ['class' => 'form-control','placeholder' => 'Marca']) !!}
-											 		<p class="help-block text-danger">{{ $errors->first('marca') }}</p>	
+											 		<p class="help-block text-danger">{{ $errors->first('marca') }}</p>
 								</div>
 								<div class="form-group">
 										{!! Form::label('ref', 'Referencia o modelo *', null, ['class' => 'form-control']) !!}
 										{!! Form::text('referencia', $activo->referencia_equipo, ['class' => 'form-control','placeholder' => 'Referencia o modelo.']) !!}
-											 		<p class="help-block text-danger">{{ $errors->first('referencia') }}</p>	
-								</div> 	
+											 		<p class="help-block text-danger">{{ $errors->first('referencia') }}</p>
+								</div>
 								<div class="form-group">
 										{!! Form::label('ser', 'Serial S/N *', null, ['class' => 'form-control']) !!}
 										{!! Form::text('serial', $activo->serial_equipo, ['class' => 'form-control','placeholder' => 'S/N']) !!}
-											 		<p class="help-block text-danger">{{ $errors->first('serial') }}</p>	
-								</div> 
+											 		<p class="help-block text-danger">{{ $errors->first('serial') }}</p>
+								</div>
 								<div class="form-group">
 										{!! Form::label('categ', 'Categoría *', null, ['class' => 'form-control']) !!}
 										{{  Form::select('categoria', $cate, $activo->categoria_id, ['class' => 'form-control', 'id' => 'cat']) }}
-											 		<p class="help-block text-danger">{{ $errors->first('categoria') }}</p>	
+											 		<p class="help-block text-danger">{{ $errors->first('categoria') }}</p>
 								</div>
 							<div id="comput">
 								<div class="form-group">
@@ -60,8 +60,8 @@
 											 	'Indefinido' => 'Indefinido',
 											 	'DeskTop_TodoEnUno' => 'DeskTop todo en uno',
 											 	'LapTop' => 'LapTop',
-											 	'DeskTop' => 'DeskTop', 
-											 	'iPad' => 'iPad', 
+											 	'DeskTop' => 'DeskTop',
+											 	'iPad' => 'iPad',
 											 	], $activo->tipo_de_equipo,['class' => 'form-control','id' => 'tipocselect']) !!}
 											 		<p class="help-block text-danger">{{ $errors->first('tipo_de_equipo') }}</p>
 								</div>
@@ -69,16 +69,16 @@
 										<label class="form-label" id="mtmtitle">MTM del computador *</label>
 										{!! Form::text('mtm', $activo->mtm_equipo, ['class' => 'form-control','id' => 'mtm','placeholder' => 'Escriba el mtm, si tiene.']) !!}
 												     <p class="help-block text-danger ">{{ $errors->first('mtm') }}</p>
-								</div> 
+								</div>
 								<div class="form-group">
 										<label class="form-label" id="tiposoctitle">Tipo de sistema operativo del computador *</label>
 										{!! Form::select('tipo_de_soc',
 											 [	''=>'',
 											 	'Windows' => 'Windows',
 											 	'MacOS' => 'MacOS',
-											 	'IOS' => 'IOS', 
-											 	'Linux' => 'Linux', 
-											 	'Solaris' => 'Solaris', 
+											 	'IOS' => 'IOS',
+											 	'Linux' => 'Linux',
+											 	'Solaris' => 'Solaris',
 											 	], $activo->tipo_so,['class' => 'form-control','id' => 'tiposoc']) !!}
 											 		<p class="help-block text-danger">{{ $errors->first('tipo_de_soc') }}</p>
 								</div>
@@ -87,12 +87,12 @@
 										{!! Form::select('tipo_de_lic',
 											 [	''=>'',
 											 	'OEM' => 'OEM',
-											 	'Personal' => 'Personal', 
+											 	'Personal' => 'Personal',
 											 	'Javeriana' => 'Javeriana',
-											 	'Otro' => 'Otro', 
+											 	'Otro' => 'Otro',
 											 	], $activo->licencia,['class' => 'form-control','id' => 'lic']) !!}
 											 		<p class="help-block text-danger">{{ $errors->first('tipo_de_lic') }}</p>
-								</div>  
+								</div>
 								<div class="form-group">
 										<label class="form-label" id="idwtitle">Numero ID de suscripción, si tiene Windows</label>
 										{!! Form::text('nid', $activo->nid_sistema_operativo, ['class' => 'form-control','id' => 'idw','placeholder' => 'ID windows.']) !!}
@@ -103,11 +103,11 @@
 										{!! Form::select('office',
 											 [	''=>'',
 											 	'Indefinido' => 'Indefinido',
-											 	'Suscripcion_office.com' => 'Suscripcion_office.com', 
+											 	'Suscripcion_office.com' => 'Suscripcion_office.com',
 											 	'Personal' => 'Personal',
 											 	], $activo->tipo_office,['class' => 'form-control','id' => 'tipooff']) !!}
 											 		<p class="help-block text-danger">{{ $errors->first('office') }}</p>
-								</div>  
+								</div>
 								<div class="form-group">
 										<label class="form-label" id="workgtitle">WorkGroup del computador, si tiene Windows </label>
 										{!! Form::text('workgroup_equipo', $activo->workgroup_equipo, ['class' => 'form-control','id'=>'workg','placeholder' => 'WorkGroup.']) !!}
@@ -118,13 +118,13 @@
 										{!! Form::text('lan_mac', $activo->lan_mac, ['class' => 'form-control','id'=>'lmac','placeholder' => 'Lan mac.']) !!}
 												     <p class="help-block text-danger ">{{ $errors->first('lan_mac') }}</p>
 								</div>
-							</div>	
+							</div>
 							<div id="accesori">
 								<div class="form-group">
 										<label  class="form-label" id="tipoacctitle">Tipo de accesorio *</label>
 										{!! Form::text('tipo_accesorio', $activo->tipo_de_equipo, ['class' => 'form-control','id' =>'tipoacce','placeholder' => 'Escriba el tipo de accesorio.']) !!}
 												     <p class="help-block text-danger ">{{ $errors->first('tipo_accesorio') }}</p>
-								</div> 
+								</div>
 								<div class="form-group">
 										<label class="form-label" id="fccidtitle">FCCID del accesorio</label>
 										{!! Form::text('fccid', $activo->fccid_equipo, ['class' => 'form-control','id' => 'fccid','placeholder' => 'FCCID, si tiene.']) !!}
@@ -140,11 +140,11 @@
 										{!! Form::select('incluido',
 											 [	''=>'',
 											 	'Indefinido' => 'Indefinido',
-											 	'Si' => 'Si', 
+											 	'Si' => 'Si',
 											 	'No' => 'No',
 											 	], $activo->incluido,['class' => 'form-control','id' => 'incluido']) !!}
 											 		<p class="help-block text-danger">{{ $errors->first('incluido') }}</p>
-								</div>  	 
+								</div>
 							</div>
 							<div id="telef">
 								<div class="form-group">
@@ -153,7 +153,7 @@
 											 [	''=>'',
 											 	'Móvil' => 'Móvil',
 											 	'Fijo' => 'Fijo',
-											 	'Otro' => 'Otro', 
+											 	'Otro' => 'Otro',
 											 	], $activo->tipo_de_equipo,['class' => 'form-control','id' => 'tipotel']) !!}
 											 		<p class="help-block text-danger">{{ $errors->first('tipo_de_telefono') }}</p>
 								</div>
@@ -162,9 +162,9 @@
 										{!! Form::select('tipo_de_sot',
 											 [	''=>'',
 											 	'Android' => 'Android',
-											 	'IOS' => 'IOS', 
+											 	'IOS' => 'IOS',
 											 	'Windows' => 'Windows',
-											 	'Otro' => 'Otro', 
+											 	'Otro' => 'Otro',
 											 	], $activo->tipo_so,['class' => 'form-control','id' => 'tiposot']) !!}
 											 		<p class="help-block text-danger">{{ $errors->first('tipo_de_sot') }}</p>
 								</div>
@@ -184,7 +184,7 @@
 										<label class="form-label" id="nombretitle">Nombre del activo *</label>
 										{!! Form::text('nombre', $activo->nombre_equipo, ['class' => 'form-control','id' =>'nombre','placeholder' => 'Nombre del activo']) !!}
 												     <p class="help-block text-danger ">{{ $errors->first('nombre') }}</p>
-								</div>	
+								</div>
 								<div class="form-group">
 									<label class="form-label" id="vsotitle">Versión del sistema operativo *</label>
 										{!! Form::text('vso', $activo->vso_equipo, ['class' => 'form-control','id' => 'vso','placeholder' => 'Escriba la version del SO.']) !!}
@@ -205,7 +205,7 @@
 										{!! Form::text('contraseña', $activo->pass_admin, ['class' => 'form-control','id'=>'pass','placeholder' => 'Escriba la contraseña.']) !!}
 												     <p class="help-block text-danger ">{{ $errors->first('contraseña') }}</p>
 								</div>
-							</div>	
+							</div>
 							<div id="general">
 								<div class="form-group">
 										{!! Form::label('fecha entrega', 'Fecha de compra *', null, ['class' => 'form-control']) !!}
@@ -223,15 +223,15 @@
 												     <p class="help-block text-danger ">{{ $errors->first('precio') }}</p>
 								</div>
 										{!! Form::submit('Editar ', ['class' => 'btn btn-success form-control mb-3', 'id' => 'btn']) !!}
-								
+
 							</div>
 						{!! Form::close() !!}
 					</div>
-				</div>	
+				</div>
 		@endsection
 
 		@section('js')
-			<script type="text/javascript">	
+			<script type="text/javascript">
 
 				 $.datepicker.regional['es'] = {
 				     closeText: 'Cerrar',
@@ -246,7 +246,7 @@
 				     };
 				  $.datepicker.setDefaults($.datepicker.regional['es']);
 
-						
+
 			      $(document).ready(function() {
 			          setTimeout(function() {
 			            $('#aviso').fadeOut(1500);
@@ -264,7 +264,7 @@
 			          $('#comptel').hide();
 			          $('#butd').attr('disabled',true);
 
-			        $("#cat").click(function(){
+			        $("#cat").on("change",function(){
 			          var valor= $("#cat").val();
 
 			            if (valor=='0') {
@@ -309,6 +309,8 @@
 			            }
 
 			          });
+
+                    $("#cat").trigger('change');
 			      });
 		      </script>
-	@endsection											
+	@endsection

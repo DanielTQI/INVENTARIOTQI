@@ -14,12 +14,11 @@ class Categorias extends Migration
     public function up()
     {
          Schema::create('categorias', function (Blueprint $table) {
-            
+
             $table->increments('id');
             $table->string('nombre');
             $table->timestamp('deleted_at')->nullable();
-
-        }
+        });
     }
 
     /**

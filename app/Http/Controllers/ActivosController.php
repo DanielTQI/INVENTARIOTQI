@@ -63,7 +63,6 @@ class ActivosController extends Controller
 
             return redirect()->route('activos.index');
        }
-        
     }
 
     /**
@@ -77,7 +76,7 @@ class ActivosController extends Controller
        $user=auth()->user();
 
         if ($user->permisos=='lectura') {
-            
+
             return redirect()->route('activos.index');
 
         }elseif ($user->permisos=='escritura') {
@@ -88,7 +87,7 @@ class ActivosController extends Controller
             $user->prepend(" "," ");
 
             return view('admin.activos.crear', compact('user','cate'));
-        }    
+        }
     }
 
     /**
@@ -100,8 +99,8 @@ class ActivosController extends Controller
     public function store(Request $request)
     {
          $user=auth()->user();
-       if ($user->permisos=='escritura') {
-             
+        if ($user->permisos=='escritura') {
+
          if ($request->categoria==1) {
 
                 $validator = Validator::make($request->all(),[
@@ -190,7 +189,7 @@ class ActivosController extends Controller
                         $text = 'https://127.0.0.1:8000/activos/'.$activo->id;
                         $url= QR_Code::png($text, public_path().'/images/'.$name);
 
-                        
+
                         return redirect()->route('activos.index')->with('status', 'Computador guardado correctamente');
 
              }else if($request->categoria==2) {
@@ -273,7 +272,7 @@ class ActivosController extends Controller
 
                             $name = time().'.png';
                             $activo->imgqr=$name;
-                            
+
 
                             $activo->save();
 
@@ -371,12 +370,12 @@ class ActivosController extends Controller
 
                             $text = 'https://127.0.0.1:8000/activos/'.$activo->id;
                             $url= QR_Code::png($text, public_path().'/images/'.$name);
-                            
+
                             return redirect()->route('activos.index')->with('status', 'Teléfono guardado correctamente');
                  }
          }else {
 
-            return redirect()->route('activos.index'); 
+            return redirect()->route('activos.index');
 
          }
     }
@@ -400,14 +399,14 @@ class ActivosController extends Controller
                            ->first();
 
             if ($activo->categoria_id==1) {
-                
+
                 return view('admin.activos.vermaspc', compact('activo'));
 
             }elseif ($activo->categoria_id==2) {
                 Debugbar::info($activo);
 
                 return view('admin.activos.vermasac', compact('activo'));
-                
+
             }elseif ($activo->categoria_id==3) {
 
                 return view('admin.activos.vermastel', compact('activo'));
@@ -423,16 +422,16 @@ class ActivosController extends Controller
                           ->select('categorias.nombre as ncate','activos.*')
                            ->where('activos.id', '=', $id)
                            ->first();
-                    
+
 
             if ($activo->categoria_id==1) {
-                
+
                 return view('usuario.activos.vermaspc', compact('activo'));
 
             }elseif ($activo->categoria_id==2) {
 
                 return view('usuario.activos.vermasac', compact('activo'));
-                
+
             }elseif ($activo->categoria_id==3) {
 
                 return view('usuario.activos.vermastel', compact('activo'));
@@ -456,7 +455,7 @@ class ActivosController extends Controller
     {
         $user=auth()->user();
 
-       if ($user->permisos=='escritura') {
+        if ($user->permisos=='escritura') {
 
             $activo= Activo::find($id);
 
@@ -495,7 +494,7 @@ class ActivosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+
         $user=auth()->user();
 
         if ($user->permisos=='escritura') {
@@ -547,7 +546,7 @@ class ActivosController extends Controller
                     }
 
                         $activo= Activo::find($id);
-                    
+
                         $activo->usuario_id=$request->input('user_id');
                         $activo->categoria_id=$request->input('categoria');
                         $activo->fecha_entrega=Carbon::parse($request->input('fecha_entrega'));
@@ -582,7 +581,7 @@ class ActivosController extends Controller
                         $activo->precio=$request->input('precio');
 
                         $activo->save();
-                        
+
                         return redirect()->route('activos.index')->with('status', 'Computador actualizado correctamente');
 
              }elseif($request->categoria==2){
@@ -666,7 +665,7 @@ class ActivosController extends Controller
                             $activo->precio=$request->input('precio');
 
                             $activo->save();
-                            
+
                             return redirect()->route('activos.index')->with('status', 'Accesorio actualizado correctamente');
 
              }else if ($request->categoria==3) {
@@ -756,7 +755,7 @@ class ActivosController extends Controller
 
                             $activo->save();
 
-                            
+
                             return redirect()->route('activos.index')->with('status', 'Teléfono actualizado correctamente');
              }else{
                             return redirect()->route('activos.index')->with('statuselim', 'No existe');
@@ -786,13 +785,13 @@ class ActivosController extends Controller
             $reporte= Reporte::where('reportes.activo_id', '=', $id)
                                     ->get()->each ;
 
-            $reporte->delete();                        
+            $reporte->delete();
             $activo->delete();
 
             return redirect()->route('activos.index')->with('statuselim', 'Activo eliminado correctamente');
 
         }else{
-        
+
             return redirect()->route('activos.index');
         }
     }

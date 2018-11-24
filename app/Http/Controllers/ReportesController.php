@@ -37,7 +37,7 @@ class ReportesController extends Controller
                                  ->select('reportes.*','users.name as nombreuser','categorias.nombre as ncat','activos.id as activoid')
                                  ->orderby('reportes.created_at','DESC')
                                  ->get();
-                      
+
                     $users=$user->name;
 
                     return view('admin.reportes.index', compact('reportes','users'));
@@ -51,11 +51,11 @@ class ReportesController extends Controller
                                  ->where('users.id', '=', $user->id)
                                  ->orderby('reportes.created_at','DESC')
                                  ->get();
-                       
+
                     $users=$user->name;
 
                     return view('usuario.reportes.index', compact('reportes','users'));
-            }         
+            }
     }
 
     /**
@@ -72,13 +72,13 @@ class ReportesController extends Controller
                                         ->where('activos.id', '=', $request->id)
                                         ->first();
 
-                
+
                 $users=User::pluck('name','id');
                 $us=User::leftjoin('activos', 'users.id','=','activos.usuario_id')
                             ->select('users.id as ii','users.name as nn')
                             ->where('activos.id', '=', $request->id)->pluck('ii', 'nn');
 
-                    
+
 
                 if ($user->permisos=='escritura') {
 
@@ -87,11 +87,11 @@ class ReportesController extends Controller
                 }else if($user->permisos=='lectura') {
 
                     return view('usuario.reportes.crear', compact('users','info'));
-                } 
-            
-            }    
+                }
 
-    
+            }
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -127,7 +127,7 @@ class ReportesController extends Controller
                        ->withErrors($validator)
                        ->withInput();
                  }
-                
+
                     $reporte = new Reporte;
                     $reporte->usuario_id=$request->input('iduser');
                     $reporte->activo_id=$request->input('idactivo');
@@ -138,21 +138,21 @@ class ReportesController extends Controller
 
 
                     $data =  array(
-                        'reporti' => 'Equipo' , 
+                        'reporti' => 'Equipo' ,
                            );
 
                             Mail::send('emails.report', $data, function($message){
                                     $message->to('daniel.lopez@tqi.co', 'Ticket Laravel')
                                     ->bcc(array('dflopez620@misena.edu.co','dflopez9920@hotmail.com'))
                                     ->subject('Reporte de ACTIVOS');
-                         });
+                            });
 
                     $reporte->save();
 
                     return redirect()->route('reportes.index')->with('status', 'Reporte realizado exitosamente');
 
                 }elseif ($userl->permisos=='escritura') {
-                    
+
                     $validator = Validator::make($request->all(),[
                         'user_id' => 'required|max:100',
                         'tipo_reporte' => 'required|max:100',
@@ -175,7 +175,7 @@ class ReportesController extends Controller
                            ->withErrors($validator)
                            ->withInput();
                      }
-                    
+
                         $reporte = new Reporte;
 
                         $reporte->usuario_id=$request->input('user_id');
@@ -186,11 +186,11 @@ class ReportesController extends Controller
                         $reporte->atendido='NO';
 
                         $data =  array(
-                            'reporti' => 'Equipo' , 
+                            'reporti' => 'Equipo' ,
                                );
 
                                 Mail::send('emails.report', $data, function($message){
-                                 
+
                                         $message->to('daniel.lopez@tqi.co', 'Ticket Laravel')
                                         ->bcc(array('dflopez620@misena.edu.co','dflopez9920@hotmail.com'))
                                         ->subject('Reporte de ACTIVOS');
@@ -202,7 +202,7 @@ class ReportesController extends Controller
                 }else{
                         return redirect()->route('reportes.index');
                 }
-    }    
+    }
 
     /**
      * Display the specified resource.
@@ -223,7 +223,7 @@ class ReportesController extends Controller
                                ->leftjoin('categorias', 'activos.categoria_id' ,'=','categorias.id')
                                ->leftjoin('users', 'reportes.usuario_id' ,'=','users.id')
                                ->select('categorias.nombre as ncat','users.name as nuser','activos.id as idactive' ,'activos.*', 'reportes.*')
-                               ->where('reportes.id', '=', $id)  
+                               ->where('reportes.id', '=', $id)
                                ->first();
 
             return view('admin.reportes.atender' , compact('reporte', 'usersup'));
@@ -232,7 +232,7 @@ class ReportesController extends Controller
 
             return redirect()->route('reportes.index');
 
-        }      
+        }
     }
 
     /**
@@ -245,7 +245,7 @@ class ReportesController extends Controller
     {
         // $reporte = Reporte::find($id);
         $user=auth()->user();
-        
+
         $consu=Reporte::where('id','=', $id)->first();
 
 
@@ -348,7 +348,7 @@ class ReportesController extends Controller
                 return redirect()->route('reportes.index')->with('statuselim', 'Reporte eliminado exitosamente');
 
         }else{
-        
+
                 return redirect()->route('reportes.index');
         }
 
@@ -388,7 +388,7 @@ class ReportesController extends Controller
 
                 $reporte =  Reporte::find($id);
                 $userh= User::where('id', '=', $reporte->usuario_id)->first();
-                
+
                 $reporte->usuario_soporte=$request->input('usuario_soportee');
                 $reporte->atendido=$request->input('atendidoo');
                 $reporte->descripcion_soporte=$request->input('descripcion_soportee');
@@ -396,15 +396,15 @@ class ReportesController extends Controller
 
                 if ($request->atendidoo=='EN PROCESO') {
                     $data =  array(
-                            'reporti' => 'Esta en proceso de solucion' , 
+                            'reporti' => 'Esta en proceso de solucion' ,
                                );
                 }elseif ($request->atendidoo=='SI') {
                    $data =  array(
-                            'reporti' => 'Se solucionó satisfactoriamente' , 
+                            'reporti' => 'Se solucionó satisfactoriamente' ,
                                );
                 }
                                 Mail::send('emails.respuesta', $data, function($message) use ($userh){
-                                 
+
                                         $message->to($userh->email, $userh->name)
                                         ->subject('Atencion de Reporte');
                              });
@@ -417,7 +417,7 @@ class ReportesController extends Controller
                 return redirect()->route('reportes.index');
         }
 
-    } 
+    }
 
 
     public function historialactivo($id){
@@ -425,11 +425,11 @@ class ReportesController extends Controller
         $user=auth()->user();
 
         if ($user->permisos=='escritura') {
-           
+
             $histori = Reporte::leftjoin('activos', 'reportes.activo_id','=','activos.id')
                                 ->select('reportes.*','activos.tipo_de_equipo as tipo')
-                                ->where('reportes.activo_id', '=', $id) 
-                                ->groupby('reportes.id')  
+                                ->where('reportes.activo_id', '=', $id)
+                                ->groupby('reportes.id')
                                 ->orderby('reportes.created_at', 'DESC')
                                 ->get();
 
