@@ -48,8 +48,8 @@ class CreateActivosTable extends Migration
             $table->string('proveedor');
             $table->integer('precio');
             $table->string('imgqr')->nullable();
-            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 

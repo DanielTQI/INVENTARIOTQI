@@ -40,6 +40,7 @@ class ActivosController extends Controller
                            ->groupby('activos.id')
                            ->orderby('activos.created_at','DESC')
                            ->get();
+
              Debugbar::info($activos);
 
 
@@ -54,6 +55,7 @@ class ActivosController extends Controller
                            ->groupby('activos.id')
                            ->orderby('activos.created_at','DESC')
                            ->get();
+
              Debugbar::info($activos);
 
 
@@ -177,7 +179,7 @@ class ActivosController extends Controller
                         $activo->lan_mac=$request->input('lan_mac');
                         $activo->wifi_mac=$request->input('wifi_mac');
                         $activo->pass_admin=$request->input('contraseña');
-                        $activo->fecha_compra=$request->input('fecha_compra');
+                        $activo->fecha_compra=Carbon::parse($request->input('fecha_compra'));
                         $activo->proveedor=$request->input('proveedor');
                         $activo->precio=$request->input('precio');
 
@@ -267,6 +269,7 @@ class ActivosController extends Controller
                             $activo->mtm_equipo=$request->input('mtm');
                             $activo->nombre_equipo=$request->input('nombre');
                             $activo->wifi_mac=$request->input('wifi_mac');
+                            $activo->fecha_compra=Carbon::parse($request->input('fecha_compra'));
                             $activo->proveedor=$request->input('proveedor');
                             $activo->precio=$request->input('precio');
 
@@ -360,6 +363,7 @@ class ActivosController extends Controller
                             $activo->tipo_so=$request->input('tipo_de_sot');
                             $activo->nombre_equipo=$request->input('nombre');
                             $activo->wifi_mac=$request->input('wifi_mac');
+                            $activo->fecha_compra=Carbon::parse($request->input('fecha_compra'));
                             $activo->proveedor=$request->input('proveedor');
                             $activo->precio=$request->input('precio');
 
@@ -374,9 +378,7 @@ class ActivosController extends Controller
                             return redirect()->route('activos.index')->with('status', 'Teléfono guardado correctamente');
                  }
          }else {
-
-            return redirect()->route('activos.index');
-
+                            return redirect()->route('activos.index');
          }
     }
 

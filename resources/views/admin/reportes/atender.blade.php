@@ -70,7 +70,7 @@
 								</div> 	
 								<div class="form-group">
 									{!! Form::label('fecha soportee', 'Fecha donde se ejecutó el soporte *', null, ['class'=>'form-control']) !!}
-									<input name="fecha_soportee" type="text" id="datepickerfe" class="form-control shadow-sm p-3 bg-white rounded">
+									{!! Form::text('fecha_soportee',null, ['class' => 'form-control','placeholder' => 'MM/DD/AAAA', 'id'=>'datepickerfe','autocomplete'=>'off']) !!}
 										        <p class="help-block text-danger">{{ $errors->first('fecha_soportee') }}</p>
 							    </div>	
 					{!! Form::submit('Atender ', ['class' => 'btn btn-success form-control mb-3']) !!}			
