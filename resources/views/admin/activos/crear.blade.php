@@ -245,12 +245,6 @@
 				     };
 				  $.datepicker.setDefaults($.datepicker.regional['es']);
 
-						
-			      $(document).ready(function() {
-			          setTimeout(function() {
-			            $('#aviso').fadeOut(1500);
-			          },3000);
-
 
 					  $( "#datepickerfe" ).datepicker();
 					  $( "#datepickerfecom" ).datepicker();

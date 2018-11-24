@@ -38,12 +38,11 @@ class ReportesController extends Controller
                                  ->orderby('reportes.created_at','DESC')
                                  ->get();
                       
-                    Debugbar::info($reportes);
                     $users=$user->name;
 
                     return view('admin.reportes.index', compact('reportes','users'));
 
-               }elseif ($user->permisos=='lectura') {
+            }elseif ($user->permisos=='lectura') {
 
                  $reportes=Reporte::leftjoin('activos', 'reportes.activo_id', '=', 'activos.id')
                                  ->leftjoin('categorias', 'activos.categoria_id', '=', 'categorias.id')
@@ -53,12 +52,10 @@ class ReportesController extends Controller
                                  ->orderby('reportes.created_at','DESC')
                                  ->get();
                        
-                    Debugbar::info($reportes);
                     $users=$user->name;
 
                     return view('usuario.reportes.index', compact('reportes','users'));
-
-               }         
+            }         
     }
 
     /**
@@ -74,19 +71,22 @@ class ReportesController extends Controller
                                         ->select('users.id as us','activos.id as ida')
                                         ->where('activos.id', '=', $request->id)
                                         ->first();
+
                 
                 $users=User::pluck('name','id');
                 $us=User::leftjoin('activos', 'users.id','=','activos.usuario_id')
-                            ->where('activos.id', '=', $request->id)
-                            ->pluck('name','id')->first();
+                            ->select('users.id as ii','users.name as nn')
+                            ->where('activos.id', '=', $request->id)->pluck('ii', 'nn');
+
+                    
 
                 if ($user->permisos=='escritura') {
 
-                    return view('admin.reportes.crear', compact('users','info'));
+                    return view('admin.reportes.crear', compact('users','info','us'));
 
                 }else if($user->permisos=='lectura') {
 
-                    return view('usuario.reportes.crear', compact('users','info','us'));
+                    return view('usuario.reportes.crear', compact('users','info'));
                 } 
             
             }    
@@ -212,7 +212,6 @@ class ReportesController extends Controller
      */
     public function show($id)
     {
-        // return $id;
         $user=auth()->user();
 
         if ($user->permisos=='escritura') {

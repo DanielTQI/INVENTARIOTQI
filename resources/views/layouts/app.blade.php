@@ -97,6 +97,11 @@
     
 
   $(document).ready(function() {
+    setTimeout(function() {
+      
+      $('#aviso').fadeOut(1500);
+     },3000);
+
 
     $("#printer").bind("click",function(){
 
@@ -136,10 +141,8 @@
   $( function() {
      $( "#datepickerfecom" ).datepicker();
    } );
-      // $(function () {
-      //   $('[data-toggle="tooltip"]').tooltip()
-      // });
 
+     
         
   </script>
 </body>
