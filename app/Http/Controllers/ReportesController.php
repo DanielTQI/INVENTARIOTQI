@@ -59,15 +59,19 @@ class ReportesController extends Controller
                     return view('usuario.reportes.index', compact('reportes','users'));
 
                }         
-    }
+                    $users=$user->name;
+
+                    return view('usuario.reportes.index', compact('reportes','users'));
+            }         
+    
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
-    {
+    public function create(Request $request){
+
                 $user = auth()->user();
 
                 $info=Activo::leftjoin('users', 'activos.usuario_id', '=', 'users.id')
@@ -75,23 +79,24 @@ class ReportesController extends Controller
                                         ->where('activos.id', '=', $request->id)
                                         ->first();
                 
+                $users=User::pluck('name','id');
 
-                $us=User::leftjoin('activos', 'activos.usuario_id','=','users.id')
+                $usi=User::leftjoin('activos', 'activos.usuario_id','=','users.id')
                                         ->where('activos.id', '=', $request->id)
                                         ->select('users.name', 'users.id')
-                                        ->pluck('name','id')
-                                        ->first();
+                                        ->pluck('name','id');
+                                        
 
-
-                $users=User::pluck('name','id');
+                
                
 
-                    Debugbar::info($us);
+                    Debugbar::info($usi);
 
+                    
 
                 if ($user->permisos=='escritura') {
 
-                    return view('admin.reportes.crear', compact('users','info','us'));
+                    return view('admin.reportes.crear', compact('users','usi','info'));
 
                 }else if($user->permisos=='lectura') {
 

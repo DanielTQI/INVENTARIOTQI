@@ -127,7 +127,7 @@ class ActivosController extends Controller
                     'wifi_mac'=>'required|max:100',
                     'cuenta_admin'=>'required|max:100',
                     'contraseña'=>'max:100',
-                    'fecha_compra'=>'required|max:100|date',
+                    'fecha_compra'=>'required|max:10|date',
                     'proveedor'=>'required|max:100',
                     'precio'=>'required|max:100',
                     ],[
@@ -178,7 +178,7 @@ class ActivosController extends Controller
                         $activo->lan_mac=$request->input('lan_mac');
                         $activo->wifi_mac=$request->input('wifi_mac');
                         $activo->pass_admin=$request->input('contraseña');
-                        $activo->fecha_compra=$request->input('fecha_compra');
+                        $activo->fecha_compra=Carbon::parse($request->input('fecha_compra'));
                         $activo->proveedor=$request->input('proveedor');
                         $activo->precio=$request->input('precio');
 
@@ -223,7 +223,7 @@ class ActivosController extends Controller
                         'wifi_mac'=>'max:100',
                         'cuenta_admin'=>'max:100',
                         'contraseña'=>'max:100',
-                        'fecha_compra'=>'required|max:100|date',
+                        'fecha_compra'=>'required|max:10|date',
                         'proveedor'=>'required|max:100',
                         'precio'=>'required|max:100',
                         ],[
@@ -268,6 +268,7 @@ class ActivosController extends Controller
                             $activo->mtm_equipo=$request->input('mtm');
                             $activo->nombre_equipo=$request->input('nombre');
                             $activo->wifi_mac=$request->input('wifi_mac');
+                            $activo->fecha_compra=Carbon::parse($request->input('fecha_compra'));
                             $activo->proveedor=$request->input('proveedor');
                             $activo->precio=$request->input('precio');
 
@@ -313,7 +314,7 @@ class ActivosController extends Controller
                         'wifi_mac'=>'max:100',
                         'cuenta_admin'=>'max:100|required_if:propiedad,TQI',
                         'contraseña'=>'max:100',
-                        'fecha_compra'=>'required|max:100|date',
+                        'fecha_compra'=>'required|max:10|date',
                         'proveedor'=>'required|max:100',
                         'precio'=>'required|max:100',
 
@@ -361,6 +362,7 @@ class ActivosController extends Controller
                             $activo->tipo_so=$request->input('tipo_de_sot');
                             $activo->nombre_equipo=$request->input('nombre');
                             $activo->wifi_mac=$request->input('wifi_mac');
+                            $activo->fecha_compra=Carbon::parse($request->input('fecha_compra'));
                             $activo->proveedor=$request->input('proveedor');
                             $activo->precio=$request->input('precio');
 
@@ -375,6 +377,7 @@ class ActivosController extends Controller
                             return redirect()->route('activos.index')->with('status', 'Teléfono guardado correctamente');
                  }
          }else {
+
 
                 return redirect()->route('activos.index');
 
@@ -394,10 +397,10 @@ class ActivosController extends Controller
        if ($user->permisos=='escritura') {
 
             $activo=Activo::leftjoin('users', 'activos.usuario_id', '=' , 'users.id')
-                           ->leftjoin('categorias', 'activos.categoria_id', '=', 'categorias.id')
-                          ->select('users.name','categorias.nombre as ncate','activos.*')
-                           ->where('activos.id', '=', $id)
-                           ->first();
+                            ->leftjoin('categorias', 'activos.categoria_id', '=', 'categorias.id')
+                            ->select('users.name','categorias.nombre as ncate','activos.*')
+                            ->where('activos.id', '=', $id)
+                            ->first();
 
             if ($activo->categoria_id==1) {
                 
@@ -577,7 +580,7 @@ class ActivosController extends Controller
                         $activo->lan_mac=$request->input('lan_mac');
                         $activo->wifi_mac=$request->input('wifi_mac');
                         $activo->pass_admin=$request->input('contraseña');
-                        $activo->fecha_compra=$request->input('fecha_compra');
+                        $activo->fecha_compra=Carbon::parse($request->input('fecha_compra'));
                         $activo->proveedor=$request->input('proveedor');
                         $activo->precio=$request->input('precio');
 
@@ -595,7 +598,7 @@ class ActivosController extends Controller
                         'marca' => 'required|max:100',
                         'referencia' => 'required|max:100',
                         'serial' => 'required|max:100',
-                         'categoria' => 'required|max:100',
+                        'categoria' => 'required|max:100',
                         'tipo_accesorio' => 'required|string',
                         'fccid' => 'max:100',
                         'icid' => 'max:100',
@@ -661,7 +664,7 @@ class ActivosController extends Controller
                             $activo->mtm_equipo=$request->input('mtm');
                             $activo->nombre_equipo=$request->input('nombre');
                             $activo->wifi_mac=$request->input('wifi_mac');
-                            $activo->fecha_compra=$request->input('fecha_compra');
+                            $activo->fecha_compra=Carbon::parse($request->input('fecha_compra'));
                             $activo->proveedor=$request->input('proveedor');
                             $activo->precio=$request->input('precio');
 
@@ -750,7 +753,7 @@ class ActivosController extends Controller
                             $activo->tipo_so=$request->input('tipo_de_sot');
                             $activo->nombre_equipo=$request->input('nombre');
                             $activo->wifi_mac=$request->input('wifi_mac');
-                            $activo->fecha_compra=$request->input('fecha_compra');
+                            $activo->fecha_compra=Carbon::parse($request->input('fecha_compra'));
                             $activo->proveedor=$request->input('proveedor');
                             $activo->precio=$request->input('precio');
 

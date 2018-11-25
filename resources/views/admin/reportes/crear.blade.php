@@ -9,9 +9,8 @@
 						{!! Form::open(['route'=>'reportes.store',  'method'=>'POST', 'files' =>true]) !!}
 									 <div class="form-group">
 												{!! Form::label('Asignado', 'Asignado *', ['class' => 'text-left']) !!}
-												{!! Form::select('user_id', $users, $us, ['class' => 'form-control','required']) !!}
-												</select>
-											 		<p class="help-block text-danger">{{ $errors->first('user_id') }}</p>	
+												{!! Form::select('user_id', $users, $usi, ['class' => 'form-control','required']) !!}
+											 				<p class="help-block text-danger">{{ $errors->first('user_id') }}</p>	
 									</div>
 									<div class="form-group">
 												{!! Form::label('tipor', 'Tipo de reporte *', null, ['class'=>'form-control']) !!}
@@ -36,6 +35,6 @@
 								    <input type="hidden" name="idactivo" value="{{$info->ida}}">
 						{!! Form::submit('Crear Reporte ', ['class' => 'btn btn-success form-control mb-3']) !!}		
 			{!! Form::close() !!}
+		   </div>	
 		</div>	
-	</div>	
 @endsection

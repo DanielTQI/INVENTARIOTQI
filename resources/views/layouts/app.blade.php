@@ -98,6 +98,12 @@
 
   $(document).ready(function() {
 
+    setTimeout(function() {
+      
+      $('#aviso').fadeOut(1500);
+     },3000);
+
+
     $("#printer").bind("click",function(){
 
       $("#print").printArea();
@@ -140,7 +146,6 @@
       //   $('[data-toggle="tooltip"]').tooltip()
       // });
 
-        
   </script>
 </body>
 </html>
