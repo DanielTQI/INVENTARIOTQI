@@ -378,7 +378,6 @@ class ActivosController extends Controller
 
                 return redirect()->route('activos.index');
 
-
          }
     }
 
