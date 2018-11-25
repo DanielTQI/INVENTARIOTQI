@@ -375,7 +375,9 @@ class ActivosController extends Controller
                             return redirect()->route('activos.index')->with('status', 'Teléfono guardado correctamente');
                  }
          }else {
+
                 return redirect()->route('activos.index');
+
 
          }
     }
