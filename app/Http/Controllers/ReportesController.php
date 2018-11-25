@@ -75,18 +75,27 @@ class ReportesController extends Controller
                                         ->where('activos.id', '=', $request->id)
                                         ->first();
                 
+
+                $us=User::leftjoin('activos', 'activos.usuario_id','=','users.id')
+                                        ->where('activos.id', '=', $request->id)
+                                        ->select('users.name', 'users.id')
+                                        ->pluck('name','id')
+                                        ->first();
+
+
                 $users=User::pluck('name','id');
-                $us=User::leftjoin('activos', 'users.id','=','activos.usuario_id')
-                            ->where('activos.id', '=', $request->id)
-                            ->pluck('name','id')->first();
+               
+
+                    Debugbar::info($us);
+
 
                 if ($user->permisos=='escritura') {
 
-                    return view('admin.reportes.crear', compact('users','info'));
+                    return view('admin.reportes.crear', compact('users','info','us'));
 
                 }else if($user->permisos=='lectura') {
 
-                    return view('usuario.reportes.crear', compact('users','info','us'));
+                    return view('usuario.reportes.crear', compact('users','info'));
                 } 
             
             }    
