@@ -378,7 +378,11 @@ class ActivosController extends Controller
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             return redirect()->route('activos.index'); 
+=======
+            return redirect()->route('activos.index');
+>>>>>>> parent of 2f6fa34... wee
 =======
             return redirect()->route('activos.index');
 >>>>>>> parent of 2f6fa34... wee
