@@ -320,6 +320,7 @@ class ActivosController extends Controller
                     'cuenta_admin.required_if' => 'Este campo es requerido ya que es propiedad de TQI',
                     'contraseña.required_if' => 'Este campo es requerido ya que es propiedad de TQI',
                     'nombre.required_if' => 'Este campo es requerido ya que su sistema operativo es IOS',
+                    'wifi_mac.required_if' => 'Este campo es requerido ya que su sistema operativo es IOS o Android',
                     'email'    => 'Este campo debe tener formato de correo electrónico',
                     'unique'   => 'Este correo debe ser único',
                     'max'      => 'Este campo no debe superar :max caracteres',
