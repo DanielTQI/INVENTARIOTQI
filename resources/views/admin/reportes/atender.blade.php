@@ -71,7 +71,7 @@
 									{!! Form::text('fecha_soportee',null, ['class' => 'form-control','placeholder' => 'MM/DD/AAAA', 'id'=>'datepickerfecom','autocomplete'=>'off','required']) !!}
 										        <p class="help-block text-danger">{{ $errors->first('fecha_soportee') }}</p>
 							    </div>	
-					     {!! Form::submit('Atender ', ['class' => 'btn btn-success form-control mb-3']) !!}			
+					     {!! Form::submit('Realizar ', ['class' => 'btn btn-success form-control mb-3']) !!}			
 		            {!! Form::close() !!} 
 			  </center>
 		    </div>
