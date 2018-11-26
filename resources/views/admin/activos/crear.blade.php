@@ -103,7 +103,8 @@
 										{!! Form::select('office',
 											 [	''=>'',
 											 	'OEM' => 'OEM',
-											 	'Suscripcion_office.com' => 'Suscripcion_office.com', 
+											 	'Licencia fisica' =>'Licencia fisica',
+											 	'Suscripcion office.com' => 'Suscripcion office.com', 
 											 	'Personal' => 'Personal',
 											 	'Indefinido' => 'Indefinido',
 											 	], null,['class' => 'form-control','id' => 'tipooff']) !!}

@@ -15,20 +15,22 @@
 				    <center>
                         <h2 class="text-center">Hola {{$users}}¡ estos son los reportes registrados</h2>
         <a href="/activos" class="btn btn-primary btn-sm float-right ">Ver todos los activos</a>
-
                 				<table class="table table-striped table-responsive table-sm table-dark" id="tablee">
                                     <thead class="bg-primary" >
                                         <tr>
                                             <th><center>Usuario</th>
-                                            <th><center>Tipo activo</th>
+                                            <th><center>Activo</th>
                                             <th><center>Tipo de falla</th>
-                                            <th><center>Desc falla</th>
+                                            <th><center>Descripción falla</th>
                                             <th><center>Fecha del reporte</th>
                                             <th><center>Atendido</th>
-                                            <th><center>Desc soporte</th>
+                                            <th><center>Descripción soporte</th>
                                             <th><center>Fecha soporte</th>
                                             <th></th>
                                             <th></th>
+                                            <th></th>
+                                            <th></th>
+
                                         </tr>
                                     </thead>
                                         <tbody>
@@ -41,16 +43,32 @@
                                                     <td><center>{{ $reporte->descripcion_usuario }}</center></td>
                                                     <td><center>{{ $reporte->fecha_reporte }}</center></td>
                                                     <td><center>{{ $reporte->atendido }}</center></td>
-                                                    <td><center>{{ $reporte->descripcion_soporte }}</center></td>
-                                                    <td><center>{{ $reporte->fecha_soporte }}</center></td>
+
                                                         @if($reporte->atendido=='SI')
-                                                            <td data-toggle="tooltip" data-placement="top" title="El reporte ya fue atendido"><center><a href="" class="btn btn-success btn-sm disabled" >Atender</a></center></td>
-                                                        @else    
-                                                            <td><center><a href="/reportes/{{$reporte->id}}" class="btn btn-success btn-sm">Atender</a></center></td>
-                                                        @endif    
-                                                    <td><center>{!! Form::open([ 'route' => ['reportes.destroy', $reporte->id ], 'method' => 'DELETE' ]) !!}
-                    									{!! Form::submit('Eliminar ', ['class' => 'btn btn-danger mb-2 btn-sm']) !!}
-                        							{!! Form::close()!!}   </center></td>                          
+                                                            <td><center>{{ $reporte->descripcion_soporte }}</center></td>
+                                                            <td><center>{{ $reporte->fecha_soporte }}</center></td>
+                                                            <td><center><a href="/reportes/{{$reporte->id}}/edit" class="btn btn-primary btn-sm mt-2 ">Editar</a></center></td>
+                                                            <td data-toggle="tooltip" data-placement="top" title="El reporte ya fue atendido"><center><a href="" class="btn btn-success btn-sm disabled mt-2" >Atendido</a></center></td>
+                                                        @elseif($reporte->atendido=='NO')  
+                                                            <td><center>Sin atender</center></td>
+                                                            <td><center>Sin atender</center></td>
+                                                            <td><center><a href="/reportes/{{$reporte->id}}/edit" class="btn btn-primary btn-sm mt-2 ">Editar</a></center></td>
+                                                            <td><center><a href="/reportes/{{$reporte->id}}" class="btn btn-success btn-sm mt-2">Atender</a></center></td>
+                                                        @elseif($reporte->atendido=='EN PROCESO')
+                                                            <td><center>{{ $reporte->descripcion_soporte }}</center></td>
+                                                            <td><center>{{ $reporte->fecha_soporte }}</center></td>
+                                                            <td><center><a href="/reportes/{{$reporte->id}}/edit" class="btn btn-primary btn-sm mt-2 ">Editar</a></center></td>
+                                                            <td><center><a href="/reportes/{{$reporte->id}}" class="btn btn-success btn-sm mt-2">Seguir atendiendo</a></center></td>
+                                                        @endif
+
+                                                    <td><center><a href="{{ route ('admin.reportes.historial',['id'=>$reporte->activo_id])}}" class="btn btn-warning btn-sm mt-2">Historial</a></center></td>  
+
+                                                    <td><center>
+                                                        {!! Form::open([ 'route' => ['reportes.destroy', $reporte->id ], 'method' => 'DELETE' ]) !!}
+                    									  {!! Form::submit('Eliminar ', ['class' => 'btn btn-danger mb-2 btn-sm mt-2']) !!}
+                        							    {!! Form::close()!!}   
+                                                    </center></td>
+
                                                     </center>
                                                 </tr>
                                             @endforeach

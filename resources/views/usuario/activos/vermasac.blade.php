@@ -73,7 +73,7 @@
               </table>
                      <h5 class="text mt-3 ml-3">QRCode</h5>
                   <div id="print" >
-                      <img src="{{ asset('images/'.$activo->imgqr) }}">
+                         <img src="{{ asset('ACT/'.$activo->id.'/'.$activo->imgqr) }}">
                   </div>
                       <button id="printer" class="btn btn-primary btn-sm ml-3">Imprimir</button>
           </div>

@@ -12,12 +12,9 @@ class Reporte extends Model
 	use SoftDeletes;
 
 	protected $dates = ['deleted_at'];
-    
-    public function equipo(){
-    	return $this->hasMany(Equipo::class );
-    }
+   
 
     public function user(){
-    	return $this->hasMany(User::class, 'usuario_id');
+    	return $this->belongsTo(User::class, 'usuario_soporte' );
     }
 }

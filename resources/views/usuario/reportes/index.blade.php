@@ -17,12 +17,12 @@
                                 <table class="table table-striped table-responsive  table-dark" id="tablee">
                                     <thead class="bg-primary" >
                                         <tr>
-                                            <th><center>Categoria</th>
+                                            <th><center>Categoría</th>
                                             <th><center>Tipo de falla</th>
-                                            <th><center>Desc falla</th>
+                                            <th><center>Descripción falla</th>
                                             <th><center>Fecha del reporte</th>
                                             <th><center>Atendido</th>
-                                            <th><center>Desc soporte</th>
+                                            <th><center>Descripción soporte</th>
                                             <th><center>Fecha soporte</th>
                                             <th></th>
                                             <th></th>
@@ -37,8 +37,15 @@
                                                     <td><center>{{ $reporte->descripcion_usuario }}</center></td>
                                                     <td><center>{{ $reporte->fecha_reporte }}</center></td>
                                                     <td><center>{{ $reporte->atendido }}</center></td>
-                                                    <td><center>{{ $reporte->descripcion_soporte }}</center></td>
-                                                    <td><center>{{ $reporte->fecha_soporte }}</center></td>
+                                                    
+                                                        @if($reporte->atendido=='SI'|| $reporte->atendido=='EN PROCESO' )
+                                                            <td><center>{{ $reporte->descripcion_soporte }}</center></td>
+                                                            <td><center>{{ $reporte->fecha_soporte }}</center></td>              
+                                                        @elseif($reporte->atendido=='NO')  
+                                                            <td><center>Sin atender</center></td>
+                                                            <td><center>Sin atender</center></td>
+                                                        @endif
+                                                    
                                                     <td><center><a href="/reportes/{{$reporte->id}}/edit" class="btn btn-success btn-sm mt-2 ">Editar</a></center></td>
                                                     <td><center>{!! Form::open([ 'route' => ['reportes.destroy', $reporte->id ], 'method' => 'DELETE' ]) !!}
                                                         {!! Form::submit('Eliminar ', ['class' => 'btn btn-danger mb-2 btn-sm mt-2']) !!}

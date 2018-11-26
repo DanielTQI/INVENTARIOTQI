@@ -102,9 +102,11 @@
 										<label class="form-label" id="tipoofftitle">Tipo de office *</label>
 										{!! Form::select('office',
 											 [	''=>'',
-											 	'Indefinido' => 'Indefinido',
-											 	'Suscripcion_office.com' => 'Suscripcion_office.com', 
+											 	'OEM' => 'OEM',
+											 	'Licencia fisica' =>'Licencia fisica',
+											 	'Suscripcion office.com' => 'Suscripcion office.com', 
 											 	'Personal' => 'Personal',
+											 	'Indefinido' => 'Indefinido',
 											 	], $activo->tipo_office,['class' => 'form-control','id' => 'tipooff']) !!}
 											 		<p class="help-block text-danger">{{ $errors->first('office') }}</p>
 								</div>  

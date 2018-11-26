@@ -41,16 +41,14 @@
 			            
 			        </tr>
 			    </tbody>
-   		</table>
-
+   		     </table>
    		<a href="{{ route ('admin.reportes.historial',['id'=>$reporte->idactive])}}"> <button class="btn btn-primary btn-block">Historial del activo</button></a>
-   		<h3 class="text mt-3">Atender reporte de {{$reporte->ncat}}</h3>
-		{!! Form::model($reporte, ['route' => ['admin.reportes.soporte',  $reporte] , 'method' => 'POST' ]) !!}
-				<div class="lg-3  form-group mt-3">
-						 <div class="form-group">
+   		     <h3 class="text mt-3">Atender reporte de {{$reporte->ncat}}</h3>
+		           {!! Form::model($reporte, ['route' => ['admin.reportes.soporte',  $reporte] , 'method' => 'POST' ]) !!}
+				        <div class="lg-3  form-group mt-3">
+						       <div class="form-group">
 											{!! Form::label('Asignado', 'Quen hace el soporte *', ['class' => 'text-left']) !!}
 											{!! Form::select('usuario_soportee', $usersup, null, ['class' => 'form-control']) !!}
-											</select>
 										 		<p class="help-block text-danger">{{ $errors->first('usuario_soportee') }}</p>	
 								</div>
 								<div class="form-group">
@@ -70,13 +68,13 @@
 								</div> 	
 								<div class="form-group">
 									{!! Form::label('fecha soportee', 'Fecha donde se ejecutó el soporte *', null, ['class'=>'form-control']) !!}
-									<input name="fecha_soportee" type="text" id="datepickerfe" class="form-control shadow-sm p-3 bg-white rounded">
+									{!! Form::text('fecha_soportee',null, ['class' => 'form-control','placeholder' => 'MM/DD/AAAA', 'id'=>'datepickerfecom','autocomplete'=>'off','required']) !!}
 										        <p class="help-block text-danger">{{ $errors->first('fecha_soportee') }}</p>
 							    </div>	
-					{!! Form::submit('Atender ', ['class' => 'btn btn-success form-control mb-3']) !!}			
-		 {!! Form::close() !!} 
-	  </center>
-    </div>
-  </div> 
+					     {!! Form::submit('Atender ', ['class' => 'btn btn-success form-control mb-3']) !!}			
+		            {!! Form::close() !!} 
+			  </center>
+		    </div>
+		  </div> 
 @endsection
 

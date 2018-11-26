@@ -11,9 +11,9 @@
 									{!! Form::label('tipor', 'Tipo de reporte *', null, ['class'=>'form-control']) !!}
 									{{Form::select('tipo_reporte',
 										 [''=>'',
-										 	'FISICO' => 'FISICO',
-										 	'PROGRAMAS' => 'PROGRAMAS',
-										 	'OTRO' => 'OTRO', 
+										 	'Fisico' => 'Fisico',
+										 	'Programas' => 'Programas',
+										 	'Otro' => 'Otro', 
 										 	], null,['class' => 'form-control'])}}
 										 		<p class="help-block text-danger">{{ $errors->first('tipo_reporte') }}</p>	
 								</div> 			

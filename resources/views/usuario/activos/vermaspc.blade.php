@@ -42,7 +42,7 @@
             
         </tr>
         <tr>
-          <th>MarcA</th>
+          <th>Marca</th>
             <td>{{$activo->marca_equipo}}</td>
             
         </tr>
@@ -87,7 +87,7 @@
             
         </tr>
         <tr>
-          <th>Nombre equipo</th>
+          <th>Nombre</th>
             <td>{{$activo->nombre_equipo}}</td>
             
         </tr>
@@ -114,8 +114,8 @@
       </tbody>
     </table>
                 <h5 class="text mt-3 ml-3">QRCode</h5>
-            <div id="print" >
-                <img src="{{ asset('images/'.$activo->imgqr) }}">
+            <div id="print" >  
+                   <img src="{{ asset('ACT/'.$activo->id.'/'.$activo->imgqr) }}">
             </div>
                 <button id="printer" class="btn btn-primary btn-sm ml-3">Imprimir</button>
   </div>

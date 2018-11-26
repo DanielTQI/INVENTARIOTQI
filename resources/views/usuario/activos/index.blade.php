@@ -18,6 +18,8 @@
                                 <thead class="bg-primary text-white" >
                                     <tr>
                                         <th>Categoría</th>
+                                        <th>Fecha de entrega</th>
+                                        <th>Fecha de mantenimeinto</th>
                                         <th>Estado mantenimiento</th>
                                         <th>Propiedad</th>
                                         <th>Tipo</th>
@@ -33,6 +35,8 @@
                                         <tr>
                                         	<center>
                                                 <td><center>{{ $activo->ncate }}</center></td>
+                                                <td><center>{{ $activo->fecha_entrega }}</center></td>
+                                                <td><center>{{ $activo->fecha_mantenimiento }}</center></td>
                                                 <td><center>{{ $activo->estado_mantenimiento }}</center></td>
                                                 <td><center>{{ $activo->propiedad }}</center></td>
                                                 <td><center>{{ $activo->tipo_de_equipo }}</center></td>

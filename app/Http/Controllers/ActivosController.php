@@ -2,22 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use File;
-use App\User;
-use Validator;
 use App\Activo;
-use App\Equipo;
-use App\Reporte;
-use App\Accesorio;
 use App\Categoria;
-use Carbon\Carbon;
-use QR_Code\QR_Code;
-use QR_Code\Types\QR_Url;
-use QR_Code\Types\QR_WiFi;
-use Illuminate\Http\Request;
+use App\Reporte;
+use App\User;
 use Barryvdh\Debugbar\Facade as Debugbar;
-
+use Carbon\Carbon;
+use File;
+use Illuminate\Http\Request;
+use QR_Code\QR_Code;
+use Validator;
 
 class ActivosController extends Controller
 {
@@ -28,43 +22,40 @@ class ActivosController extends Controller
      */
     public function index()
     {
-         
 
-       $user=auth()->user();
+        $user = auth()->user();
 
-       if ($user->permisos=='escritura') {
+        if ($user->permisos == 'escritura') {
 
-            $activos=Activo::leftjoin('users', 'activos.usuario_id', '=' , 'users.id')
-                           ->leftjoin('reportes', 'reportes.activo_id', '=', 'activos.id')
-                           ->leftjoin('categorias', 'activos.categoria_id', '=', 'categorias.id')
-                           ->select('users.name as nus','categorias.nombre as ncate','activos.*','reportes.id as repor')
-                           ->groupby('activos.id')
-                           ->orderby('activos.created_at','DESC')
-                           ->get();
-             Debugbar::info($activos);
-
+            $activos = Activo::leftjoin('users', 'activos.usuario_id', '=', 'users.id')
+                ->leftjoin('reportes', 'reportes.activo_id', '=', 'activos.id')
+                ->leftjoin('categorias', 'activos.categoria_id', '=', 'categorias.id')
+                ->select('users.name as nus', 'categorias.nombre as ncate', 'activos.*', 'reportes.id as repor')
+                ->groupby('activos.id')
+                ->orderby('activos.created_at', 'DESC')
+                ->get();
+            Debugbar::info($activos);
 
             return view('admin.activos.index', compact('activos'));
 
-       }elseif($user->permisos=='lectura'){
+        } elseif ($user->permisos == 'lectura') {
 
-            $activos=Activo::leftjoin('categorias', 'activos.categoria_id', '=', 'categorias.id')
-                           ->leftjoin('reportes', 'reportes.activo_id', '=', 'activos.id')
-                           ->select('categorias.nombre as ncate','activos.*', 'reportes.id as repor')
-                           ->where('activos.usuario_id','=',$user->id)
-                           ->groupby('activos.id')
-                           ->orderby('activos.created_at','DESC')
-                           ->get();
-             Debugbar::info($activos);
+            $activos = Activo::leftjoin('categorias', 'activos.categoria_id', '=', 'categorias.id')
+                ->leftjoin('reportes', 'reportes.activo_id', '=', 'activos.id')
+                ->select('categorias.nombre as ncate', 'activos.*', 'reportes.id as repor')
+                ->where('activos.usuario_id', '=', $user->id)
+                ->groupby('activos.id')
+                ->orderby('activos.created_at', 'DESC')
+                ->get();
+            Debugbar::info($activos);
 
+            return view('usuario.activos.index', compact('activos', 'user'));
 
-            return view('usuario.activos.index', compact('activos','user'));
-
-       }else{
+        } else {
 
             return redirect()->route('activos.index');
-       }
-        
+        }
+
     }
 
     /**
@@ -75,21 +66,21 @@ class ActivosController extends Controller
     public function create()
     {
 
-       $user=auth()->user();
+        $user = auth()->user();
 
-        if ($user->permisos=='lectura') {
-            
+        if ($user->permisos == 'lectura') {
+
             return redirect()->route('activos.index');
 
-        }elseif ($user->permisos=='escritura') {
+        } elseif ($user->permisos == 'escritura') {
 
             $user = User::pluck('name', 'id');
             $cate = Categoria::pluck('nombre', 'id');
-            $cate->prepend(" ","0");
-            $user->prepend(" "," ");
+            $cate->prepend(" ", "0");
+            $user->prepend(" ", " ");
 
-            return view('admin.activos.crear', compact('user','cate'));
-        }    
+            return view('admin.activos.crear', compact('user', 'cate'));
+        }
     }
 
     /**
@@ -100,292 +91,295 @@ class ActivosController extends Controller
      */
     public function store(Request $request)
     {
-         $user=auth()->user();
-       if ($user->permisos=='escritura') {
-             
-         if ($request->categoria==1) {
+        $user = auth()->user();
+        if ($user->permisos == 'escritura') {
 
-                $validator = Validator::make($request->all(),[
-                    'user_id' => 'required',
-                    'fecha_entrega' =>'required|date',
+            if ($request->categoria == 1) {
+
+                $validator = Validator::make($request->all(), [
+                    'user_id'             => 'required',
+                    'fecha_entrega'       => 'required|date',
                     'fecha_mantenimiento' => 'required|date',
-                    'propiedad' => 'required',
-                    'tipo_de_equipo' => 'required',
-                    'marca' => 'required|max:100',
-                    'referencia' => 'required|max:100',
-                    'serial' => 'required|max:100',
-                    'categoria' => 'required|max:100',
-                    'tipo_de_equipo' => 'required|string',
-                    'mtm' => 'max:100',
-                    'tipo_de_soc' => 'required|string',
-                    'tipo_de_lic' => 'required|string ',
-                    'office' => 'required|string',
-                    'nid'=>'max:30',
-                    'workgroup_equipo'=>'max:100',
-                    'lan_mac'=>'max:100',
-                    'nombre'=>'required|max:100',
-                    'vso'=>'required|max:100',
-                    'wifi_mac'=>'required|max:100',
-                    'cuenta_admin'=>'required|max:100',
-                    'contraseña'=>'max:100',
-                    'fecha_compra'=>'required|max:10|date',
-                    'proveedor'=>'required|max:100',
-                    'precio'=>'required|max:100',
-                    ],[
+                    'propiedad'           => 'required',
+                    'tipo_de_equipo'      => 'required',
+                    'marca'               => 'required|max:100',
+                    'referencia'          => 'required|max:100',
+                    'serial'              => 'required|max:100',
+                    'categoria'           => 'required|max:100',
+                    'tipo_de_equipo'      => 'required|string',
+                    'mtm'                 => 'max:100',
+                    'tipo_de_soc'         => 'required|string',
+                    'tipo_de_lic'         => 'required|string ',
+                    'office'              => 'required|string',
+                    'nid'                 => 'max:30',
+                    'workgroup_equipo'    => 'max:100',
+                    'lan_mac'             => 'max:100',
+                    'nombre'              => 'required|max:100',
+                    'vso'                 => 'required|max:100',
+                    'wifi_mac'            => 'required|max:100',
+                    'cuenta_admin'        => 'required|max:100',
+                    'contraseña'          => 'max:100',
+                    'fecha_compra'        => 'required|max:10|date',
+                    'proveedor'           => 'required|max:100',
+                    'precio'              => 'required|max:100',
+                ], [
                     'required' => 'Este campo es requerido',
-                    'email' => 'Este campo debe tener formato de correo electrónico',
-                    'unique' => 'Este correo debe ser único',
-                    'max' => 'Este campo no debe superar :max caracteres',
-                    'min' => 'Este campo no debe ser menor de :min caracteres',
-                    'numeric' => 'Este campo debe ser numerico',
-                    'string' => 'Este campo debe ser solo texto',
-                    'url' => 'Este campo debe ser una url',
-                    'date' => 'Este campo debe ser una fecha',
+                    'email'    => 'Este campo debe tener formato de correo electrónico',
+                    'unique'   => 'Este correo debe ser único',
+                    'max'      => 'Este campo no debe superar :max caracteres',
+                    'min'      => 'Este campo no debe ser menor de :min caracteres',
+                    'numeric'  => 'Este campo debe ser numerico',
+                    'string'   => 'Este campo debe ser solo texto',
+                    'url'      => 'Este campo debe ser una url',
+                    'date'     => 'Este campo debe ser una fecha',
                 ]);
-                     if ($validator->fails()) {
+                if ($validator->fails()) {
 
-                        return redirect()->route('activos.create')
-                       ->withErrors($validator)
-                       ->withInput();
-                    }
+                    return redirect()->route('activos.create')
+                        ->withErrors($validator)
+                        ->withInput();
+                }
 
-                    $activo = new Activo();
-                        $activo->usuario_id=$request->input('user_id');
-                        $activo->categoria_id=$request->input('categoria');
-                        $activo->fecha_entrega=Carbon::parse($request->input('fecha_entrega'));
-                        $activo->fecha_mantenimiento=Carbon::parse($request->input('fecha_mantenimiento'));
-                        $mantenimiento = Carbon::parse($request->input('fecha_mantenimiento'));
-                        $hoy = Carbon::parse(now()->toDateString());
-                        $diasDiferencia = $hoy->diffInDays($mantenimiento);
-                            if ($diasDiferencia>60) {
-                                $activo->estado_mantenimiento='pendiente';
-                            }else{
-                                $activo->estado_mantenimiento='bien';
-                            }
-                        $activo->propiedad=$request->input('propiedad');
-                        $activo->tipo_de_equipo=$request->input('tipo_de_equipo');
-                        $activo->marca_equipo=$request->input('marca');
-                        $activo->referencia_equipo=$request->input('referencia');
-                        $activo->serial_equipo=$request->input('serial');
-                        $activo->mtm_equipo=$request->input('mtm');
-                        $activo->tipo_so=$request->input('tipo_de_soc');
-                        $activo->licencia=$request->input('tipo_de_lic');
-                        $activo->vso_equipo=$request->input('vso');
-                        $activo->nid_sistema_operativo=$request->input('nid');
-                        $activo->tipo_office=$request->input('office');
-                        $activo->nombre_equipo=$request->input('nombre');
-                        $activo->workgroup_equipo=$request->input('workgroup_equipo');
-                        $activo->cuenta_admin_equipo=$request->input('cuenta_admin');
-                        $activo->lan_mac=$request->input('lan_mac');
-                        $activo->wifi_mac=$request->input('wifi_mac');
-                        $activo->pass_admin=$request->input('contraseña');
-                        $activo->fecha_compra=Carbon::parse($request->input('fecha_compra'));
-                        $activo->proveedor=$request->input('proveedor');
-                        $activo->precio=$request->input('precio');
+                $activo                      = new Activo();
+                $activo->usuario_id          = $request->input('user_id');
+                $activo->categoria_id        = $request->input('categoria');
+                $activo->fecha_entrega       = Carbon::parse($request->input('fecha_entrega'));
+                $activo->fecha_mantenimiento = Carbon::parse($request->input('fecha_mantenimiento'));
+                $mantenimiento               = Carbon::parse($request->input('fecha_mantenimiento'));
+                $hoy                         = Carbon::parse(now()->toDateString());
+                $diasDiferencia              = $hoy->diffInDays($mantenimiento);
+                if ($diasDiferencia > 60) {
+                    $activo->estado_mantenimiento = 'pendiente';
+                } else {
+                    $activo->estado_mantenimiento = 'bien';
+                }
+                $activo->propiedad             = $request->input('propiedad');
+                $activo->tipo_de_equipo        = $request->input('tipo_de_equipo');
+                $activo->marca_equipo          = $request->input('marca');
+                $activo->referencia_equipo     = $request->input('referencia');
+                $activo->serial_equipo         = $request->input('serial');
+                $activo->mtm_equipo            = $request->input('mtm');
+                $activo->tipo_so               = $request->input('tipo_de_soc');
+                $activo->licencia              = $request->input('tipo_de_lic');
+                $activo->vso_equipo            = $request->input('vso');
+                $activo->nid_sistema_operativo = $request->input('nid');
+                $activo->tipo_office           = $request->input('office');
+                $activo->nombre_equipo         = $request->input('nombre');
+                $activo->workgroup_equipo      = $request->input('workgroup_equipo');
+                $activo->cuenta_admin_equipo   = $request->input('cuenta_admin');
+                $activo->lan_mac               = $request->input('lan_mac');
+                $activo->wifi_mac              = $request->input('wifi_mac');
+                $activo->pass_admin            = $request->input('contraseña');
+                $activo->fecha_compra          = Carbon::parse($request->input('fecha_compra'));
+                $activo->proveedor             = $request->input('proveedor');
+                $activo->precio                = $request->input('precio');
 
-                        $name = time().'.png';
-                        $activo->imgqr=$name;
+                $name          = time() . '.png';
+                $activo->imgqr = $name;
 
-                        $activo->save();
+                $activo->save();
 
-                        File::makeDirectory(public_path().'/ACT/'.$activo->id);
-                        $text = 'https://127.0.0.1:8000/activos/'.$activo->id;
-                        $url= QR_Code::png($text, public_path().'/ACT/'.$activo->id.'/'.$name);
+                $rout = explode(',', env('APP_URL'));
 
-                        
-                        return redirect()->route('activos.index')->with('status', 'Computador guardado correctamente');
+                File::makeDirectory(public_path() . '/ACT/' . $activo->id);
+                $text = $rout[0] . '/activos/' . $activo->id;
+                $url  = QR_Code::png($text, public_path() . '/ACT/' . $activo->id . '/' . $name);
 
-             }else if($request->categoria==2) {
+                return redirect()->route('activos.index')->with('status', 'Computador guardado correctamente');
 
-                    $validator = Validator::make($request->all(),[
-                        'user_id' => 'required',
-                        'fecha_entrega' =>'required|date',
-                        'fecha_mantenimiento' => 'required|date',
-                        'propiedad' => 'required',
-                        'marca' => 'required|max:100',
-                        'referencia' => 'required|max:100',
-                        'serial' => 'required|max:100',
-                        'categoria' => 'required|max:100',
-                        'tipo_accesorio' => 'required|string',
-                        'fccid' => 'max:100',
-                        'icid' => 'max:100',
-                        'incluido' => 'required|string',
+            } else if ($request->categoria == 2) {
 
-                        'mtm' => 'max:100',
-                        'tipo_de_soc' => 'max:100',
-                        'tipo_de_lic' => 'max:100 ',
-                        'office' => 'max:100',
-                        'nid'=>'max:30',
-                        'workgroup_equipo'=>'max:100',
-                        'fccid' => 'max:100',
-                        'icid' => 'max:100',
-                        'lan_mac'=>'max:100',
-                        'nombre'=>'max:100',
-                        'vso'=>'max:100',
-                        'wifi_mac'=>'max:100',
-                        'cuenta_admin'=>'max:100',
-                        'contraseña'=>'max:100',
-                        'fecha_compra'=>'required|max:10|date',
-                        'proveedor'=>'required|max:100',
-                        'precio'=>'required|max:100',
-                        ],[
-                        'required' => 'Este campo es requerido',
-                        'email' => 'Este campo debe tener formato de correo electrónico',
-                        'unique' => 'Este correo debe ser único',
-                        'max' => 'Este campo no debe superar :max caracteres',
-                        'min' => 'Este campo no debe ser menor de :min caracteres',
-                        'numeric' => 'Este campo debe ser numerico',
-                        'string' => 'Este campo debe ser solo texto',
-                        'url' => 'Este campo debe ser una url',
-                        'date' => 'Este campo debe ser una fecha',
-                    ]);
-                         if ($validator->fails()) {
+                $validator = Validator::make($request->all(), [
+                    'user_id'             => 'required',
+                    'fecha_entrega'       => 'required|date',
+                    'fecha_mantenimiento' => 'required|date',
+                    'propiedad'           => 'required',
+                    'marca'               => 'required|max:100',
+                    'referencia'          => 'required|max:100',
+                    'serial'              => 'required|max:100',
+                    'categoria'           => 'required|max:100',
+                    'tipo_accesorio'      => 'required|string',
+                    'fccid'               => 'max:100',
+                    'icid'                => 'max:100',
+                    'incluido'            => 'required|string',
 
-                            return redirect()->route('activos.create')
-                           ->withErrors($validator)
-                           ->withInput();
-                        }
+                    'mtm'                 => 'max:100',
+                    'tipo_de_soc'         => 'max:100',
+                    'tipo_de_lic'         => 'max:100 ',
+                    'office'              => 'max:100',
+                    'nid'                 => 'max:30',
+                    'workgroup_equipo'    => 'max:100',
+                    'fccid'               => 'max:100',
+                    'icid'                => 'max:100',
+                    'lan_mac'             => 'max:100',
+                    'nombre'              => 'max:100',
+                    'vso'                 => 'max:100',
+                    'wifi_mac'            => 'max:100',
+                    'cuenta_admin'        => 'max:100',
+                    'contraseña'          => 'max:100',
+                    'fecha_compra'        => 'required|max:10|date',
+                    'proveedor'           => 'required|max:100',
+                    'precio'              => 'required|max:100',
+                ], [
+                    'required' => 'Este campo es requerido',
+                    'email'    => 'Este campo debe tener formato de correo electrónico',
+                    'unique'   => 'Este correo debe ser único',
+                    'max'      => 'Este campo no debe superar :max caracteres',
+                    'min'      => 'Este campo no debe ser menor de :min caracteres',
+                    'numeric'  => 'Este campo debe ser numerico',
+                    'string'   => 'Este campo debe ser solo texto',
+                    'url'      => 'Este campo debe ser una url',
+                    'date'     => 'Este campo debe ser una fecha',
+                ]);
+                if ($validator->fails()) {
 
-                         $activo = new Activo();
-                            $activo->usuario_id=$request->input('user_id');
-                            $activo->categoria_id=$request->input('categoria');
-                            $activo->fecha_entrega=Carbon::parse($request->input('fecha_entrega'));
-                            $activo->fecha_mantenimiento=Carbon::parse($request->input('fecha_mantenimiento'));
-                            $mantenimiento = Carbon::parse($request->input('fecha_mantenimiento'));
-                            $hoy = Carbon::parse(now()->toDateString());
-                            $diasDiferencia = $hoy->diffInDays($mantenimiento);
-                                if ($diasDiferencia>60) {
-                                    $activo->estado_mantenimiento='pendiente';
-                                }else{
-                                    $activo->estado_mantenimiento='bien';
-                                }
-                            $activo->propiedad=$request->input('propiedad');
-                            $activo->tipo_de_equipo=$request->input('tipo_accesorio');
-                            $activo->marca_equipo=$request->input('marca');
-                            $activo->incluido=$request->input('incluido');
-                            $activo->referencia_equipo=$request->input('referencia');
-                            $activo->serial_equipo=$request->input('serial');
-                            $activo->fccid_equipo=$request->input('fccid');
-                            $activo->icid_equipo=$request->input('icid');
-                            $activo->mtm_equipo=$request->input('mtm');
-                            $activo->nombre_equipo=$request->input('nombre');
-                            $activo->wifi_mac=$request->input('wifi_mac');
-                            $activo->fecha_compra=Carbon::parse($request->input('fecha_compra'));
-                            $activo->proveedor=$request->input('proveedor');
-                            $activo->precio=$request->input('precio');
+                    return redirect()->route('activos.create')
+                        ->withErrors($validator)
+                        ->withInput();
+                }
 
-                            $name = time().'.png';
-                            $activo->imgqr=$name;
-                            
+                $activo                      = new Activo();
+                $activo->usuario_id          = $request->input('user_id');
+                $activo->categoria_id        = $request->input('categoria');
+                $activo->fecha_entrega       = Carbon::parse($request->input('fecha_entrega'));
+                $activo->fecha_mantenimiento = Carbon::parse($request->input('fecha_mantenimiento'));
+                $mantenimiento               = Carbon::parse($request->input('fecha_mantenimiento'));
+                $hoy                         = Carbon::parse(now()->toDateString());
+                $diasDiferencia              = $hoy->diffInDays($mantenimiento);
+                if ($diasDiferencia > 60) {
+                    $activo->estado_mantenimiento = 'pendiente';
+                } else {
+                    $activo->estado_mantenimiento = 'bien';
+                }
+                $activo->propiedad         = $request->input('propiedad');
+                $activo->tipo_de_equipo    = $request->input('tipo_accesorio');
+                $activo->marca_equipo      = $request->input('marca');
+                $activo->incluido          = $request->input('incluido');
+                $activo->referencia_equipo = $request->input('referencia');
+                $activo->serial_equipo     = $request->input('serial');
+                $activo->fccid_equipo      = $request->input('fccid');
+                $activo->icid_equipo       = $request->input('icid');
+                $activo->mtm_equipo        = $request->input('mtm');
+                $activo->nombre_equipo     = $request->input('nombre');
+                $activo->wifi_mac          = $request->input('wifi_mac');
+                $activo->fecha_compra      = Carbon::parse($request->input('fecha_compra'));
+                $activo->proveedor         = $request->input('proveedor');
+                $activo->precio            = $request->input('precio');
 
-                            $activo->save();
+                $name          = time() . '.png';
+                $activo->imgqr = $name;
 
-                            File::makeDirectory(public_path().'/ACT/'.$activo->id);
-                            $text = 'https://127.0.0.1:8000/activos/'.$activo->id;
-                            $url= QR_Code::png($text, public_path().'/ACT/'.$activo->id.'/'.$name);
+                $activo->save();
 
-                            return redirect()->route('activos.index')->with('status', 'Accesorio guardado correctamente');
+                $rout = explode(',', env('APP_URL'));
 
-             }else if($request->categoria==3) {
+                File::makeDirectory(public_path() . '/ACT/' . $activo->id);
+                $text = $rout[0] . '/activos/' . $activo->id;
+                $url  = QR_Code::png($text, public_path() . '/ACT/' . $activo->id . '/' . $name);
 
-                    $validator = Validator::make($request->all(),[
-                        'user_id' => 'required',
-                        'fecha_entrega' =>'required|date',
-                        'fecha_mantenimiento' => 'required|date',
-                        'propiedad' => 'required|string',
-                        'marca' => 'required|max:100',
-                        'referencia' => 'required|max:100',
-                        'serial' => 'required|max:100',
-                        'categoria' => 'required|max:100',
-                        'fccid' => 'max:100',
-                        'icid' => 'max:100',
-                        'incluido' => 'max:100',
-                        'tipo_de_telefono'=>'required|max:100',
-                        'tipo_de_sot'=>'required|max:100|string',
-                        'imei_1'=>'required|max:100',
-                        'imei_2'=>'max:100',
+                return redirect()->route('activos.index')->with('status', 'Accesorio guardado correctamente');
 
-                        'mtm' => 'max:100',
-                        'tipo_de_soc' => 'max:100',
-                        'tipo_de_lic' => 'max:100 ',
-                        'office' => 'max:100',
-                        'nid'=>'max:30',
-                        'workgroup_equipo'=>'max:100',
-                        'lan_mac'=>'max:100',
-                        'nombre'=>'max:100',
-                        'vso'=>'required|max:100',
-                        'wifi_mac'=>'max:100',
-                        'cuenta_admin'=>'max:100|required_if:propiedad,TQI',
-                        'contraseña'=>'max:100',
-                        'fecha_compra'=>'required|max:10|date',
-                        'proveedor'=>'required|max:100',
-                        'precio'=>'required|max:100',
+            } else if ($request->categoria == 3) {
 
-                        ],[
+                $validator = Validator::make($request->all(), [
+                    'user_id'             => 'required',
+                    'fecha_entrega'       => 'required|date',
+                    'fecha_mantenimiento' => 'required|date',
+                    'propiedad'           => 'required|string',
+                    'marca'               => 'required|max:100',
+                    'referencia'          => 'required|max:100',
+                    'serial'              => 'required|max:100',
+                    'categoria'           => 'required|max:100',
+                    'fccid'               => 'max:100',
+                    'icid'                => 'max:100',
+                    'incluido'            => 'max:100',
+                    'tipo_de_telefono'    => 'required|max:100',
+                    'tipo_de_sot'         => 'required|max:100|string',
+                    'imei_1'              => 'required|max:100',
+                    'imei_2'              => 'max:100',
 
-                        'required' => 'Este campo es requerido',
-                        'email' => 'Este campo debe tener formato de correo electrónico',
-                        'unique' => 'Este correo debe ser único',
-                        'max' => 'Este campo no debe superar :max caracteres',
-                        'min' => 'Este campo no debe ser menor de :min caracteres',
-                        'numeric' => 'Este campo debe ser numerico',
-                        'string' => 'Este campo debe ser solo texto',
-                        'url' => 'Este campo debe ser una url',
-                        'date' => 'Este campo solo admite fechas',
-                    ]);
-                         if ($validator->fails()) {
+                    'mtm'                 => 'max:100',
+                    'tipo_de_soc'         => 'max:100',
+                    'tipo_de_lic'         => 'max:100 ',
+                    'office'              => 'max:100',
+                    'nid'                 => 'max:30',
+                    'workgroup_equipo'    => 'max:100',
+                    'lan_mac'             => 'max:100',
+                    'nombre'              => 'max:100',
+                    'vso'                 => 'required|max:100',
+                    'wifi_mac'            => 'max:100',
+                    'cuenta_admin'        => 'max:100|required_if:propiedad,TQI',
+                    'contraseña'          => 'max:100',
+                    'fecha_compra'        => 'required|max:10|date',
+                    'proveedor'           => 'required|max:100',
+                    'precio'              => 'required|max:100',
 
-                            return redirect()->route('activos.create')
-                           ->withErrors($validator)
-                           ->withInput();
-                        }
+                ], [
 
-                        $activo = new Activo();
-                            $activo->usuario_id=$request->input('user_id');
-                            $activo->categoria_id=$request->input('categoria');
-                            $activo->fecha_entrega=Carbon::parse($request->input('fecha_entrega'));
-                            $activo->fecha_mantenimiento=Carbon::parse($request->input('fecha_mantenimiento'));
-                            $mantenimiento = Carbon::parse($request->input('fecha_mantenimiento'));
-                            $hoy = Carbon::parse(now()->toDateString());
-                            $diasDiferencia = $hoy->diffInDays($mantenimiento);
-                                if ($diasDiferencia>60) {
-                                    $activo->estado_mantenimiento='pendiente';
-                                }else{
-                                    $activo->estado_mantenimiento='bien';
-                                }
-                            $activo->propiedad=$request->input('propiedad');
-                            $activo->tipo_de_equipo=$request->input('tipo_de_telefono');
-                            $activo->marca_equipo=$request->input('marca');
-                            $activo->referencia_equipo=$request->input('referencia');
-                            $activo->serial_equipo=$request->input('serial');
-                            $activo->imei_1=$request->input('imei_1');
-                            $activo->imei_2=$request->input('imei_2');
-                            $activo->wifi_mac=$request->input('wifi_mac');
-                            $activo->vso_equipo=$request->input('vso');
-                            $activo->tipo_so=$request->input('tipo_de_sot');
-                            $activo->nombre_equipo=$request->input('nombre');
-                            $activo->wifi_mac=$request->input('wifi_mac');
-                            $activo->fecha_compra=Carbon::parse($request->input('fecha_compra'));
-                            $activo->proveedor=$request->input('proveedor');
-                            $activo->precio=$request->input('precio');
+                    'required' => 'Este campo es requerido',
+                    'email'    => 'Este campo debe tener formato de correo electrónico',
+                    'unique'   => 'Este correo debe ser único',
+                    'max'      => 'Este campo no debe superar :max caracteres',
+                    'min'      => 'Este campo no debe ser menor de :min caracteres',
+                    'numeric'  => 'Este campo debe ser numerico',
+                    'string'   => 'Este campo debe ser solo texto',
+                    'url'      => 'Este campo debe ser una url',
+                    'date'     => 'Este campo solo admite fechas',
+                ]);
+                if ($validator->fails()) {
 
-                            $name = time().'.png';
-                            $activo->imgqr=$name;
+                    return redirect()->route('activos.create')
+                        ->withErrors($validator)
+                        ->withInput();
+                }
 
-                            $activo->save();
+                $activo                      = new Activo();
+                $activo->usuario_id          = $request->input('user_id');
+                $activo->categoria_id        = $request->input('categoria');
+                $activo->fecha_entrega       = Carbon::parse($request->input('fecha_entrega'));
+                $activo->fecha_mantenimiento = Carbon::parse($request->input('fecha_mantenimiento'));
+                $mantenimiento               = Carbon::parse($request->input('fecha_mantenimiento'));
+                $hoy                         = Carbon::parse(now()->toDateString());
+                $diasDiferencia              = $hoy->diffInDays($mantenimiento);
+                if ($diasDiferencia > 60) {
+                    $activo->estado_mantenimiento = 'pendiente';
+                } else {
+                    $activo->estado_mantenimiento = 'bien';
+                }
+                $activo->propiedad         = $request->input('propiedad');
+                $activo->tipo_de_equipo    = $request->input('tipo_de_telefono');
+                $activo->marca_equipo      = $request->input('marca');
+                $activo->referencia_equipo = $request->input('referencia');
+                $activo->serial_equipo     = $request->input('serial');
+                $activo->imei_1            = $request->input('imei_1');
+                $activo->imei_2            = $request->input('imei_2');
+                $activo->wifi_mac          = $request->input('wifi_mac');
+                $activo->vso_equipo        = $request->input('vso');
+                $activo->tipo_so           = $request->input('tipo_de_sot');
+                $activo->nombre_equipo     = $request->input('nombre');
+                $activo->wifi_mac          = $request->input('wifi_mac');
+                $activo->fecha_compra      = Carbon::parse($request->input('fecha_compra'));
+                $activo->proveedor         = $request->input('proveedor');
+                $activo->precio            = $request->input('precio');
 
-                            File::makeDirectory(public_path().'/ACT/'.$activo->id);
-                            $text = 'https://127.0.0.1:8000/activos/'.$activo->id;
-                            $url= QR_Code::png($text, public_path().'/ACT/'.$activo->id.'/'.$name);
-                            
-                            return redirect()->route('activos.index')->with('status', 'Teléfono guardado correctamente');
-                 }
-         }else {
+                $name          = time() . '.png';
+                $activo->imgqr = $name;
 
+                $activo->save();
 
-                return redirect()->route('activos.index');
+                $rout = explode(',', env('APP_URL'));
 
-         }
+                File::makeDirectory(public_path() . '/ACT/' . $activo->id);
+                $text = $rout[0] . '/activos/' . $activo->id;
+                $url  = QR_Code::png($text, public_path() . '/ACT/' . $activo->id . '/' . $name);
+
+                return redirect()->route('activos.index')->with('status', 'Teléfono guardado correctamente');
+            }
+        } else {
+
+            return redirect()->route('activos.index');
+
+        }
     }
 
     /**
@@ -396,61 +390,60 @@ class ActivosController extends Controller
      */
     public function show($id)
     {
-       $user=auth()->user();
+        $user = auth()->user();
 
-       if ($user->permisos=='escritura') {
+        if ($user->permisos == 'escritura') {
 
-            $activo=Activo::leftjoin('users', 'activos.usuario_id', '=' , 'users.id')
-                            ->leftjoin('categorias', 'activos.categoria_id', '=', 'categorias.id')
-                            ->select('users.name','categorias.nombre as ncate','activos.*')
-                            ->where('activos.id', '=', $id)
-                            ->first();
+            $activo = Activo::leftjoin('users', 'activos.usuario_id', '=', 'users.id')
+                ->leftjoin('categorias', 'activos.categoria_id', '=', 'categorias.id')
+                ->select('users.name', 'categorias.nombre as ncate', 'activos.*')
+                ->where('activos.id', '=', $id)
+                ->first();
 
-            if ($activo->categoria_id==1) {
-                
+            if ($activo->categoria_id == 1) {
+
                 return view('admin.activos.vermaspc', compact('activo'));
 
-            }elseif ($activo->categoria_id==2) {
+            } elseif ($activo->categoria_id == 2) {
                 Debugbar::info($activo);
 
                 return view('admin.activos.vermasac', compact('activo'));
-                
-            }elseif ($activo->categoria_id==3) {
+
+            } elseif ($activo->categoria_id == 3) {
 
                 return view('admin.activos.vermastel', compact('activo'));
 
-            }else{
+            } else {
 
                 return redirect()->route('activos.index');
             }
 
-       }else if($user->permisos=='lectura'){
+        } else if ($user->permisos == 'lectura') {
 
-            $activo=Activo::leftjoin('categorias', 'activos.categoria_id', '=', 'categorias.id')
-                          ->select('categorias.nombre as ncate','activos.*')
-                           ->where('activos.id', '=', $id)
-                           ->first();
-                    
+            $activo = Activo::leftjoin('categorias', 'activos.categoria_id', '=', 'categorias.id')
+                ->select('categorias.nombre as ncate', 'activos.*')
+                ->where('activos.id', '=', $id)
+                ->first();
 
-            if ($activo->categoria_id==1) {
-                
+            if ($activo->categoria_id == 1) {
+
                 return view('usuario.activos.vermaspc', compact('activo'));
 
-            }elseif ($activo->categoria_id==2) {
+            } elseif ($activo->categoria_id == 2) {
 
                 return view('usuario.activos.vermasac', compact('activo'));
-                
-            }elseif ($activo->categoria_id==3) {
+
+            } elseif ($activo->categoria_id == 3) {
 
                 return view('usuario.activos.vermastel', compact('activo'));
 
-            }else{
+            } else {
 
                 return redirect()->route('activos.index');
             }
-       }else{
+        } else {
             return redirect()->route('activos.index');
-       }
+        }
     }
 
     /**
@@ -461,37 +454,36 @@ class ActivosController extends Controller
      */
     public function edit($id)
     {
-        $user=auth()->user();
+        $user = auth()->user();
 
-       if ($user->permisos=='escritura') {
+        if ($user->permisos == 'escritura') {
 
-            $activo= Activo::find($id);
-
+            $activo = Activo::find($id);
 
             $user = User::pluck('name', 'id');
-             Debugbar::info($activo);
+            Debugbar::info($activo);
 
             $cate = Categoria::where('categorias.id', '=', $activo->categoria_id)
-                    ->pluck('nombre', 'id');
+                ->pluck('nombre', 'id');
 
-            if ($activo->categoria_id==1) {
-                $nameca='Computador';
-            }else if ($activo->categoria_id==2){
-                $nameca='Accesorio';
-            }else if ($activo->categoria_id==3){
-                $nameca='Teléfono';
+            if ($activo->categoria_id == 1) {
+                $nameca = 'Computador';
+            } else if ($activo->categoria_id == 2) {
+                $nameca = 'Accesorio';
+            } else if ($activo->categoria_id == 3) {
+                $nameca = 'Teléfono';
             }
 
-            $cate->prepend(" ","0");
-            $user->prepend(" "," ");
+            $cate->prepend(" ", "0");
+            $user->prepend(" ", " ");
 
-            return view('admin.activos.editar', compact('user','cate','activo','nameca'));
+            return view('admin.activos.editar', compact('user', 'cate', 'activo', 'nameca'));
 
-       }else{
+        } else {
 
             return redirect()->route('activos.index');
-       }
-   }
+        }
+    }
 
     /**
      * Update the specified resource in storage.
@@ -502,273 +494,271 @@ class ActivosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
-        $user=auth()->user();
 
-        if ($user->permisos=='escritura') {
+        $user = auth()->user();
 
-            if ($request->categoria==1) {
+        if ($user->permisos == 'escritura') {
 
-                $validator = Validator::make($request->all(),[
-                    'user_id' => 'required',
-                    'fecha_entrega' =>'required|max:10|date',
+            if ($request->categoria == 1) {
+
+                $validator = Validator::make($request->all(), [
+                    'user_id'             => 'required',
+                    'fecha_entrega'       => 'required|max:10|date',
                     'fecha_mantenimiento' => 'required|max:10|date',
-                    'propiedad' => 'required',
-                    'tipo_de_equipo' => 'required',
-                    'marca' => 'required|max:100',
-                    'referencia' => 'required|max:100',
-                    'serial' => 'required|max:100',
-                    'categoria' => 'required|max:100',
-                    'tipo_de_equipo' => 'required|string',
-                    'mtm' => 'max:100',
-                    'tipo_de_soc' => 'required|string',
-                    'tipo_de_lic' => 'required|string ',
-                    'office' => 'required|string',
-                    'nid'=>'max:30',
-                    'workgroup_equipo'=>'max:100',
-                    'lan_mac'=>'max:100',
-                    'nombre'=>'required|max:100',
-                    'vso'=>'required|max:100',
-                    'wifi_mac'=>'required|max:100',
-                    'cuenta_admin'=>'required|max:100',
-                    'contraseña'=>'max:100',
-                    'fecha_compra' => 'required|max:10|date',
-                    'proveedor'=>'required|max:100',
-                    'precio'=>'required|max:100',
-                    ],[
+                    'propiedad'           => 'required',
+                    'tipo_de_equipo'      => 'required',
+                    'marca'               => 'required|max:100',
+                    'referencia'          => 'required|max:100',
+                    'serial'              => 'required|max:100',
+                    'categoria'           => 'required|max:100',
+                    'tipo_de_equipo'      => 'required|string',
+                    'mtm'                 => 'max:100',
+                    'tipo_de_soc'         => 'required|string',
+                    'tipo_de_lic'         => 'required|string ',
+                    'office'              => 'required|string',
+                    'nid'                 => 'max:30',
+                    'workgroup_equipo'    => 'max:100',
+                    'lan_mac'             => 'max:100',
+                    'nombre'              => 'required|max:100',
+                    'vso'                 => 'required|max:100',
+                    'wifi_mac'            => 'required|max:100',
+                    'cuenta_admin'        => 'required|max:100',
+                    'contraseña'          => 'max:100',
+                    'fecha_compra'        => 'required|max:10|date',
+                    'proveedor'           => 'required|max:100',
+                    'precio'              => 'required|max:100',
+                ], [
                     'required' => 'Este campo es requerido',
-                    'email' => 'Este campo debe tener formato de correo electrónico',
-                    'unique' => 'Este correo debe ser único',
-                    'max' => 'Este campo no debe superar :max caracteres',
-                    'min' => 'Este campo no debe ser menor de :min caracteres',
-                    'numeric' => 'Este campo debe ser numerico',
-                    'string' => 'Este campo debe ser solo texto',
-                    'url' => 'Este campo debe ser una url',
-                    'date' => 'Este campo debe ser una fecha',
+                    'email'    => 'Este campo debe tener formato de correo electrónico',
+                    'unique'   => 'Este correo debe ser único',
+                    'max'      => 'Este campo no debe superar :max caracteres',
+                    'min'      => 'Este campo no debe ser menor de :min caracteres',
+                    'numeric'  => 'Este campo debe ser numerico',
+                    'string'   => 'Este campo debe ser solo texto',
+                    'url'      => 'Este campo debe ser una url',
+                    'date'     => 'Este campo debe ser una fecha',
                 ]);
-                     if ($validator->fails()) {
+                if ($validator->fails()) {
 
-                        return redirect()->back()
-                       ->withErrors($validator)
-                       ->withInput();
-                    }
+                    return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+                }
 
-                        $activo= Activo::find($id);
-                    
-                        $activo->usuario_id=$request->input('user_id');
-                        $activo->categoria_id=$request->input('categoria');
-                        $activo->fecha_entrega=Carbon::parse($request->input('fecha_entrega'));
-                        $activo->fecha_mantenimiento=Carbon::parse($request->input('fecha_mantenimiento'));
-                        $mantenimiento = Carbon::parse($request->input('fecha_mantenimiento'));
-                        $hoy = Carbon::parse(now()->toDateString());
-                        $diasDiferencia = $hoy->diffInDays($mantenimiento);
-                            if ($diasDiferencia>60) {
-                                $activo->estado_mantenimiento='pendiente';
-                            }else{
-                                $activo->estado_mantenimiento='bien';
-                            }
-                        $activo->propiedad=$request->input('propiedad');
-                        $activo->tipo_de_equipo=$request->input('tipo_de_equipo');
-                        $activo->marca_equipo=$request->input('marca');
-                        $activo->referencia_equipo=$request->input('referencia');
-                        $activo->serial_equipo=$request->input('serial');
-                        $activo->mtm_equipo=$request->input('mtm');
-                        $activo->tipo_so=$request->input('tipo_de_soc');
-                        $activo->licencia=$request->input('tipo_de_lic');
-                        $activo->vso_equipo=$request->input('vso');
-                        $activo->nid_sistema_operativo=$request->input('nid');
-                        $activo->tipo_office=$request->input('office');
-                        $activo->nombre_equipo=$request->input('nombre');
-                        $activo->workgroup_equipo=$request->input('workgroup_equipo');
-                        $activo->cuenta_admin_equipo=$request->input('cuenta_admin');
-                        $activo->lan_mac=$request->input('lan_mac');
-                        $activo->wifi_mac=$request->input('wifi_mac');
-                        $activo->pass_admin=$request->input('contraseña');
-                        $activo->fecha_compra=Carbon::parse($request->input('fecha_compra'));
-                        $activo->proveedor=$request->input('proveedor');
-                        $activo->precio=$request->input('precio');
+                $activo = Activo::find($id);
 
-                        $activo->save();
-                        
-                        return redirect()->route('activos.index')->with('status', 'Computador actualizado correctamente');
+                $activo->usuario_id          = $request->input('user_id');
+                $activo->categoria_id        = $request->input('categoria');
+                $activo->fecha_entrega       = Carbon::parse($request->input('fecha_entrega'));
+                $activo->fecha_mantenimiento = Carbon::parse($request->input('fecha_mantenimiento'));
+                $mantenimiento               = Carbon::parse($request->input('fecha_mantenimiento'));
+                $hoy                         = Carbon::parse(now()->toDateString());
+                $diasDiferencia              = $hoy->diffInDays($mantenimiento);
+                if ($diasDiferencia > 60) {
+                    $activo->estado_mantenimiento = 'pendiente';
+                } else {
+                    $activo->estado_mantenimiento = 'bien';
+                }
+                $activo->propiedad             = $request->input('propiedad');
+                $activo->tipo_de_equipo        = $request->input('tipo_de_equipo');
+                $activo->marca_equipo          = $request->input('marca');
+                $activo->referencia_equipo     = $request->input('referencia');
+                $activo->serial_equipo         = $request->input('serial');
+                $activo->mtm_equipo            = $request->input('mtm');
+                $activo->tipo_so               = $request->input('tipo_de_soc');
+                $activo->licencia              = $request->input('tipo_de_lic');
+                $activo->vso_equipo            = $request->input('vso');
+                $activo->nid_sistema_operativo = $request->input('nid');
+                $activo->tipo_office           = $request->input('office');
+                $activo->nombre_equipo         = $request->input('nombre');
+                $activo->workgroup_equipo      = $request->input('workgroup_equipo');
+                $activo->cuenta_admin_equipo   = $request->input('cuenta_admin');
+                $activo->lan_mac               = $request->input('lan_mac');
+                $activo->wifi_mac              = $request->input('wifi_mac');
+                $activo->pass_admin            = $request->input('contraseña');
+                $activo->fecha_compra          = Carbon::parse($request->input('fecha_compra'));
+                $activo->proveedor             = $request->input('proveedor');
+                $activo->precio                = $request->input('precio');
 
-             }elseif($request->categoria==2){
+                $activo->save();
 
-                    $validator = Validator::make($request->all(),[
-                        'user_id' => 'required',
-                        'fecha_entrega' =>'required|max:10|date',
-                        'fecha_mantenimiento' => 'required|max:10|date',
-                        'propiedad' => 'required',
-                        'marca' => 'required|max:100',
-                        'referencia' => 'required|max:100',
-                        'serial' => 'required|max:100',
-                        'categoria' => 'required|max:100',
-                        'tipo_accesorio' => 'required|string',
-                        'fccid' => 'max:100',
-                        'icid' => 'max:100',
-                        'incluido' => 'required|string',
+                return redirect()->route('activos.index')->with('status', 'Computador actualizado correctamente');
 
-                        'mtm' => 'max:100',
-                        'tipo_de_soc' => 'max:100',
-                        'tipo_de_lic' => 'max:100 ',
-                        'office' => 'max:100',
-                        'nid'=>'max:30',
-                        'workgroup_equipo'=>'max:100',
-                        'fccid' => 'max:100',
-                        'icid' => 'max:100',
-                        'lan_mac'=>'max:100',
-                        'nombre'=>'max:100',
-                        'vso'=>'max:100',
-                        'wifi_mac'=>'max:100',
-                        'cuenta_admin'=>'max:100',
-                        'contraseña'=>'max:100',
-                        'fecha_compra' => 'required|max:10|date',
-                        'proveedor'=>'required|max:100',
-                        'precio'=>'required|max:100',
-                        ],[
-                        'required' => 'Este campo es requerido',
-                        'email' => 'Este campo debe tener formato de correo electrónico',
-                        'unique' => 'Este correo debe ser único',
-                        'max' => 'Este campo no debe superar :max caracteres',
-                        'min' => 'Este campo no debe ser menor de :min caracteres',
-                        'numeric' => 'Este campo debe ser numerico',
-                        'string' => 'Este campo debe ser solo texto',
-                        'url' => 'Este campo debe ser una url',
-                        'date' => 'Este campo debe ser una fecha',
+            } elseif ($request->categoria == 2) {
 
-                    ]);
-                         if ($validator->fails()) {
+                $validator = Validator::make($request->all(), [
+                    'user_id'             => 'required',
+                    'fecha_entrega'       => 'required|max:10|date',
+                    'fecha_mantenimiento' => 'required|max:10|date',
+                    'propiedad'           => 'required',
+                    'marca'               => 'required|max:100',
+                    'referencia'          => 'required|max:100',
+                    'serial'              => 'required|max:100',
+                    'categoria'           => 'required|max:100',
+                    'tipo_accesorio'      => 'required|string',
+                    'fccid'               => 'max:100',
+                    'icid'                => 'max:100',
+                    'incluido'            => 'required|string',
 
-                            return redirect()->back()
-                           ->withErrors($validator)
-                           ->withInput();
-                        }
+                    'mtm'                 => 'max:100',
+                    'tipo_de_soc'         => 'max:100',
+                    'tipo_de_lic'         => 'max:100 ',
+                    'office'              => 'max:100',
+                    'nid'                 => 'max:30',
+                    'workgroup_equipo'    => 'max:100',
+                    'fccid'               => 'max:100',
+                    'icid'                => 'max:100',
+                    'lan_mac'             => 'max:100',
+                    'nombre'              => 'max:100',
+                    'vso'                 => 'max:100',
+                    'wifi_mac'            => 'max:100',
+                    'cuenta_admin'        => 'max:100',
+                    'contraseña'          => 'max:100',
+                    'fecha_compra'        => 'required|max:10|date',
+                    'proveedor'           => 'required|max:100',
+                    'precio'              => 'required|max:100',
+                ], [
+                    'required' => 'Este campo es requerido',
+                    'email'    => 'Este campo debe tener formato de correo electrónico',
+                    'unique'   => 'Este correo debe ser único',
+                    'max'      => 'Este campo no debe superar :max caracteres',
+                    'min'      => 'Este campo no debe ser menor de :min caracteres',
+                    'numeric'  => 'Este campo debe ser numerico',
+                    'string'   => 'Este campo debe ser solo texto',
+                    'url'      => 'Este campo debe ser una url',
+                    'date'     => 'Este campo debe ser una fecha',
 
-                        $activo=Activo::find($id);
-                            $activo->usuario_id=$request->input('user_id');
-                            $activo->categoria_id=$request->input('categoria');
-                            $activo->fecha_entrega=Carbon::parse($request->input('fecha_entrega'));
-                            $activo->fecha_mantenimiento=Carbon::parse($request->input('fecha_mantenimiento'));
-                            $mantenimiento = Carbon::parse($request->input('fecha_mantenimiento'));
-                            $hoy = Carbon::parse(now()->toDateString());
-                            $diasDiferencia = $hoy->diffInDays($mantenimiento);
-                                if ($diasDiferencia>60) {
-                                    $activo->estado_mantenimiento='pendiente';
-                                }else{
-                                    $activo->estado_mantenimiento='bien';
-                                }
-                            $activo->propiedad=$request->input('propiedad');
-                            $activo->tipo_de_equipo=$request->input('tipo_accesorio');
-                            $activo->marca_equipo=$request->input('marca');
-                            $activo->incluido=$request->input('incluido');
-                            $activo->referencia_equipo=$request->input('referencia');
-                            $activo->serial_equipo=$request->input('serial');
-                            $activo->fccid_equipo=$request->input('fccid');
-                            $activo->icid_equipo=$request->input('icid');
-                            $activo->mtm_equipo=$request->input('mtm');
-                            $activo->nombre_equipo=$request->input('nombre');
-                            $activo->wifi_mac=$request->input('wifi_mac');
-                            $activo->fecha_compra=Carbon::parse($request->input('fecha_compra'));
-                            $activo->proveedor=$request->input('proveedor');
-                            $activo->precio=$request->input('precio');
+                ]);
+                if ($validator->fails()) {
 
-                            $activo->save();
-                            
-                            return redirect()->route('activos.index')->with('status', 'Accesorio actualizado correctamente');
+                    return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+                }
 
-             }else if ($request->categoria==3) {
-                            Debugbar::info($request->categoria);
+                $activo                      = Activo::find($id);
+                $activo->usuario_id          = $request->input('user_id');
+                $activo->categoria_id        = $request->input('categoria');
+                $activo->fecha_entrega       = Carbon::parse($request->input('fecha_entrega'));
+                $activo->fecha_mantenimiento = Carbon::parse($request->input('fecha_mantenimiento'));
+                $mantenimiento               = Carbon::parse($request->input('fecha_mantenimiento'));
+                $hoy                         = Carbon::parse(now()->toDateString());
+                $diasDiferencia              = $hoy->diffInDays($mantenimiento);
+                if ($diasDiferencia > 60) {
+                    $activo->estado_mantenimiento = 'pendiente';
+                } else {
+                    $activo->estado_mantenimiento = 'bien';
+                }
+                $activo->propiedad         = $request->input('propiedad');
+                $activo->tipo_de_equipo    = $request->input('tipo_accesorio');
+                $activo->marca_equipo      = $request->input('marca');
+                $activo->incluido          = $request->input('incluido');
+                $activo->referencia_equipo = $request->input('referencia');
+                $activo->serial_equipo     = $request->input('serial');
+                $activo->fccid_equipo      = $request->input('fccid');
+                $activo->icid_equipo       = $request->input('icid');
+                $activo->mtm_equipo        = $request->input('mtm');
+                $activo->nombre_equipo     = $request->input('nombre');
+                $activo->wifi_mac          = $request->input('wifi_mac');
+                $activo->fecha_compra      = Carbon::parse($request->input('fecha_compra'));
+                $activo->proveedor         = $request->input('proveedor');
+                $activo->precio            = $request->input('precio');
 
+                $activo->save();
 
-                 $validator = Validator::make($request->all(),[
-                        'user_id' => 'required',
-                        'fecha_entrega' =>'required|max:10|date',
-                        'fecha_mantenimiento' => 'required|max:10|date',
-                        'propiedad' => 'required|string',
-                        'marca' => 'required|max:100',
-                        'referencia' => 'required|max:100',
-                        'serial' => 'required|max:100',
-                        'categoria' => 'required|max:100',
-                        'fccid' => 'max:100',
-                        'icid' => 'max:100',
-                        'incluido' => 'max:100',
-                        'tipo_de_telefono'=>'required|max:100',
-                        'tipo_de_sot'=>'required|max:100|string',
-                        'imei_1'=>'required|max:100',
-                        'imei_2'=>'max:100',
+                return redirect()->route('activos.index')->with('status', 'Accesorio actualizado correctamente');
 
-                        'mtm' => 'max:100',
-                        'tipo_de_soc' => 'max:100',
-                        'tipo_de_lic' => 'max:100 ',
-                        'office' => 'max:100',
-                        'nid'=>'max:30',
-                        'workgroup_equipo'=>'max:100',
-                        'lan_mac'=>'max:100',
-                        'nombre'=>'max:100',
-                        'vso'=>'required|max:100',
-                        'wifi_mac'=>'max:100',
-                        'cuenta_admin'=>'max:100',
-                        'contraseña'=>'max:100',
-                        'fecha_compra'=>'required|max:10|date',
-                        'proveedor'=>'required|max:100',
-                        'precio'=>'required|max:100',
+            } else if ($request->categoria == 3) {
+                Debugbar::info($request->categoria);
 
-                        ],[
+                $validator = Validator::make($request->all(), [
+                    'user_id'             => 'required',
+                    'fecha_entrega'       => 'required|max:10|date',
+                    'fecha_mantenimiento' => 'required|max:10|date',
+                    'propiedad'           => 'required|string',
+                    'marca'               => 'required|max:100',
+                    'referencia'          => 'required|max:100',
+                    'serial'              => 'required|max:100',
+                    'categoria'           => 'required|max:100',
+                    'fccid'               => 'max:100',
+                    'icid'                => 'max:100',
+                    'incluido'            => 'max:100',
+                    'tipo_de_telefono'    => 'required|max:100',
+                    'tipo_de_sot'         => 'required|max:100|string',
+                    'imei_1'              => 'required|max:100',
+                    'imei_2'              => 'max:100',
 
-                        'required' => 'Este campo es requerido',
-                        'email' => 'Este campo debe tener formato de correo electrónico',
-                        'unique' => 'Este correo debe ser único',
-                        'max' => 'Este campo no debe superar :max caracteres',
-                        'min' => 'Este campo no debe ser menor de :min caracteres',
-                        'numeric' => 'Este campo debe ser numerico',
-                        'string' => 'Este campo debe ser solo texto',
-                        'url' => 'Este campo debe ser una url',
-                        'date' => 'Este campo solo admite fechas',
-                    ]);
-                         if ($validator->fails()) {
+                    'mtm'                 => 'max:100',
+                    'tipo_de_soc'         => 'max:100',
+                    'tipo_de_lic'         => 'max:100 ',
+                    'office'              => 'max:100',
+                    'nid'                 => 'max:30',
+                    'workgroup_equipo'    => 'max:100',
+                    'lan_mac'             => 'max:100',
+                    'nombre'              => 'max:100',
+                    'vso'                 => 'required|max:100',
+                    'wifi_mac'            => 'max:100',
+                    'cuenta_admin'        => 'max:100',
+                    'contraseña'          => 'max:100',
+                    'fecha_compra'        => 'required|max:10|date',
+                    'proveedor'           => 'required|max:100',
+                    'precio'              => 'required|max:100',
 
-                            return redirect()->back()
-                           ->withErrors($validator)
-                           ->withInput();
-                        }
+                ], [
 
-                       $activo= Activo::find($id);
-                            $activo->usuario_id=$request->input('user_id');
-                            $activo->categoria_id=$request->input('categoria');
-                            $activo->fecha_entrega=Carbon::parse($request->input('fecha_entrega'));
-                            $activo->fecha_mantenimiento=Carbon::parse($request->input('fecha_mantenimiento'));
-                            $mantenimiento = Carbon::parse($request->input('fecha_mantenimiento'));
-                            $hoy = Carbon::parse(now()->toDateString());
-                            $diasDiferencia = $hoy->diffInDays($mantenimiento);
-                                if ($diasDiferencia>60) {
-                                    $activo->estado_mantenimiento='pendiente';
-                                }else{
-                                    $activo->estado_mantenimiento='bien';
-                                }
-                            $activo->propiedad=$request->input('propiedad');
-                            $activo->tipo_de_equipo=$request->input('tipo_de_telefono');
-                            $activo->marca_equipo=$request->input('marca');
-                            $activo->referencia_equipo=$request->input('referencia');
-                            $activo->serial_equipo=$request->input('serial');
-                            $activo->imei_1=$request->input('imei_1');
-                            $activo->imei_2=$request->input('imei_2');
-                            $activo->wifi_mac=$request->input('wifi_mac');
-                            $activo->vso_equipo=$request->input('vso');
-                            $activo->tipo_so=$request->input('tipo_de_sot');
-                            $activo->nombre_equipo=$request->input('nombre');
-                            $activo->wifi_mac=$request->input('wifi_mac');
-                            $activo->fecha_compra=Carbon::parse($request->input('fecha_compra'));
-                            $activo->proveedor=$request->input('proveedor');
-                            $activo->precio=$request->input('precio');
+                    'required' => 'Este campo es requerido',
+                    'email'    => 'Este campo debe tener formato de correo electrónico',
+                    'unique'   => 'Este correo debe ser único',
+                    'max'      => 'Este campo no debe superar :max caracteres',
+                    'min'      => 'Este campo no debe ser menor de :min caracteres',
+                    'numeric'  => 'Este campo debe ser numerico',
+                    'string'   => 'Este campo debe ser solo texto',
+                    'url'      => 'Este campo debe ser una url',
+                    'date'     => 'Este campo solo admite fechas',
+                ]);
+                if ($validator->fails()) {
 
-                            $activo->save();
+                    return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+                }
 
-                            
-                            return redirect()->route('activos.index')->with('status', 'Teléfono actualizado correctamente');
-             }else{
-                            return redirect()->route('activos.index')->with('statuselim', 'No existe');
+                $activo                      = Activo::find($id);
+                $activo->usuario_id          = $request->input('user_id');
+                $activo->categoria_id        = $request->input('categoria');
+                $activo->fecha_entrega       = Carbon::parse($request->input('fecha_entrega'));
+                $activo->fecha_mantenimiento = Carbon::parse($request->input('fecha_mantenimiento'));
+                $mantenimiento               = Carbon::parse($request->input('fecha_mantenimiento'));
+                $hoy                         = Carbon::parse(now()->toDateString());
+                $diasDiferencia              = $hoy->diffInDays($mantenimiento);
+                if ($diasDiferencia > 60) {
+                    $activo->estado_mantenimiento = 'pendiente';
+                } else {
+                    $activo->estado_mantenimiento = 'bien';
+                }
+                $activo->propiedad         = $request->input('propiedad');
+                $activo->tipo_de_equipo    = $request->input('tipo_de_telefono');
+                $activo->marca_equipo      = $request->input('marca');
+                $activo->referencia_equipo = $request->input('referencia');
+                $activo->serial_equipo     = $request->input('serial');
+                $activo->imei_1            = $request->input('imei_1');
+                $activo->imei_2            = $request->input('imei_2');
+                $activo->wifi_mac          = $request->input('wifi_mac');
+                $activo->vso_equipo        = $request->input('vso');
+                $activo->tipo_so           = $request->input('tipo_de_sot');
+                $activo->nombre_equipo     = $request->input('nombre');
+                $activo->wifi_mac          = $request->input('wifi_mac');
+                $activo->fecha_compra      = Carbon::parse($request->input('fecha_compra'));
+                $activo->proveedor         = $request->input('proveedor');
+                $activo->precio            = $request->input('precio');
 
-             }
+                $activo->save();
+
+                return redirect()->route('activos.index')->with('status', 'Teléfono actualizado correctamente');
+            } else {
+                return redirect()->route('activos.index')->with('statuselim', 'No existe');
+
+            }
 
         }
     }
@@ -781,24 +771,24 @@ class ActivosController extends Controller
      */
     public function destroy($id)
     {
-        $user=auth()->user();
+        $user = auth()->user();
 
-        if ($user->permisos=='escritura') {
+        if ($user->permisos == 'escritura') {
 
             $activo = Activo::find($id);
 
-            File::deleteDirectory(public_path().'/ACT/'.$id);
+            File::deleteDirectory(public_path() . '/ACT/' . $id);
 
-            $reporte= Reporte::where('reportes.activo_id', '=', $id)
-                                    ->get()->each ;
+            $reporte = Reporte::where('reportes.activo_id', '=', $id)
+                ->get()->each;
 
-            $reporte->delete();                        
+            $reporte->delete();
             $activo->delete();
 
             return redirect()->route('activos.index')->with('statuselim', 'Activo eliminado correctamente');
 
-        }else{
-        
+        } else {
+
             return redirect()->route('activos.index');
         }
     }
