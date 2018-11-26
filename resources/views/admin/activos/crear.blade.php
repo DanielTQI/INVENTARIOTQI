@@ -58,9 +58,9 @@
 										{!! Form::select('tipo_de_equipo',
 											 [	''=>'',
 											 	'Indefinido' => 'Indefinido',
-											 	'DeskTop_TodoEnUno' => 'DeskTop_TodoEnUno',
-											 	'LapTop' => 'LapTop',
-											 	'DeskTop' => 'DeskTop', 
+											 	'Escritorio todo en uno' => 'Escritorio todo en uno',
+											 	'Portatil' => 'Portatil',
+											 	'Escritorio' => 'Escritorio', 
 											 	'iPad' => 'iPad', 
 											 	], null,['class' => 'form-control','id' => 'tipocselect']) !!}
 											 		<p class="help-block text-danger">{{ $errors->first('tipo_de_equipo') }}</p>
@@ -250,12 +250,15 @@
 					  $( "#datepickerfecom" ).datepicker();
 					  $( "#datepickerfm" ).datepicker();
 
+				$(document).ready(function() {
+
 			          $('#general').hide();
 			          $('#comput').hide();
 			          $('#accesori').hide();
 			          $('#telef').hide();
 			          $('#comptel').hide();
 			          $('#butd').attr('disabled',true);
+			          }); 
 
 			        $("#cat").click(function(){
 			          var valor= $("#cat").val();
@@ -303,6 +306,6 @@
 			            }
 
 			          });
-			      });
+			     
 		      </script>
 	@endsection					

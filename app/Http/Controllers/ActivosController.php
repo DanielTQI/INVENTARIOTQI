@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use DB;
+use File;
 use App\User;
 use Validator;
 use App\Activo;
@@ -27,7 +28,7 @@ class ActivosController extends Controller
      */
     public function index()
     {
-        // return  QR_Code::png('https://es-la.facebook.com/',  public_path().'/images/facebook.png');
+         
 
        $user=auth()->user();
 
@@ -187,8 +188,9 @@ class ActivosController extends Controller
 
                         $activo->save();
 
+                        File::makeDirectory(public_path().'/ACT/'.$activo->id);
                         $text = 'https://127.0.0.1:8000/activos/'.$activo->id;
-                        $url= QR_Code::png($text, public_path().'/images/'.$name);
+                        $url= QR_Code::png($text, public_path().'/ACT/'.$activo->id.'/'.$name);
 
                         
                         return redirect()->route('activos.index')->with('status', 'Computador guardado correctamente');
@@ -278,8 +280,9 @@ class ActivosController extends Controller
 
                             $activo->save();
 
+                            File::makeDirectory(public_path().'/ACT/'.$activo->id);
                             $text = 'https://127.0.0.1:8000/activos/'.$activo->id;
-                            $url= QR_Code::png($text, public_path().'/images/'.$name);
+                            $url= QR_Code::png($text, public_path().'/ACT/'.$activo->id.'/'.$name);
 
                             return redirect()->route('activos.index')->with('status', 'Accesorio guardado correctamente');
 
@@ -371,8 +374,9 @@ class ActivosController extends Controller
 
                             $activo->save();
 
+                            File::makeDirectory(public_path().'/ACT/'.$activo->id);
                             $text = 'https://127.0.0.1:8000/activos/'.$activo->id;
-                            $url= QR_Code::png($text, public_path().'/images/'.$name);
+                            $url= QR_Code::png($text, public_path().'/ACT/'.$activo->id.'/'.$name);
                             
                             return redirect()->route('activos.index')->with('status', 'Teléfono guardado correctamente');
                  }
@@ -783,8 +787,7 @@ class ActivosController extends Controller
 
             $activo = Activo::find($id);
 
-            $file_path = public_path().'/images/'.$activo->imgqr;
-            \File::delete($file_path);
+            File::deleteDirectory(public_path().'/ACT/'.$id);
 
             $reporte= Reporte::where('reportes.activo_id', '=', $id)
                                     ->get()->each ;

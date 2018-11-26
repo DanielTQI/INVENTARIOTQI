@@ -58,9 +58,9 @@
 										{!! Form::select('tipo_de_equipo',
 											 [	''=>'',
 											 	'Indefinido' => 'Indefinido',
-											 	'DeskTop_TodoEnUno' => 'DeskTop todo en uno',
-											 	'LapTop' => 'LapTop',
-											 	'DeskTop' => 'DeskTop', 
+											 	'Escritorio todo en uno' => 'Escritorio todo en uno',
+											 	'Portátil' => 'Portátil',
+											 	'Escritorio' => 'Escritorio', 
 											 	'iPad' => 'iPad', 
 											 	], $activo->tipo_de_equipo,['class' => 'form-control','id' => 'tipocselect']) !!}
 											 		<p class="help-block text-danger">{{ $errors->first('tipo_de_equipo') }}</p>
@@ -209,7 +209,7 @@
 							<div id="general">
 								<div class="form-group">
 										{!! Form::label('fecha entrega', 'Fecha de compra *', null, ['class' => 'form-control']) !!}
-										{!! Form::text('fecha_compra',$activo->fecha_compra, ['class' => 'form-control','placeholder' => 'MM/DD/AAAA', 'id'=>'datepickerfecom']) !!}
+										{!! Form::text('fecha_compra',$activo->fecha_compra, ['class' => 'form-control','placeholder' => 'MM/DD/AAAA', 'id'=>'datepickerfecom','autocomplete'=>'off','required']) !!}
 											 <p class="help-block text-danger">{{ $errors->first('fecha_compra') }}</p>
 								</div>
 								<div class="form-group">

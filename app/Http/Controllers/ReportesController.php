@@ -81,22 +81,9 @@ class ReportesController extends Controller
                 
                 $users=User::pluck('name','id');
 
-                $usi=User::leftjoin('activos', 'activos.usuario_id','=','users.id')
-                                        ->where('activos.id', '=', $request->id)
-                                        ->select('users.name', 'users.id')
-                                        ->pluck('name','id');
-                                        
-
-                
-               
-
-                    Debugbar::info($usi);
-
-                    
-
                 if ($user->permisos=='escritura') {
 
-                    return view('admin.reportes.crear', compact('users','usi','info'));
+                    return view('admin.reportes.crear', compact('users','info'));
 
                 }else if($user->permisos=='lectura') {
 

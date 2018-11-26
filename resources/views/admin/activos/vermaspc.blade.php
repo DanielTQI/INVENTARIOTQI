@@ -135,14 +135,14 @@
               </tr>
               <tr>
                 <th>Precio COP</th>
-                  <td>$ {{number_format($activo->precio)}}</td>
+                  <td>$ {{number_format($activo->precio,0,' ','.')}}</td>
                   
                 </tr>
             </tbody>
           </table>
       <h5 class="text mt-3 ml-3">QRCode</h5>
                     <div id="print" >
-                        <img src="{{ asset('images/'.$activo->imgqr) }}">
+                         <img src="{{ asset('ACT/'.$activo->id.'/'.$activo->imgqr) }}">
                     </div>
                         <button id="printer" class="btn btn-primary btn-sm ml-3 mb-2">Imprimir</button> 
   </div>

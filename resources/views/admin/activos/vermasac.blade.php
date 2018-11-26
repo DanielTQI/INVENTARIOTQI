@@ -49,32 +49,32 @@
                           
                       </tr>
                       <tr>
-                        <th>Tipo de accesorio</th>
+                        <th>Tipo</th>
                           <td>{{$activo->tipo_de_equipo}}</td>
                           
                       </tr>
                       <tr>
-                        <th>Marca de accesorio</th>
+                        <th>Marca</th>
                           <td>{{$activo->marca_equipo}}</td>
                           
                       </tr>
                       <tr>
-                        <th>Ref accesorio</th>
+                        <th>Referencia</th>
                           <td>{{$activo->referencia_equipo}}</td>
                           
                       </tr>
                       <tr>
-                        <th>Serial accesorio</th>
+                        <th>Serial</th>
                           <td>{{$activo->serial_equipo}}</td>
                           
                       </tr>
                       <tr>
-                        <th>FCC-ID accesorio</th>
+                        <th>FCC-ID</th>
                           <td>{{$activo->fccid_equipo}}</td>
                           
                       </tr>
                       <tr>
-                        <th>IC-ID accesorio</th>
+                        <th>IC-ID</th>
                           <td>{{$activo->icid_equipo}}</td>
                           
                       </tr>
@@ -84,19 +84,24 @@
                           
                       </tr>
                       <tr>
+                        <th>Fecha de compra</th>
+                          <td>{{$activo->fecha_compra}}</td>
+                          
+                      </tr>
+                      <tr>
                         <th>Proveedor</th>
                           <td>{{$activo->proveedor}}</td>
                           
                       </tr>
                       <tr>
                         <th>Precio COP</th>
-                          <td>$ {{number_format($activo->precio)}}</td>
+                          <td>$ {{number_format($activo->precio,0,' ','.')}}</td>
                         </tr> 
                   </tbody>
               </table>
               <h5 class="text mt-3 ml-3">QRCode</h5>
                     <div id="print" >
-                        <img src="{{ asset('images/'.$activo->imgqr) }}">
+                        <img src="{{ asset('ACT/'.$activo->id.'/'.$activo->imgqr) }}">
                     </div>
                         <button id="printer" class="btn btn-primary btn-sm ml-3 mb-2">Imprimir</button> 
           </div>

@@ -24,7 +24,7 @@
 								</div> 	
 								<div class="form-group">
 									{!! Form::label('fecha reporte', 'Fecha donde inicío la causa del reporte *', null, ['class'=>'form-control']) !!}
-									<input name="fecha_reporte" type="text" id="datepickerfe" class="form-control shadow-sm p-3 bg-white rounded">
+									{!! Form::text('fecha_reporte',null, ['class' => 'form-control','placeholder' => 'MM/DD/AAAA', 'id'=>'datepickerfecom','autocomplete'=>'off','required']) !!}
 										        <p class="help-block text-danger">{{ $errors->first('fecha_reporte') }}</p>
 							    </div>	
 							    <input type="hidden" name="idactivo" value="{{$info->ida}}">
