@@ -13,13 +13,13 @@
                                 </div>
                             @endif
                   <a href="{{url('/reportes')}}" class="btn btn-primary btn-sm float-right mr-2 mt-5">Mis reportes</a>
-                  <h2 class="text-center mt-1">Hola {{$user->name}}¡ estos son tus activos asignados.</h2>
+                  <h2 class="text-center mt-1">Tus activos asignados.</h2>
             				<table class="table table-striped table-responsive table-sm" id="tablee">
                                 <thead class="bg-primary text-white" >
                                     <tr>
                                         <th>Categoría</th>
                                         <th>Fecha de entrega</th>
-                                        <th>Fecha de mantenimeinto</th>
+                                        <th>Fecha de mantenimiento</th>
                                         <th>Estado mantenimiento</th>
                                         <th>Propiedad</th>
                                         <th>Tipo</th>

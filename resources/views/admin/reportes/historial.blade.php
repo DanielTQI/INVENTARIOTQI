@@ -1,7 +1,7 @@
  @extends('layouts.app')
     @section('content')
           <div class="row">
-        <div class="container">
+            <div class="container">
               <a href="{{url('/reportes')}}" class="btn btn-primary btn-sm float-right mr-2 mt-5">Reportes</a>
                <a href="{{url('/activos/create')}}" class="btn btn-primary btn-sm float-right mr-2 mt-5">Registrar Activos</a>
                 <a href="{{url('/activos')}}" class="btn btn-primary btn-sm float-right mr-2 mt-5">Activos</a>
@@ -34,15 +34,15 @@
                                                 <td><center>{{ $histo->fecha_reporte }}</center></td>
                                                 <td><center>{{ $histo->atendido }}</center></td>
 
-                                                @if($histo->atendido=='SI')
+                                                @if($histo->atendido=='Si')
                                                     <td><center>{{ $histo->descripcion_soporte }}</center></td>
                                                     <td><center>{{ $histo->fecha_soporte }}</center></td>
                                                     <td data-toggle="tooltip" data-placement="top" title="El reporte ya fue atendido"><center><a href="" class="btn btn-success btn-sm disabled" >Atendido</a></center></td>
-                                                @elseif($histo->atendido=='NO')  
+                                                @elseif($histo->atendido=='No')  
                                                     <td><center>Sin atender</center></td>
                                                     <td><center>Sin atender</center></td>
                                                     <td><center><a href="/reportes/{{$histo->id}}" class="btn btn-success btn-sm">Atender</a></center></td>
-                                                @elseif($histo->atendido=='EN PROCESO')
+                                                @elseif($histo->atendido=='En proceso')
                                                     <td><center>{{ $histo->descripcion_soporte }}</center></td>
                                                     <td><center>{{ $histo->fecha_soporte }}</center></td>
                                                     <td><center><a href="/reportes/{{$histo->id}}" class="btn btn-success btn-sm">Seguir atendiendo</a></center></td>

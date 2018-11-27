@@ -17,15 +17,15 @@
 </style>
 </head>
 <body>
-
-<span style="font-family: Arial, Helvetica, sans-serif; font-size: 22px; color: #121212;">
-
-	Se acaba de generar un nuevo reporte de: {{$usuario}}.
-	y es de tipo: {{$reporti}}
-	Por favor revisa el Aplicativo.
-
-</span>
-<br>
-<a href="{{$ruta}}" class="boton_personalizado">Atender</a>
+	<span style="font-family: Arial, Helvetica, sans-serif; font-size: 22px; color: #121212;">
+		Se acaba de generar un nuevo reporte de: {{$usuario}},
+		y es de tipo: {{$reporti}}
+		<br>
+		<br>
+		Por favor revisa el Aplicativo.
+	</span>
+		<br>
+		<br>
+		<a href="{{$ruta}}" class="boton_personalizado">Atender</a>
 </body>
 </html>

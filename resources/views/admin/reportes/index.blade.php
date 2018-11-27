@@ -44,17 +44,17 @@
                                                     <td><center>{{ $reporte->fecha_reporte }}</center></td>
                                                     <td><center>{{ $reporte->atendido }}</center></td>
 
-                                                        @if($reporte->atendido=='SI')
+                                                        @if($reporte->atendido=='Si')
                                                             <td><center>{{ $reporte->descripcion_soporte }}</center></td>
                                                             <td><center>{{ $reporte->fecha_soporte }}</center></td>
                                                             <td><center><a href="/reportes/{{$reporte->id}}/edit" class="btn btn-primary btn-sm mt-2 ">Editar</a></center></td>
                                                             <td data-toggle="tooltip" data-placement="top" title="El reporte ya fue atendido"><center><a href="" class="btn btn-success btn-sm disabled mt-2" >Atendido</a></center></td>
-                                                        @elseif($reporte->atendido=='NO')  
+                                                        @elseif($reporte->atendido=='No')  
                                                             <td><center>Sin atender</center></td>
                                                             <td><center>Sin atender</center></td>
                                                             <td><center><a href="/reportes/{{$reporte->id}}/edit" class="btn btn-primary btn-sm mt-2 ">Editar</a></center></td>
                                                             <td><center><a href="/reportes/{{$reporte->id}}" class="btn btn-success btn-sm mt-2">Atender</a></center></td>
-                                                        @elseif($reporte->atendido=='EN PROCESO')
+                                                        @elseif($reporte->atendido=='En proceso')
                                                             <td><center>{{ $reporte->descripcion_soporte }}</center></td>
                                                             <td><center>{{ $reporte->fecha_soporte }}</center></td>
                                                             <td><center><a href="/reportes/{{$reporte->id}}/edit" class="btn btn-primary btn-sm mt-2 ">Editar</a></center></td>

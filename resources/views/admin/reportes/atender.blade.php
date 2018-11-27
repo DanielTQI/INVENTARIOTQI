@@ -11,7 +11,7 @@
 			            
 			        </tr>
 			        <tr>
-			          <th>Categoria</th>
+			          <th>Categoría</th>
 			            <td>{{$reporte->ncat}}</td>
 			            
 			        </tr>
@@ -26,7 +26,7 @@
 			            
 			        </tr>
 			        <tr>
-			          <th>descripcion del usuario</th>
+			          <th>Descripción del usuario</th>
 			            <td>{{$reporte->descripcion_usuario}}</td>
 			            
 			        </tr>
@@ -55,9 +55,9 @@
 									{!! Form::label('tipor', '¿Atendido? *', null, ['class'=>'form-control']) !!}
 										{{Form::select('atendidoo',
 										 [''=>'',
-										 	'SI' => 'SI',
-										 	'NO' => 'NO',
-										 	'EN PROCESO' => 'EN PROCESO', 
+										 	'Si' => 'Si',
+										 	'No' => 'No',
+										 	'En proceso' => 'En proceso', 
 										 	], $reporte->atendido,['class' => 'form-control '])}}
 										 		<p class="help-block text-danger">{{ $errors->first('atendidoo') }}</p>	
 								</div> 		

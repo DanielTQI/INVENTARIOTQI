@@ -11,24 +11,22 @@
 									{!! Form::label('tipor', 'Tipo de reporte *', null, ['class'=>'form-control']) !!}
 									{{Form::select('tipo_reporte',
 										 [''=>'',
-										 	'Fisico' => 'Fisico',
+										 	'Físico' => 'Físico',
 										 	'Programas' => 'Programas',
 										 	'Otro' => 'Otro', 
 										 	], $reporte->tipo_reporte,['class' => 'form-control'])}}
 										 		<p class="help-block text-danger">{{ $errors->first('tipo_reporte') }}</p>	
 								</div> 			
 								<div class="form-group">
-									{!! Form::label('desc', 'Descripcion del reporte *', null, ['class'=>'form-control']) !!}
+									{!! Form::label('desc', 'Descripción del reporte *', null, ['class'=>'form-control']) !!}
 									{!! Form::textarea('descripcion_usuario', $reporte->descripcion_usuario, ['class' => 'form-control shadow-sm p-3  bg-white rounded w-5']) !!}
 												<p class="help-block text-danger ">{{ $errors->first('descripcion_usuario') }}</p>
 								</div> 	
 								<div class="form-group">
-									{!! Form::label('fecha reporte', 'Fecha donde inicío la causa del reporte *', null, ['class'=>'form-control']) !!}
+									{!! Form::label('fecha reporte', 'Fecha donde inició la causa del reporte *', null, ['class'=>'form-control']) !!}
 									<input name="fecha_reporte" value="{{$reporte->fecha_reporte}}" type="text" id="datepickerfe" class="form-control shadow-sm p-3 bg-white rounded">
 										        <p class="help-block text-danger">{{ $errors->first('fecha_reporte') }}</p>
-							    </div>	{{-- 
-							    <input type="hidden" name="idactivo" value="{{$info->ida}}">
-							    <input type="hidden" name="iduser" value="{{$info->us}}">	 --}}
+							    </div>	
 					{!! Form::submit('Editar reporte ', ['class' => 'btn btn-success form-control mb-3']) !!}		
 		{!! Form::close() !!}
 	</div>	

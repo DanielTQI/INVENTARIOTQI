@@ -123,7 +123,7 @@ class ReportesController extends Controller
             $reporte->tipo_reporte        = $request->input('tipo_reporte');
             $reporte->descripcion_usuario = $request->input('descripcion_usuario');
             $reporte->fecha_reporte       = Carbon::parse($request->input('fecha_reporte'));
-            $reporte->atendido            = 'NO';
+            $reporte->atendido            = 'No';
 
             $usua= User::find($request->iduser);
 
@@ -177,7 +177,7 @@ class ReportesController extends Controller
             $reporte->tipo_reporte        = $request->input('tipo_reporte');
             $reporte->descripcion_usuario = $request->input('descripcion_usuario');
             $reporte->fecha_reporte       = Carbon::parse($request->input('fecha_reporte'));
-            $reporte->atendido            = 'NO';
+            $reporte->atendido            = 'No';
             $userh = explode(',', env('ADMIN_EMAILS'));
             $rout = explode(',', env('APP_URL'));
             $data = array(
@@ -300,7 +300,7 @@ class ReportesController extends Controller
                 'unique'   => 'Este correo debe ser único',
                 'max'      => 'Este campo no debe superar :max caracteres',
                 'min'      => 'Este campo no debe ser menor de :min caracteres',
-                'numeric'  => 'Este campo debe ser numerico',
+                'numeric'  => 'Este campo debe ser numérico',
                 'string'   => 'Este campo debe ser solo texto',
                 'url'      => 'Este campo debe ser una url',
                 'date'     => 'Aqui solo se admiten fechas',
@@ -317,7 +317,7 @@ class ReportesController extends Controller
             $reporte->tipo_reporte        = $request->input('tipo_reporte');
             $reporte->descripcion_usuario = $request->input('descripcion_usuario');
             $reporte->fecha_reporte       = Carbon::parse($request->input('fecha_reporte'));
-            $reporte->atendido            = 'NO';
+            $reporte->atendido            = 'No';
 
             $reporte->save();
 
@@ -335,7 +335,7 @@ class ReportesController extends Controller
                 'unique'   => 'Este correo debe ser único',
                 'max'      => 'Este campo no debe superar :max caracteres',
                 'min'      => 'Este campo no debe ser menor de :min caracteres',
-                'numeric'  => 'Este campo debe ser numerico',
+                'numeric'  => 'Este campo debe ser numérico',
                 'string'   => 'Este campo debe ser solo texto',
                 'url'      => 'Este campo debe ser una url',
                 'date'     => 'Aqui solo se admiten fechas',
@@ -352,7 +352,7 @@ class ReportesController extends Controller
             $reporte->tipo_reporte        = $request->input('tipo_reporte');
             $reporte->descripcion_usuario = $request->input('descripcion_usuario');
             $reporte->fecha_reporte       = Carbon::parse($request->input('fecha_reporte'));
-            $reporte->atendido            = 'NO';
+            $reporte->atendido            = 'No';
 
             $reporte->save();
 
@@ -418,7 +418,7 @@ class ReportesController extends Controller
                 'unique'   => 'Este correo debe ser único',
                 'max'      => 'Este campo no debe superar :max caracteres',
                 'min'      => 'Este campo no debe ser menor de :min caracteres',
-                'numeric'  => 'Este campo debe ser numerico',
+                'numeric'  => 'Este campo debe ser numérico',
                 'string'   => 'Este campo debe ser solo texto',
                 'url'      => 'Este campo debe ser una url',
                 'date'     => 'Este campo solo admite fecha',
@@ -438,28 +438,29 @@ class ReportesController extends Controller
             $reporte->descripcion_soporte = $request->input('descripcion_soportee');
             $reporte->fecha_soporte       = Carbon::parse($request->input('fecha_soportee'));
 
-            if ($request->atendidoo == 'EN PROCESO') {
+            if ($request->atendidoo == 'En proceso') {
                 $data = array(
-                    'reporti' => 'esta en proceso de solucion',
+                    'reporti' => 'esta en proceso de solución',
                 );
 
                 Mail::send('emails.respuesta', $data, function ($message) use ($userh) {
 
                 $message->to($userh->email, $userh->name)
-                    ->subject('Atencion de Reporte');
+                    ->subject('Atención de Reporte');
                 });
 
-            } elseif ($request->atendidoo == 'SI') {
+            } elseif ($request->atendidoo == 'Si') {
                 $data = array(
                     'reporti' => 'se solucionó satisfactoriamente',
                 );
                  Mail::send('emails.respuesta', $data, function ($message) use ($userh) {
 
                 $message->to($userh->email, $userh->name)
-                    ->subject('Atencion de Reporte');
+                    ->subject('Atención de Reporte');
                 });
                  
             }else{
+
                 return redirect()->route('reportes.index');
             }
             

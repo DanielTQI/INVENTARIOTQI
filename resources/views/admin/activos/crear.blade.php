@@ -276,6 +276,8 @@
             $('#telef').hide();
             $('#comptel').hide();
             $('#butd').attr('disabled',true);
+            $("#cat").trigger('change');
+
         });
         $("#cat").on('change',function(e){
             var valor= $("#cat").val();
