@@ -47,8 +47,8 @@
 		           {!! Form::model($reporte, ['route' => ['admin.reportes.soporte',  $reporte] , 'method' => 'POST' ]) !!}
 				        <div class="lg-3  form-group mt-3">
 						       <div class="form-group">
-											{!! Form::label('Asignado', 'Quen hace el soporte *', ['class' => 'text-left']) !!}
-											{!! Form::select('usuario_soportee', $usersup, null, ['class' => 'form-control']) !!}
+											{!! Form::label('Asignado', 'Quien hace el soporte *', ['class' => 'text-left']) !!}
+											{!! Form::select('usuario_soportee', $usersup, $reporte->usuario_soporte, ['class' => 'form-control']) !!}
 										 		<p class="help-block text-danger">{{ $errors->first('usuario_soportee') }}</p>	
 								</div>
 								<div class="form-group">
@@ -58,17 +58,17 @@
 										 	'SI' => 'SI',
 										 	'NO' => 'NO',
 										 	'EN PROCESO' => 'EN PROCESO', 
-										 	], null,['class' => 'form-control '])}}
+										 	], $reporte->atendido,['class' => 'form-control '])}}
 										 		<p class="help-block text-danger">{{ $errors->first('atendidoo') }}</p>	
 								</div> 		
 								<div class="form-group">
 									{!! Form::label('descr', 'Descripcion del soporte *', null, ['class'=>'form-control']) !!}
-									{!! Form::textarea('descripcion_soportee', null, ['class' => 'form-control']) !!}
+									{!! Form::textarea('descripcion_soportee', $reporte->descripcion_soporte, ['class' => 'form-control']) !!}
 												<p class="help-block text-danger ">{{ $errors->first('descripcion_soportee') }}</p>
 								</div> 	
 								<div class="form-group">
 									{!! Form::label('fecha soportee', 'Fecha donde se ejecutó el soporte *', null, ['class'=>'form-control']) !!}
-									{!! Form::text('fecha_soportee',null, ['class' => 'form-control','placeholder' => 'MM/DD/AAAA', 'id'=>'datepickerfecom','autocomplete'=>'off','required']) !!}
+									{!! Form::text('fecha_soportee',$reporte->fecha_soporte, ['class' => 'form-control','placeholder' => 'MM/DD/AAAA', 'id'=>'datepickerfecom','autocomplete'=>'off','required']) !!}
 										        <p class="help-block text-danger">{{ $errors->first('fecha_soportee') }}</p>
 							    </div>	
 					     {!! Form::submit('Realizar ', ['class' => 'btn btn-success form-control mb-3']) !!}			

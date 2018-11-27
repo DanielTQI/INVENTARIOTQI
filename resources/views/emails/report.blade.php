@@ -26,6 +26,6 @@
 
 </span>
 <br>
-<a href="{{$ruta}}">Boton</a>
+<a href="{{$ruta}}" class="boton_personalizado">Atender</a>
 </body>
 </html>

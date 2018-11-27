@@ -1,10 +1,10 @@
 @extends('layouts.app')
-	@section('content')
-		<div class="row">
-			<div class="container border ">
-				<div class="float-right mt-4">
-				  <a href="{{url('/activos')}}"><button class="btn btn-primary">Todos los activos</button></a>
-				 </div> 
+@section('content')
+	<div class="row">
+		<div class="container border ">
+			<div class="float-right mt-4">
+				<a href="{{url('/activos')}}"><button class="btn btn-primary">Todos los activos</button></a>
+			</div> 
 				<h2 class="mb-3 mt-3">Editar {{$nameca}}</h2>
 					{!! Form::model($activo, ['route' => ['activos.update', $activo] , 'method' => 'PUT' ]) !!}
 							<div class="form-row">
