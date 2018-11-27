@@ -26,10 +26,6 @@
 
 </span>
 <br>
-<FORM METHOD="LINK" ACTION="{{$ruta}}">
-	<INPUT TYPE="submit" class="boton_personalizado" VALUE="ir a solucionarlo">
-</FORM>
-		
-
+<a href="{{$ruta}}">Boton</a>
 </body>
 </html>

@@ -94,12 +94,9 @@ class ReportesController extends Controller
      */
     public function store(Request $request)
     {
-
         $user  = User::where('permisos', '=', 'escritura')->pluck('email');
         $userl = auth()->user();
-
         if ($userl->permisos == 'lectura') {
-
             $validator = Validator::make($request->all(), [
                 'tipo_reporte'        => 'required|max:100',
                 'descripcion_usuario' => 'required|max:191',
@@ -115,13 +112,11 @@ class ReportesController extends Controller
                 'url'      => 'Este campo debe ser una url',
                 'date'     => 'Este campo solo admite fechas',
             ]);
-
             if ($validator->fails()) {
                 return redirect()->back()
                     ->withErrors($validator)
                     ->withInput();
             }
-
             $reporte                      = new Reporte;
             $reporte->usuario_id          = $request->input('iduser');
             $reporte->activo_id           = $request->input('idactivo');
@@ -154,7 +149,6 @@ class ReportesController extends Controller
             return redirect()->route('reportes.index')->with('status', 'Reporte realizado exitosamente');
 
         } elseif ($userl->permisos == 'escritura') {
-
             $validator = Validator::make($request->all(), [
                 'user_id'             => 'required|max:100',
                 'tipo_reporte'        => 'required|max:100',
@@ -171,42 +165,30 @@ class ReportesController extends Controller
                 'url'      => 'Este campo debe ser una url',
                 'date'     => 'Este campo solo admite fechas',
             ]);
-
             if ($validator->fails()) {
                 return redirect()->back()
                     ->withErrors($validator)
                     ->withInput();
             }
-
+            // dd($request->idactivo);
             $reporte = new Reporte;
-
             $reporte->usuario_id          = $request->input('user_id');
             $reporte->activo_id           = $request->input('idactivo');
             $reporte->tipo_reporte        = $request->input('tipo_reporte');
             $reporte->descripcion_usuario = $request->input('descripcion_usuario');
             $reporte->fecha_reporte       = Carbon::parse($request->input('fecha_reporte'));
             $reporte->atendido            = 'NO';
-
-           
             $userh = explode(',', env('ADMIN_EMAILS'));
-
-            Debugbar::info($userh);
             $rout = explode(',', env('APP_URL'));
-
-            Debugbar::info($rout);
-
-                $data = array(
-                    'reporti' => $request->tipo_reporte,
-                    'usuario' => $usua->name,
-                    'ruta' => $rout[0].'/reportes/'.$request->idactivo,
-                 );
-
+            $data = array(
+                'reporti' => $request->tipo_reporte,
+                'usuario' => auth()->user()->name,
+                'ruta' => $rout[0].'/reportes/'.$request->idactivo,
+            );
             Mail::send('emails.report', $data, function ($message) use ($userh) {
-
                 $message->to($userh)
                     ->subject('Se generó un reporte');
             });
-
             $reporte->save();
 
             return redirect()->route('reportes.index')->with('status', 'Reporte realizado exitosamente');
@@ -374,7 +356,7 @@ class ReportesController extends Controller
 
             $reporte->save();
 
-            return redirect()->route('reportes.index')->with('status', 'Reporte actualizado exitosamente');      
+            return redirect()->route('reportes.index')->with('status', 'Reporte actualizado exitosamente');
 
         }else{
 
