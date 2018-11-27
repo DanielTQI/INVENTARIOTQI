@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Activo;
-use App\Categoria;
-use App\Reporte;
-use App\User;
-use Barryvdh\Debugbar\Facade as Debugbar;
-use Carbon\Carbon;
 use File;
-use Illuminate\Http\Request;
-use QR_Code\QR_Code;
+use App\User;
 use Validator;
+use App\Activo;
+use App\Reporte;
+use App\Categoria;
+use Carbon\Carbon;
+use QR_Code\QR_Code;
+use Illuminate\Http\Request;
+use Barryvdh\Debugbar\Facade as Debugbar;
 
 class ActivosController extends Controller
 {
@@ -117,7 +117,7 @@ class ActivosController extends Controller
                                                      |required_if:tipo_de_equipo,Escritorio',
                     'nombre'              => 'required|max:100',
                     'vso'                 => 'required|max:100',
-                    'wifi_mac'            => 'max:100|required_if:tipo_de_equipo,Portatil',
+                    'wifi_mac'            => 'max:100|required_if:tipo_de_equipo,Portátil',
                     'cuenta_admin'        => 'max:100|required_if:propiedad,TQI',
                     'contraseña'          => 'max:100|required_if:propiedad,TQI',
                     'fecha_compra'        => 'required|max:10|date',
@@ -128,7 +128,7 @@ class ActivosController extends Controller
                     'nid.required_if' => 'Este campo es requerido ya que el sistema operativo es Windows',
                     'workgroup_equipo.required_if' => 'Este campo es requerido ya que el sistema operativo es Windows',
                     'lan_mac.required_if' => 'Este campo es requerido ya que el computador es de Escritorio',
-                    'wifi_mac.required_if' => 'Este campo es requerido ya que el computador es Portatil',
+                    'wifi_mac.required_if' => 'Este campo es requerido ya que el computador es Portátil',
                     'cuenta_admin.required_if' => 'Este campo es requerido ya que el computador es de TQI',
                     'contraseña.required_if' => 'Este campo es requerido ya que el computador es de TQI',
                     'email'    => 'Este campo debe tener formato de correo electrónico',
@@ -233,7 +233,7 @@ class ActivosController extends Controller
                     'unique'   => 'Este correo debe ser único',
                     'max'      => 'Este campo no debe superar :max caracteres',
                     'min'      => 'Este campo no debe ser menor de :min caracteres',
-                    'numeric'  => 'Este campo debe ser numerico',
+                    'numeric'  => 'Este campo debe ser numérico',
                     'string'   => 'Este campo debe ser solo texto',
                     'url'      => 'Este campo debe ser una url',
                     'date'     => 'Este campo debe ser una fecha',
@@ -302,7 +302,7 @@ class ActivosController extends Controller
                     'incluido' => 'max:100',
                     'tipo_de_telefono' => 'required|max:100',
                     'tipo_de_sot'=> 'required|max:100|string',
-                    'imei_1' => 'max:100|required_if:tipo_de_telefono,Movil',
+                    'imei_1' => 'max:100|required_if:tipo_de_telefono,Móvil',
                     'imei_2' => 'max:100',
 
                     'mtm'  => 'max:100',
@@ -312,7 +312,7 @@ class ActivosController extends Controller
                     'nid' => 'max:30',
                     'workgroup_equipo' => 'max:100',
                     'lan_mac' => 'max:100',
-                    'nombre' => 'max:100|required_if:tipo_de_sot,IOS|required_if:tipo_de_telefono,Movil',
+                    'nombre' => 'max:100|required_if:tipo_de_sot,IOS|required_if:tipo_de_telefono,Móvil',
                     'vso' => 'required|max:100',
                     'wifi_mac' => 'max:100|required_if:tipo_de_sot,Android|required_if:tipo_de_sot,IOS',
                     'cuenta_admin' => 'max:100|required_if:propiedad,TQI',

@@ -47,7 +47,7 @@
 		           {!! Form::model($reporte, ['route' => ['admin.reportes.soporte',  $reporte] , 'method' => 'POST' ]) !!}
 				        <div class="lg-3  form-group mt-3">
 						       <div class="form-group">
-											{!! Form::label('Asignado', 'Quien hace el soporte *', ['class' => 'text-left']) !!}
+											{!! Form::label('Asignado', 'Quién hace el soporte *', ['class' => 'text-left']) !!}
 											{!! Form::select('usuario_soportee', $usersup, $reporte->usuario_soporte, ['class' => 'form-control']) !!}
 										 		<p class="help-block text-danger">{{ $errors->first('usuario_soportee') }}</p>	
 								</div>
@@ -62,7 +62,7 @@
 										 		<p class="help-block text-danger">{{ $errors->first('atendidoo') }}</p>	
 								</div> 		
 								<div class="form-group">
-									{!! Form::label('descr', 'Descripcion del soporte *', null, ['class'=>'form-control']) !!}
+									{!! Form::label('descr', 'Descripción del soporte *', null, ['class'=>'form-control']) !!}
 									{!! Form::textarea('descripcion_soportee', $reporte->descripcion_soporte, ['class' => 'form-control']) !!}
 												<p class="help-block text-danger ">{{ $errors->first('descripcion_soportee') }}</p>
 								</div> 	

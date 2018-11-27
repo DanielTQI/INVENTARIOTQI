@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Mail;
+use App\User;
+use Validator;
 use App\Activo;
 use App\Reporte;
-use App\User;
-use Barryvdh\Debugbar\Facade as Debugbar;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Mail;
-use Validator;
+use Barryvdh\Debugbar\Facade as Debugbar;
 
 class ReportesController extends Controller
 {
@@ -440,18 +440,29 @@ class ReportesController extends Controller
 
             if ($request->atendidoo == 'EN PROCESO') {
                 $data = array(
-                    'reporti' => 'Esta en proceso de solucion',
+                    'reporti' => 'esta en proceso de solucion',
                 );
-            } elseif ($request->atendidoo == 'SI') {
-                $data = array(
-                    'reporti' => 'Se solucionó satisfactoriamente',
-                );
-            }
-            Mail::send('emails.respuesta', $data, function ($message) use ($userh) {
+
+                Mail::send('emails.respuesta', $data, function ($message) use ($userh) {
 
                 $message->to($userh->email, $userh->name)
                     ->subject('Atencion de Reporte');
-            });
+                });
+
+            } elseif ($request->atendidoo == 'SI') {
+                $data = array(
+                    'reporti' => 'se solucionó satisfactoriamente',
+                );
+                 Mail::send('emails.respuesta', $data, function ($message) use ($userh) {
+
+                $message->to($userh->email, $userh->name)
+                    ->subject('Atencion de Reporte');
+                });
+                 
+            }else{
+                return redirect()->route('reportes.index');
+            }
+            
 
             $reporte->save();
 

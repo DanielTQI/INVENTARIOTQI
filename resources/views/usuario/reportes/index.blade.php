@@ -13,9 +13,9 @@
                                 </div>
                             @endif
                     <a href="{{url('/activos')}}" class="btn btn-primary btn-sm float-right mr-2 mt-5">Mis activos</a>
-                        <h2 class="text-center">Hola {{$users}}¡ estos son tus reportes registrados</h2>
-                                <table class="table table-striped table-responsive  table-dark" id="tablee">
-                                    <thead class="bg-primary" >
+                        <h2 class="text-center">Tus reportes registrados</h2>
+                                <table class="table table-striped table-responsive " id="tablee">
+                                    <thead class="bg-primary text-white" >
                                         <tr>
                                             <th><center>Categoría</th>
                                             <th><center>Tipo de falla</th>

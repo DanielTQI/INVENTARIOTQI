@@ -13,10 +13,10 @@
                                 </div>
                             @endif
 				    <center>
-                        <h2 class="text-center">Hola {{$users}}¡ estos son los reportes registrados</h2>
-        <a href="/activos" class="btn btn-primary btn-sm float-right ">Ver todos los activos</a>
-                				<table class="table table-striped table-responsive table-sm table-dark" id="tablee">
-                                    <thead class="bg-primary" >
+                        <h2 class="text-center">Reportes</h2>
+                            <a href="/activos" class="btn btn-primary btn-sm float-right ">Ver todos los activos</a>
+                				<table class="table table-striped table-responsive table-sm" id="tablee">
+                                    <thead class="bg-primary text-white" >
                                         <tr>
                                             <th><center>Usuario</th>
                                             <th><center>Activo</th>

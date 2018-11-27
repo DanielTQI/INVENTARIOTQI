@@ -28,7 +28,7 @@
 															<p class="help-block text-danger ">{{ $errors->first('descripcion_usuario') }}</p>
 									</div> 	
 									<div class="form-group">
-												{!! Form::label('fecha reporte', 'Fecha donde inicío la causa del reporte *', null, ['class'=>'form-control']) !!}
+												{!! Form::label('fecha reporte', 'Fecha donde inició la causa del reporte *', null, ['class'=>'form-control']) !!}
 												{!! Form::text('fecha_reporte',null, ['class' => 'form-control','placeholder' => 'MM/DD/AAAA', 'id'=>'datepickerfecom','autocomplete'=>'off','required']) !!}
 													        <p class="help-block text-danger">{{ $errors->first('fecha_reporte') }}</p>
 								    </div>	
