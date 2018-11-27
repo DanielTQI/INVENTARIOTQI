@@ -109,7 +109,7 @@
                   
               </tr>
               <tr>
-                <th>Cuenta admin</th>
+                <th>Cuenta administrador</th>
                   <td>{{$activo->cuenta_admin_equipo}}</td>
                   
               </tr>
@@ -124,7 +124,7 @@
                   
               </tr>
               <tr>
-                <th>Contraseña admin</th>
+                <th>Contraseña administrador</th>
                   <td>{{$activo->pass_admin}}</td>
                   
               </tr>

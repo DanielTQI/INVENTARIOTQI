@@ -38,10 +38,10 @@
                                                     <td><center>{{ $reporte->fecha_reporte }}</center></td>
                                                     <td><center>{{ $reporte->atendido }}</center></td>
                                                     
-                                                        @if($reporte->atendido=='SI'|| $reporte->atendido=='EN PROCESO' )
+                                                        @if($reporte->atendido=='Si'|| $reporte->atendido=='En proceso' )
                                                             <td><center>{{ $reporte->descripcion_soporte }}</center></td>
                                                             <td><center>{{ $reporte->fecha_soporte }}</center></td>              
-                                                        @elseif($reporte->atendido=='NO')  
+                                                        @elseif($reporte->atendido=='No')  
                                                             <td><center>Sin atender</center></td>
                                                             <td><center>Sin atender</center></td>
                                                         @endif
