@@ -10,7 +10,7 @@
 
 	</center>
 
-	<table class="table ">
+	<table class="table" id="tablee">
     <tbody >
           <th>Categoría</th>
             <td>{{$activo->ncate}}</td>

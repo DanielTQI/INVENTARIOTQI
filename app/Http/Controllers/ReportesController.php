@@ -130,6 +130,25 @@ class ReportesController extends Controller
             $reporte->fecha_reporte       = Carbon::parse($request->input('fecha_reporte'));
             $reporte->atendido            = 'NO';
 
+            $usua= User::find($request->iduser);
+
+            $userh = explode(',', env('ADMIN_EMAILS'));
+            $rout = explode(',', env('APP_URL'));
+
+            Debugbar::info($rout);
+
+            $data = array(
+                'reporti' => $request->tipo_reporte,
+                'usuario' => $usua->name,
+                'ruta' => $rout[0].'/reportes/'.$request->idactivo,
+             );
+
+            Mail::send('emails.report', $data, function ($message) use ($userh) {
+
+                $message->to($userh)
+                    ->subject('Se generó un reporte');
+            });
+
             $reporte->save();
 
             return redirect()->route('reportes.index')->with('status', 'Reporte realizado exitosamente');
@@ -168,17 +187,19 @@ class ReportesController extends Controller
             $reporte->fecha_reporte       = Carbon::parse($request->input('fecha_reporte'));
             $reporte->atendido            = 'NO';
 
-            // $userh=User::where('permisos', '=', 'escritura')
-            //                     ->select('users.name','users.email')
-            //                     ->pluck('name','email');
-
+           
             $userh = explode(',', env('ADMIN_EMAILS'));
 
             Debugbar::info($userh);
+            $rout = explode(',', env('APP_URL'));
 
-            $data = array(
-                'reporti' => $request->tipo_reporte,
-            );
+            Debugbar::info($rout);
+
+                $data = array(
+                    'reporti' => $request->tipo_reporte,
+                    'usuario' => $usua->name,
+                    'ruta' => $rout[0].'/reportes/'.$request->idactivo,
+                 );
 
             Mail::send('emails.report', $data, function ($message) use ($userh) {
 
